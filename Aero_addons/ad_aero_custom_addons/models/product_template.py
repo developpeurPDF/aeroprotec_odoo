@@ -48,11 +48,7 @@ class ProductTemplate(models.Model):
     motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement",)
     classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle",)
     programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique",)
-    test = fields.Char(string="test")
-    test2 = fields.Char(string="test 2")
-    test3 = fields.Char(string="test 3")
-    test4 = fields.Char(string="test 4")
-    test5 = fields.Char(string="test 5")
+
 
     def _compute_air(self):
         for rec in self:
