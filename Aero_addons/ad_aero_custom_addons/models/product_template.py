@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import date, datetime, timedelta
-from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from math import pi
 from odoo.tools import float_round, date_utils, convert_file, html2plaintext
@@ -51,6 +49,7 @@ class ProductTemplate(models.Model):
     classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle",)
     programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique",)
     test = fields.Char(string="test")
+    test2 = fields.Char(string="test 2")
     
 
     def _compute_air(self):
