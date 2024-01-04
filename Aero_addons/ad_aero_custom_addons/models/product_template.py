@@ -52,6 +52,7 @@ class ProductTemplate(models.Model):
     test2 = fields.Char(string="test 2")
     test3 = fields.Char(string="test 3")
     test4 = fields.Char(string="test 4")
+    test5 = fields.Char(string="test 5")
 
     def _compute_air(self):
         for rec in self:
