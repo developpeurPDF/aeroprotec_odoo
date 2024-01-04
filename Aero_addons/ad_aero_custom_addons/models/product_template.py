@@ -50,6 +50,7 @@ class ProductTemplate(models.Model):
     programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique",)
     test = fields.Char(string="test")
     test2 = fields.Char(string="test 2")
+    test3 = fields.Char(string="test 3")
 
     def _compute_air(self):
         for rec in self:
