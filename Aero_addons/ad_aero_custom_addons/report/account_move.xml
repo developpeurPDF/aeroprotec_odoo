@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="report_layout_retenue" name="Report layout retenue">
+            <t t-if="not o" t-set="o" t-value="docs"/>
+                <t t-set="company" t-value="company_id"/>
+                <div class="header">
+                <div>
+                <table name="retenue-infos" class="table table-sm" style="border-collapse: collapse;">
+                    <tr>
+                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">
+                            REPUBLIQUE TUNISIENNE
+                            <br/><br/>
+                            MINISTERE DU PLAN ET DES FINANCES
+                            <br/><br/>
+                            DIRECTION GENERALE
+                            <br/>
+                            DU CONTRÔLE FISCAL
+                        </td>
+                        <td class="text-center" style="border-right: 1px solid black;">
+                           <h5 style="color:black !important;"> CERTIFICAT DE RETENUE D'IMPOT
+                            <br/>
+                            SUR LE REVENU
+                            <br/>
+                            OU D'IMPOT SUR LES SOCIETES
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid black">
+                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">
+                                <br/>
+                        </td>
+                        <td class="text-left" style="border-right: 1px solid black;">
+                            <span>Retenue effectuée le: </span>
+                            <span style="float: right; padding-right: 200px;" t-field="o.date">
+<!--                            <t t-set="payments_vals" t-value="o.sudo().invoice_payments_widget and o.sudo().invoice_payments_widget['content'] or []"/>-->
+<!--                                <t t-foreach="payments_vals" t-as="payment_vals">-->
+<!--                                    <t t-if="payment_vals['is_exchange'] == 0">-->
+<!--                                       <t t-esc="payment_vals['date']" t-options='{"widget": "date"}'/>-->
+<!--                                    </t>-->
+<!--                                </t>-->
+                            </span>
+                            <br/>
+                            <span>ou pendant (1) </span>  ..............................................................................................................
+                        </td>
+
+                    </tr>
+
+                </table>
+                </div>
+                </div>
+
+
+            <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
+                 t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-raw="0"/>
+            </div>
+        </template>
+
+        <template id="report_retenue_a_la_source" >
+            <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="bko_withholding_tax.report_layout_retenue">
+
+                <div class="page">
+                    <br/>
+<!--                <table>-->
+                <table name="retenue-data" class="table table-sm" style="border-collapse: collapse;">
+                    <tr>
+                        <td class="text-left" style="width: 300px;border-left: 1px solid black;">
+                    A. - PERSONNE OU ORGANISME PAYEUR
+                        </td>
+                        <td class="text-center" style="width: 420px;border-right: 1px solid black;">
+                            <span style="float: right; padding-right: 200px;">IDENTIFIANT</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">
+                        <br/>
+                        </td>
+                        <td class="text-center" style="width: 420px;border-right: 1px solid black;">
+                            <table >
+                                <tr >
+                                    <td class="text-center" style="width: 210px">
+
+                                        <span>Matricule fiscal</span>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <span>Code <br/>T. V. A.</span>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <span>Code <br/>Catégorie (2)</span>
+                                    </td>
+                                    <td class="text-center" style="width: 102px">
+                                        <span>N° Etab. <br/>Secondaire</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[0]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[1]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[2]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[3]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[4]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[5]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[6]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[7]"/>
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center" style="width: 98px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[9]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 101px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[11]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[13]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[14]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.company_id.vat">
+                                            <t t-esc="o.company_id.vat[15]"/>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 300px;border-left: 1px solid black;">
+                            Dénomination de la personne ou de l'organisme payeur:
+                        </td>
+                        <td class="text-center" style="width: 420px;border-right: 1px solid black;">
+                            <span t-field="o.company_id"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 300px;border-left: 1px solid black; border-bottom: 1px solid black;">
+                            <span>Adresse: </span><t t-if="o.company_id.street">
+
+                                <span style="float: right; padding-right: 20px;" t-field="o.company_id.street"></span>
+                            </t>
+                            <t t-if="o.company_id.street2">
+                                <br/>
+                                <span t-field="o.company_id.street2"></span>
+                            </t>
+
+                        </td>
+                        <td style="width: 420px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                            <t t-if="o.company_id.zip or o.company_id.ville">
+                                <span t-field="o.company_id.zip"></span>
+                                <span t-field="o.company_id.city"></span>
+                                <span t-field="o.company_id.country_id"></span>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+                    <table name="retenue-data-info" class="table table-sm">
+                        <tr>
+                            <td style="width: 420px;border-left: 1px solid black;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                B. - RETENUES EFFECTUEES SUR :
+                            </td>
+                            <td class="text-center" style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                MONTANT BRUT
+                            </td>
+                            <td class="text-center" style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                RETENUE
+                            </td>
+                            <td class="text-center" style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                MONTANT NET
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 420px;border-left: 1px solid black;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                                - Honoraires (3%) <br/><br/>
+                                - Commissions, courtages, vacations et loyers (10%)
+                                <br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 420px;border-left: 1px solid black;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                - Marchés (1%)
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <span t-field="o.amount"/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+
+                                  <t t-esc="('{:.3f}'.format(o.amount * 0.01))"/>
+
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <t t-esc="('{:.3f}'.format(o.amount - (o.amount * 0.01)))"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 420px;border-left: 1px solid black;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                - Activités non commerciales (3%)<br/><br/>
+                                - Redevances<br/><br/>
+                                - DIVIDENDES 10%<br/><br/>
+                                - Revenus des capitaux mobiliers (20%)<br/><br/>
+                                - Revenus des bons de caisse au porteur<br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 420px;border-left: 1px solid black;border-right: 1px solid black; border-bottom: 1px solid black;">
+
+                                Total Généal<br/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <span t-field="o.amount"/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <t t-esc="('{:.3f}'.format(o.amount * 0.01))"/>
+                            </td>
+                            <td style="width: 100px;border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <t t-esc="('{:.3f}'.format(o.amount - (o.amount * 0.01)))"/>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <table name="retenue-data-info-fournisseur" class="table table-sm">
+                    <tr>
+                            <td class="text-left" style="width: 300px;border-left: 1px solid black;">
+                        C. - BENEFICIAIRE
+                            </td>
+                            <td class="text-center" style="width: 420px;border-right: 1px solid black;">
+                                <span style="float: right; padding-right: 200px;">IDENTIFIANT</span>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 350px;border-left: 1px solid black;">
+                        N° de la carte d'identité<br/><br/>ou
+                            <table style="float: right; padding-right: 200px;">
+                                <tr>
+
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+                                    <td class="text-center" style="width: 25px; height: 25px">
+                                        <br/>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <br/><br/>
+                            de séjour pour les étrangers
+
+                        </td>
+                        <td class="text-center" style="width: 420px;border-right: 1px solid black;">
+                            <table >
+                                <tr >
+                                    <td class="text-center" style="width: 210px">
+
+                                        <span>Matricule fiscal</span>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <span>Code <br/>T. V. A.</span>
+                                    </td>
+                                    <td class="text-center" style="width: 100px">
+                                        <span>Code <br/>Catégorie (2)</span>
+                                    </td>
+                                    <td class="text-center" style="width: 102px">
+                                        <span>N° Etab. <br/>Secondaire</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[0]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[1]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[2]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[3]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[4]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[5]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[6]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 25px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[7]"/>
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center" style="width: 98px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[9]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 101px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[11]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[13]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[14]"/>
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="width: 34px">
+                                        <span t-if="o.partner_id.vat">
+                                            <t t-esc="o.partner_id.vat[15]"/>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td style="border-left: 1px solid black;">
+                                <span>Nom, prénoms ou dénomination sociale :</span>
+                            </td>
+                            <td style="border-right: 1px solid black;">
+                                <span style="float: right; padding-right: 200px;" t-field="o.partner_id.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-left: 1px solid black;">
+                            <span>Adresse professionnelle : </span>
+                            </td>
+                            <td style="border-right: 1px solid black;">
+                                <br/>
+<!--                                <span style="float: right; padding-right: 200px;" t-field="o.partner_id.name"/>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-left: 1px solid black;">
+                            <span>Adresse de résidence : </span>
+
+                        </td>
+                        <td style="width: 420px;border-right: 1px solid black; ">
+                            <span t-field="o.company_id.street"></span>
+
+                            <t t-if="o.partner_id.street2">
+                                <br/>
+                                <span t-field="o.partner_id.street2"></span>
+                            </t>
+                            <t t-if="o.company_id.zip or o.company_id.ville">
+                                <span t-field="o.partner_id.zip"></span>
+                                <span t-field="o.partner_id.city"></span>
+                                <span t-field="o.partner_id.country_id"></span>
+                            </t>
+                        </td>
+<!--                            <td style="border-right: 1px solid black;">-->
+<!--                                <span style="float: right; padding-right: 200px;" t-field="o.partner_id.name"/>-->
+<!--                            </td>-->
+                        </tr>
+                        <tr>
+                            <td style="border-left: 1px solid black; border-bottom: 1px solid black;">
+                                <br/>
+                            </td>
+                            <td style="border-right: 1px solid black; border-bottom: 1px solid black;">
+                                <span style="font-size: smaller;" >Je soussigné, certifie exacts les renseignements figurants sur le présent certificat<br/>
+                                et m'expose aux sanctions prévues par la loi pour toute inexactitude<br/>
+                                </span>
+                                <br/>
+                                <h5 style="float: right; padding-right: 200px; color:black !important;" t-field="o.date"/>
+                                <br/><br/>
+                                <span>Cachet et signature du payeur<br/><br/></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table name="note" class="table table-sm" >
+                    <tr>
+                        <td style="border-right: 1px solid black;border-left: 1px solid black;border-bottom: 1px solid black; border-top: 1px solid black;">
+                        <span style="font-size: smaller;">
+
+                        (1) Le certificat est délivre a l'occasion de chaque palement. Toutefois, pour les opérations répéstives, le certficat peut être délivré trimestrielement.<br/>
+                        (2) Code catégorie: M. personnes morales - C. personnes physiques "industrie et commerce" - P professions libérales - N. employeurs non soumis à rimpôt sur le revenu ou sur les sociétés (administrations et établissements publics) - E. établissements secondaires.
+                        </span>
+                        </td>
+                    </tr>
+                    </table>
+<!--                    </table>-->
+                    </div>
+
+            </t>
+            </t>
+            </t>
+        </template>
+</odoo>

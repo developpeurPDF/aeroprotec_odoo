@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <report
+            id="retenue_a_la_source"
+            string="Certificat retenue à la source"
+            model="account.payment"
+            report_type="qweb-pdf"
+            name="bko_withholding_tax.report_retenue_a_la_source"
+            file="bko_withholding_tax.report_retenue_a_la_source"/>
+    <data>
+
+        <record id="vien_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='mark_as_sent']" position="after">
+<!--            <div t-if="amount >= 990">-->
+                <button string="Générer certificat retenue à la source" name="retenue_a_la_source"  type="object" attrs="{'invisible': ['|',('payment_type' ,'=', 'inbound'),('amount' ,'&lt;=', 990)]}"/>
+<!--                attrs="{'invisible': [('tax_totals' ,'&lt;=', 990)]}"-->
+<!--                </div>-->
+            </xpath>
+        </field>
+        </record>
+
+
+    </data>
+</odoo>
+
