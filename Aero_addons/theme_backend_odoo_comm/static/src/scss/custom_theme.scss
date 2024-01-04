@@ -1,0 +1,62 @@
+.o_main_navbar {
+    background-color:  #714B67;
+}
+
+.o_apps_menu_opened .o_main_navbar {
+    .o_menu_brand,
+    .o_menu_sections {
+        display: none !important;
+    }
+}
+
+
+/* Style the container for the grid */
+.o-dropdown-menu-custom {
+  position: fixed;
+  top: 35px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+                to bottom,
+                 #714B67,
+                desaturate(lighten(#714B67, 20%), 15)
+            );
+  z-index: 1000;
+  align-content: flex-start;
+  display: flex; /* Changed from grid to flex */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-left: calc((100vw - 850px) / 2);
+  padding-right:calc((100vw - 850px) / 2);
+  padding-top: 50px;
+}
+
+/* Style each app item in the grid */
+.o_app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  padding: 15px 0 10px;
+  flex-basis: calc(100% / 6 - 20px); /* Adjust the number of columns here */
+  
+}
+
+.o_app:hover {
+  transform: scale(1.05);
+}
+
+.o_app img {
+  width: 70px;
+  height: 70px;
+}
+
+.o_caption {
+  font-size: 14px;
+  color: white;
+  margin-top: 5px;
+}

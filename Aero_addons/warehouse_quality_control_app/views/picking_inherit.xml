@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_picking_inherit" model="ir.ui.view">
+			<field name="name">stock.picking.inherited</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='backorder_id']" position="after">
+					<field name="quality_checks" invisible="1"/>
+				</xpath>
+
+				<xpath expr="//button[@name='button_validate']" position="after">
+
+					<button type="object"
+                        name="action_check_wizard_picking"
+                        
+                        string="Quality Checks"
+                        class="btn-primary" 
+                        attrs="{'invisible' : ['|',('quality_checks','!=',True),('state','!=','assigned')]}"
+                        >
+                        
+                    </button>
+
+
+                    <button type="object"
+                        name="create_quality_alert"
+                        
+                        string="Quality Alert"
+                        class="btn-primary" 
+                        attrs="{'invisible' : ['|',('quality_checks','=',True),('state','!=','assigned')]}"
+                        >
+                        
+                    </button>
+
+				</xpath>
+
+				<xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object"
+                        name="action_open_checkes"
+                        class="oe_stat_button"
+                        icon="fa-check"
+                        string="Quality Checks"
+                        >
+                        
+                    </button>
+
+                    <button type="object"
+                        name="open_quality_alert"
+                        class="oe_stat_button"
+                        icon="fa-exclamation-triangle"
+                        string="Quality Alerts"
+                        >
+                        
+                    </button>
+
+                </xpath>
+				
+				
+			</field>
+		</record>
+</odoo>

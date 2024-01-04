@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+
+        <record id="view_task_form2_inherit_workorder" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='description_page']" position="after">
+                    <page string="Work Instruction">
+                        <field name="worksheet" widget="pdf_viewer"/>
+                    </page>
+                </xpath>
+                <xpath expr="//page[3]" position="after">
+                    <page string="Work Order" >
+                    <group>
+                        <group>
+                            <field name="workorder_id" readonly="1"/>
+                            <field name="workcenter_id" readonly="1"/>
+                            <field name="mrp_id" readonly="1"/>
+                        </group>
+                    </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_task_search_form_inherit_workorder" model="ir.ui.view">
+            <field name="name">project.task.search</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stage_id']" position="after">
+                    <field name="workorder_id"/>
+                    <field name="mrp_id"/>
+                </xpath>
+                 <xpath expr="//group" position="inside">
+                    <filter name="Workorder" context="{'group_by':'workorder_id'}"/>
+                    <filter name="Manufacturing" context="{'group_by':'mrp_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

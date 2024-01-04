@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<menuitem  id="menu_quality_point_mrp" parent="mrp.menu_mrp_root" name="Quality" sequence="29"/>
+
+	<menuitem id ="sub_qualitypoint_mrp" 
+		action="warehouse_quality_control_app.qualitypoint_action" parent="menu_quality_point_mrp" name="Quality Point"
+		sequence="29" />
+
+
+	<menuitem id ="sub_qulity_check" 
+		action="warehouse_quality_control_app.qualitychecks_action_id" parent="menu_quality_point_mrp" name="Quality Checks"
+		sequence="30" />
+
+<menuitem id ="menu_qulity_team_mrp" 
+		 parent="mrp.menu_mrp_root" name="Quality Alerts"
+		sequence="32" />
+
+<menuitem id ="sub_qulity_team_mrp" 
+		action="warehouse_quality_control_app.quality_team_action_id" parent="menu_qulity_team_mrp" name="Quality Teams"
+		sequence="30" />
+
+<menuitem id ="sub_qulity_alert_mrp" 
+		action="warehouse_quality_control_app.quality_alert_action_id" parent="menu_qulity_team_mrp" name="Quality Alert"
+		sequence="31" />
+
+<menuitem id ="sub_qulity_alert_syage_mrp" 
+		action="warehouse_quality_control_app.quality_alert_stage_action_id" parent="menu_qulity_team_mrp" name="Quality Alert Stage"
+		sequence="31" />
+
+<menuitem id="quality_alert_report_menu_mrp" name="Quality Alert" sequence="99" parent="mrp.menu_mrp_reporting" action = "warehouse_quality_control_app.action_quality_alert_report"/>
+
+    <menuitem id="quality_check_report_menu" name="Quality Check" sequence="99" parent="mrp.menu_mrp_reporting" action = "warehouse_quality_control_app.quality_check_action_report"/>
+
+</odoo>

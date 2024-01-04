@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_wizard_check_quality" model="ir.ui.view">
+            <field name="name">Quality Check</field>
+            <field name="model">quality.checks</field>
+            <field name="arch" type="xml">
+                <form string="Quality Check">
+                    <h2>
+                        <field name="product_id" readonly="1"/>
+                        
+                    </h2>
+                    <group>
+                        <group>
+
+
+                            <label for="measure" string="Measure" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+
+
+
+                        <div class="o_row" attrs="{'invisible': [('test_type', '!=', 'measure')]}">
+                             <field name="measure" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                             <field name="unit"/>
+                        </div>
+
+
+                        
+                        </group>
+                        <group>
+                        <field name="test_type" invisible="1"/>
+                        </group>
+
+                    </group>
+                    
+                    	<field name="note"/>
+                    
+                    
+                    <footer>
+                        <button name="validate_check" string="Validate" type="object"
+                            class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+
+
+
+                        <button name="action_pass" string="Pass" type="object"
+                            class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'pass_fail')]}"/>
+
+                        <button name="action_fail" string="Fail" type="object"
+                            class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'pass_fail')]}"/>
+                        
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_check_wizard" model="ir.actions.act_window">
+            <field name="name">Quality Check</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quality.checks</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wizard_check_quality"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="view_check_quality_fail" model="ir.ui.view">
+            <field name="name">Quality Check Fail</field>
+            <field name="model">quality.checks</field>
+            <field name="arch" type="xml">
+                <form string="Quality Check Fail">
+                    <p>
+                        You measured <span><field name="measure" readonly="1"/></span> mm and it should be between <span><field name="min_quality"/></span> and <span><field name="max_quality"/></span> mm.
+                    </p>
+              <footer>
+
+                        <button name="action_reset" string="Correct Measure" type="object"
+                            class="btn-primary"/>
+
+                        <button name="action_confirm" string="Confirm Measure" type="object"
+                            class="btn-primary"/>
+                        
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+</odoo>

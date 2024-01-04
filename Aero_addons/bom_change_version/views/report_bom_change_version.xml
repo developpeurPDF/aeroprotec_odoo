@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <!-- QWeb Reports -->
+        <!-- <report 
+            id="bom_change_request_report"
+            model="bom.change.version"
+            menu="True"
+            report_type="qweb-pdf"
+            string="BOM Change Order" 
+            name="bom_change_version.bom_change_request_template"
+            file="bom_change_version.bom_change_request_template"
+           /> -->
+
+        <record id="bom_change_request_report" model="ir.actions.report">
+            <field name="name">BOM Change Order</field>
+            <field name="model">bom.change.version</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bom_change_version.bom_change_request_template</field>
+            <field name="report_file">bom_change_version.bom_change_request_template</field>
+            <field name="binding_model_id" ref="model_bom_change_version"/>
+            <field name="binding_type">report</field>
+        </record>
+        
+        <template id="bom_change_request_template">
+                <t t-foreach="docs" t-as="doc">
+                    
+                        <t t-call="web.internal_layout">
+                            <t t-call="web.html_container">
+                                 <div class="page">
+                                   <h2 class="text-center"><span t-field="doc.name"/> - <span t-field="doc.state"/></h2>
+                                   <table class="table table-condensed">
+                                        <tr>
+                                            <td>
+                                                <strong>Product</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.product_template_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Date</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.change_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Product Variant</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.product_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Responsible User</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.user_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Original BOM</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.bom_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Original BOM Version</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.current_version"/> - <span t-field="doc.product_template_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>New BOM</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.new_bom_id"/>
+                                            </td>
+                                           <td>
+                                                <strong>New BOM Version</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.new_bom_version"/> - <span t-field="doc.product_template_id"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <p>
+                                                <strong>Internal Notes:</strong>
+                                                <span t-field="doc.notes"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <p>
+                                                <strong>Reason:</strong>
+                                                <span t-field="doc.reason"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <td>
+                                                <strong>Processed By</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.processed_by_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Processed Date</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.processed_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Validated By</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.validated_by_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Validated Date</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.validated_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Activated By</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.activated_by_id"/>
+                                            </td>
+                                            <td>
+                                                <strong>Activated Date</strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.activated_date"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br/><br/>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-left">
+                                            <p>
+                                                <strong>Authorized Signature:___________________________________________</strong>
+                                            </p>
+                                            <p>
+                                                <strong>Date:_______________________</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                        </t>
+                    </t>
+               </t>
+        </template>
+    </data>
+</openerp>

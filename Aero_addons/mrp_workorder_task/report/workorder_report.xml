@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <report
+            id="workorder_report_id"
+            model="mrp.workorder"
+            string="Print Workorder"
+            report_type="qweb-pdf"
+            name="mrp_workorder_task.workorder_report"
+            file="mrp_workorder_task.workorder_report"
+        /> -->
+
+    <record id="workorder_report_id" model="ir.actions.report">
+        <field name="name">Print Workorder</field>
+        <field name="model">mrp.workorder</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mrp_workorder_task.workorder_report</field>
+        <field name="report_file">mrp_workorder_task.workorder_report</field>
+        <field name="binding_model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_type">report</field>
+    </record>
+
+        <template id="workorder_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt15 mb15 table">
+                                <div class="col-10">
+                                    <h3 class="text-center"><span t-field="o.name"/> - <span t-field="o.state"/></h3>
+                                </div>
+                             </div>
+                            <div class="row mt15 mb15">
+                                <div class="col-5">
+                                    <strong>To Produce:</strong>  <span t-field="o.product_id"/>
+                                </div>
+                                <div class="col-7">
+                                <strong>Project: </strong><span t-field="o.project_id"/>
+                                </div>
+                            </div>
+                             <div class="row mt15 mb15">
+                                <div class="col-5 ">
+                                    <strong>Quantity Produced:</strong>  <span t-field="o.qty_produced"/>/<span t-field="o.qty_production"/>
+                                                <span t-field="o.product_uom_id"/>
+                                </div>
+                                <div class="col-7">
+                                    <strong>Analytic Account:</strong>  <span t-field="o.analytic_account_id"/>
+                                </div>
+                            </div>
+                            <div class="row mt15 mb15">
+                                <div class="col-5">
+                                </div>
+                                <div class="col-7">
+                                    <strong>Task:</strong>  <span t-field="o.task_id"/>
+                                </div>
+                          </div>
+                            <div t-if="o.name">
+                                <strong><h3>Current Production</h3></strong>
+                                  <div class="row mt15 mb15 table">
+                                        <div class="col-12">
+                                            <strong>Current Qty :</strong>  <span t-field="o.qty_producing"/>   <span t-field="o.product_uom_id"/>
+                                        </div>
+                                  </div>
+                            </div>
+                            <div class="row mt15 mb15 table">
+                                <div class="col-5">
+                                    <strong><h3>Time Tracking</h3></strong>
+                                </div>
+                            </div>   
+                            <div class="row mt15 mb15 table">
+                                <div class="col-5">
+                                    <strong>Planned Date:</strong>   <span t-field="o.date_planned_start"/>
+                                </div>
+                                <div class="col-7">
+                                <strong>Expected Duration:</strong>   <span t-field="o.duration_expected"/>   minutes
+                                </div>
+                            </div>
+                             <div class="row mt15 mb15 table">
+                                <div class="col-5">
+                                    <strong>Effective Date:</strong>   <span t-field="o.date_start"/>
+                                </div>
+                                <div class="col-7">
+                                    <strong>Real Duration:</strong>   <span t-field="o.duration"/>
+                                </div>
+                            </div>
+                             <div class="row mt1 mb32 table">
+                                <div class="col-5">
+                                </div>
+                                <div class="col-7">
+                                </div>
+                            </div>
+                            <div t-if="o.name">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td class="text-left"><strong>Start Date</strong></td>
+                                        <td class="text-left"><strong>End date</strong></td>
+                                        <td class="text-left"><strong>Duration</strong></td>
+                                        <td class="text-left"><strong>User</strong></td>
+                                        <td class="text-left"><strong>Efficiency</strong></td>
+                                    </tr>
+                                    <tr t-foreach="o.time_ids" t-as="line">
+                                        <td class="text-left"><span t-field="line.date_start"/></td>
+                                        <td class="text-left"><span t-field="line.date_end"/></td>
+                                        <td class="text-left"><span t-field="line.duration"/></td>
+                                        <td class="text-left"><span t-field="line.user_id"/></td>
+                                        <td class="text-left"><span t-field="line.loss_id"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <strong><h3>Miscellaneous</h3></strong>
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td class="text-left"><strong>WorkCenter</strong></td>
+                                        <td class="text-left"><strong>Manufacturing Order</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><span t-field="o.workcenter_id"/></td>
+                                        <td class="text-left"><span t-field="o.production_id"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>

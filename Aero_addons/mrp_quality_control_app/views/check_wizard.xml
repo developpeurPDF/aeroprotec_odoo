@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mrp_quality_check_wizard_inherit" model="ir.ui.view">
+            <field name="name">Quality Check</field>
+            <field name="model">quality.checks</field>
+            <field name="inherit_id" ref="warehouse_quality_control_app.view_wizard_check_quality"/>
+            <field name="arch" type="xml">
+             <xpath expr="//form/group" position="inside">
+
+                <field name="picture" attrs="{'invisible' : [('test_type','!=','picture')],'required' :[('test_type','=','picture')] }" widget="image"/>
+
+            </xpath>
+            <xpath expr="//button[@name='validate_check']" position="after">
+
+                <button name="validate_picture" string="Validate" type="object"
+                            class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'picture')]}"/>
+
+                <button name="validate_text" string="Validate" type="object"
+                            class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'text')]}"/>
+            </xpath>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

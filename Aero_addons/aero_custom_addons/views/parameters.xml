@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+
+
+
+    <record model="ir.ui.view" id="param_list_parameter">
+      <field name="name">Parametre liste</field>
+      <field name="model">matiere.parameter</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="active"/>
+        </tree>
+      </field>
+    </record>
+
+      <record model="ir.ui.view" id="param_list_parameter_ref">
+      <field name="name">Réf Matière</field>
+      <field name="model">matiere.parameter.ref</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="active"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_list_parameter_form">
+      <field name="name">Parametre liste</field>
+      <field name="model">matiere.parameter</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                  <field name="name"/>
+                  <field name="active" invisible="1"/>
+                </group>
+
+          <notebook>
+                <page string="Matière" name="matiere">
+                  <field name="values_ids" widget="one2many">
+                    <tree string="Matière" delete="true">
+                      <field name="name"/>
+                      <field name="active" invisible="1"/>
+                    </tree>
+                  </field>
+                </page>
+          </notebook>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <record id="param_list_parameter_value_form" model="ir.ui.view">
+      <field name="name">Parametre valeur</field>
+      <field name="model">matiere.parameter.value</field>
+      <field name="arch" type="xml">
+          <form string="Matière">
+              <sheet>
+                <group colspan='2'>
+                    <group>
+                        <field name="name" />
+                        <field name="ref_ids"/>
+                        <field name="parameter_name" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="active" invisible="1"/>
+                        <field name="parameter_id" invisible="1" />
+                    </group>
+                </group>
+
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+      <record id="param_list_parameter_ref_form" model="ir.ui.view">
+      <field name="name">Réf matière</field>
+      <field name="model">matiere.parameter.ref</field>
+      <field name="arch" type="xml">
+          <form string="Réf matière">
+              <sheet>
+                <group colspan='2'>
+                    <group>
+                        <field name="name" />
+
+                        <field name="parameter_name" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="active" />
+                        <field name="parameter_id" invisible="0" />
+<!--                        <field name="resistance_ids"/>-->
+                    </group>
+                </group>
+                  <notebook>
+                <page string="Résistance matière" name="res_matiere">
+                  <field name="resistance_ids" widget="one2many">
+                    <tree string=" rs Matière" delete="true">
+                      <field name="name"/>
+                      <field name="active" invisible="1"/>
+                    </tree>
+                  </field>
+                </page>
+          </notebook>
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record id="param_list_parameter_resistance_form" model="ir.ui.view">
+          <field name="name">Résistance</field>
+          <field name="model">matiere.parameter.resistance</field>
+          <field name="arch" type="xml">
+              <form string="Résistance">
+                  <sheet>
+                    <group colspan='2'>
+                        <group>
+                            <field name="name" />
+                            <field name="parameter_name" invisible="1" />
+<!--                            <field name="test_ids" invisible="0" />-->
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="parameter_id" invisible="0" />
+                        </group>
+                    </group>
+                  </sheet>
+              </form>
+          </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_parameter">
+      <field name="name">Paramètres</field>
+      <field name="res_model">matiere.parameter</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+      <record model="ir.actions.act_window" id="param_action_window_parameter_ref">
+      <field name="name">Réf matière</field>
+      <field name="res_model">matiere.parameter.ref</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="param_menu_parameter" name="Nature matière" action="param_action_window_parameter" parent="stock.menu_product_in_config_stock" sequence="80"/>
+    <menuitem id="param_menu_parameter_ref" name="Réf matière" action="param_action_window_parameter_ref" parent="stock.menu_product_in_config_stock" sequence="82"/>
+  </data>
+</odoo>

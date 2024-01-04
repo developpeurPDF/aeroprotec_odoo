@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="mrp_production_workcenter_form_view_inherit_projecttask" model="ir.ui.view">
+            <field name="name">mrp.workorder.form</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="btn-primary" type="object" name="show_task" string="Task" icon="fa-tasks">
+                    </button>
+                </div>
+                 <xpath expr="//group/group" position="after">
+                    <group>
+                        <field name="project_id"/>
+                        <field name="analytic_account_id"/>
+                        <field name="task_id"/>
+                        <field name="is_task_created" readonly="1" invisible="0"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+         <record id="view_mrp_production_workcenter_form_view_filter_inherit_project" model="ir.ui.view">
+            <field name="name">mrp.workorder.search</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="project_id" string="Project"/>
+                    <field name="analytic_account_id" string="Analytic Account"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter name="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                    <filter name="Analytic Account" domain="[]" context="{'group_by':'analytic_account_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

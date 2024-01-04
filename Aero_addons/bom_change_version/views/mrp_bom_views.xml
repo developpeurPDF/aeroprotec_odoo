@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="bom_change_order_action" model="ir.actions.act_window">
+            <field name="name">Bom Change Orders</field>
+            <field name="res_model">bom.change.version</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record id="mrp_bom_form_view_inherit_bom_version" model="ir.ui.view">
+            <field name="name">mrp.bom.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button string="Create Change Order" type="object" name="action_view_bom_changer_order" confirm="Are you sure you want to process?" class="oe_highlight">
+                        </button>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name='custom_version'/>
+                    <field name='original_bom_id'/>
+                    <field name='bom_change_ids' invisible="1"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                   <button name="action_show_bom_change_order" type="object" icon="fa-edit" attrs="{'invisible':[('bom_change_count', '=',0)]}">
+                       <field name="bom_change_count" widget="statinfo" string="Change Orders"/>
+                   </button>
+                </xpath>
+            </field>
+         </record>
+
+     </data>
+ </odoo>

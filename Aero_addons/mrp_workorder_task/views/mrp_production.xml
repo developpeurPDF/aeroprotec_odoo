@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+
+        <record id="action_view_task_mrp" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <!--<field name="context">{'search_default_my_tasks': 1}</field>-->
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+                <p>
+                    Odoo's project management allows you to manage the pipeline of your tasks efficiently. You can track progress, discuss on tasks, attach documents, etc.
+                </p>
+            </field>
+        </record>
+        <record id="open_view_task_list_kanban_mrp" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="act_window_id" ref="action_view_task_mrp"/>
+        </record>
+        <record id="open_view_task_list_tree_mrp" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_view_task_mrp"/>
+        </record>
+
+        <record id="mrp_production_form_view_inherit_project" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//group/group" position="after">
+                    <group>
+                        <field name="project_id" attrs="{'readonly': [('state', '=','planned')]}"/>
+                        <field name="analytic_account_id"/>
+                        <field name="workordertask_automation"/>
+                    </group>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="view_task" type="object" string="Tasks" class="oe_stat_button" icon="fa-tasks"/>
+            </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_mrp_production_filter_inherit_project">
+            <field name="name">mrp.production.search</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="project_id" string="Project"/>
+                    <field name="analytic_account_id" string="Analytic Account"/>
+                    <filter name="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                    <filter name="Analytic Account" domain="[]" context="{'group_by':'analytic_account_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

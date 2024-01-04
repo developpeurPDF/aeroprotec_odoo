@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    <record model="ir.ui.view" id="bom_change_form_view">
+        <field name="name">Bom Change Order</field>
+        <field name="model">bom.change.version</field>
+        <field name="arch" type="xml">
+            <form string="Bom Change Request Form">
+                <header>
+                   <button string="Process" type="object" name="action_in_process" 
+                           states="draft" class="oe_highlight" groups="mrp.group_mrp_manager"/>
+                   <button string="Validate" type="object" name="action_validate"  
+                           states="process" class="oe_highlight" groups="mrp.group_mrp_manager"/>
+                   <button string="Activate BOM" type="object" name="action_done"
+                           states="validate" class="oe_highlight" groups="mrp.group_mrp_manager"/>
+                   <button string="Cancel" type="object" name="action_cancel" 
+                           states="draft" groups="mrp.group_mrp_manager"/>
+                   <button string="Reset to Draft" type="object" name="action_reset_draft" 
+                           states="cancel" class="oe_highlight" groups="mrp.group_mrp_user"/>
+                   <field name="state" widget="statusbar"
+                          statusbar_visible="draft,process,validate,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="show_newbom_change_request" type="object" icon="fa-edit" attrs="{'invisible':[('new_bom_version', '=',0.0)]}">
+                            <field name="new_bom_version" widget="statinfo"/> - Version
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" nolabel="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_template_id" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                            <field name="product_id" domain="[('product_tmpl_id','=',product_template_id)]" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                            <field name="bom_id" domain="[('product_tmpl_id','=',product_template_id),('product_id','=',product_id)]" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                            <field name="new_bom_id"/>
+                        </group>
+                        <group>
+                            <field name="change_date" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                            <field name="user_id" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                            <field name="current_version"/>
+                            <field name="new_bom_version"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="e.g. Change BOM order" attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                        <field name="reason" placeholder="e.g. Change the design pattern." attrs="{'readonly':[('state', 'in', ('process','done','validate'))]}"/>
+                     </group>
+                     <group>
+                         <group>
+                            <field name="processed_by_id"/>
+                            <field name="validated_by_id"/>
+                            <field name="activated_by_id"/>
+                         </group>
+                         <group>
+                            <field name="processed_date"/>
+                            <field name="validated_date"/>
+                            <field name="activated_date"/>
+                         </group>
+                     </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="bom_change_tree_view">
+        <field name="name">Bom Change Order</field>
+        <field name="model">bom.change.version</field>
+        <field name="arch" type="xml">
+            <tree string="BOM Change Version List">
+                <field name="name"/>
+                <field name="product_template_id"/>
+                <field name="product_id"/>
+                <field name="bom_id"/>
+                <field name="current_version"/>
+                <field name="new_bom_id"/>
+                <field name="new_bom_version"/>
+                <field name="change_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="bom_change_search_view">
+        <field name="name">Bom Change Order Search</field>
+        <field name="model">bom.change.version</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_template_id"/>
+                <field name="product_id"/>
+                <field name="bom_id"/>
+                <field name="new_bom_id"/>
+                <field name="current_version"/>
+                <field name="change_date"/>
+                <field name="user_id"/>
+                <field name="state"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <group string="Group By">
+                    <filter name="by_product_template_id" string="Product" 
+                            context="{'group_by': 'product_id'}" />
+                    <filter name="by_product_id" string="Product Template"
+                            context="{'group_by': 'product_template_id'}"/>
+                    <filter name="by_bom_id" string="BOM" 
+                            context="{'group_by': 'bom_id'}" />
+                    <filter name="by_new_bom_id" string="New BOM" 
+                            context="{'group_by': 'new_bom_id'}"/>
+                    <filter name="by_company_id" string="Company" 
+                            context="{'group_by': 'company_id'}"/>
+                    <filter name="by_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="bom_change_action">
+        <field name="name">Bom Change Orders[ECO]</field>
+        <field name="res_model">bom.change.version</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem id="menu_bom_change_version" name="Engineering Change Orders" parent="mrp.menu_mrp_root" sequence="12"/>
+
+    <menuitem id="menu_item_bom_change_version" name="Bom Change Orders" parent="menu_bom_change_version"
+              action="bom_change_action"/>
+    
+    </data>
+</openerp>

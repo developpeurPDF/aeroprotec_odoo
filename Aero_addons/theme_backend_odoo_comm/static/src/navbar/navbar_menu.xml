@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    
+    <t t-inherit="web.NavBar.AppsMenu" t-inherit-mode="extension" owl="1">
+        <xpath expr="//Dropdown" position="replace">
+            <HomeMenuApps>
+                <DropdownItem
+                    t-foreach="apps"
+                    t-as="app"
+                    t-key="app.id"
+                    class="'o_app'"
+                    dataset="{ menuXmlid: app.xmlid, section: app.id }"
+                    href="getMenuItemHref(app)"
+                    onSelected="() => this.onNavBarDropdownItemSelection(app)"
+                >
+                        <img
+                        class="o-app-icon-custom"
+                        draggable="false"
+                        t-att-src="getWebIconData(app)"
+                    />
+                        <div t-esc="app.name" class="o_caption text-centered w-100 mt-2"  />
+                </DropdownItem>
+            </HomeMenuApps>
+        </xpath>
+    </t>
+
+    <t t-name="theme_backend_odoo_comm.HomeMenuApps" owl="1">
+        <div class="o-dropdown--no-caret o_home_menu_custom">
+            <button
+                class="dropdown-toggle"
+                title="Home Menu"
+                data-hotkey="a"
+                t-on-click="() => this._openAppsPage(!state.open)"
+            >
+                <i class="fa fa-th"/>
+            </button>
+            <div t-if="state.open" class="o-dropdown-menu-custom">
+                <t t-slot="default" />
+            </div>
+        </div>
+    </t>
+</templates>

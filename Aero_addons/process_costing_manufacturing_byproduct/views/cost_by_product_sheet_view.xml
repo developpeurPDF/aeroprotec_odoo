@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="process_costing_bom_cost_by_product_view" model="ir.ui.view">
+            <field name="name">bom.job.cost.line.byproduct.tree</field>
+            <field name="model">bom.job.cost.line.byproduct</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="job_type" invisible="1" />
+                    <!-- <field name="routing_workcenter_id" domain="[('routing_id', '=', parent.routing_id)]"/> -->
+                    <field name="routing_workcenter_id"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="uom_id"/>
+                    <field name="custom_currency_id" invisible="1"/>
+                    <field name="cost_price" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                    <field name="total_cost" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+<!--                    <field name="actual_quantity"/>-->
+<!--                    <field name="total_actual_cost" widget="monetary"/>-->
+                    <field name="bom_byproduct_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="process_costing_mrp_cost_by_product_view" model="ir.ui.view">
+            <field name="name">mrp.job.cost.line.byproduct.tree</field>
+            <field name="model">mrp.job.cost.line.byproduct</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="job_type" invisible="1"/>
+                    <!-- <field name="routing_workcenter_id" domain="[('routing_id', '=', parent.routing_id)]"/> -->
+                    <field name="routing_workcenter_id"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="actual_quantity"/>
+                    <field name="uom_id"/>
+                    <field name="to_produse_product" invisible="1"/>
+                    <field name="to_produse_qty" invisible="1"/>
+                    <field name="cost_price" sum="Cost Unit" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="total_cost" sum="Total Cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+<!--                    <field name="actual_quantity"/>-->
+                    <field name="total_actual_cost" sum="Total Actual Cost" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="bom_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

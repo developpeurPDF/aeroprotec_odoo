@@ -1,0 +1,26 @@
+<odoo>
+   <data noupdate="1">
+
+            <record id="bom_change_order_manager_rule" model="ir.rule">
+                <field name="name">All BOM Change Order</field>
+                <field ref="model_bom_change_version" name="model_id"/>
+                <field name="domain_force">[(1,'=',1)]</field>
+                <field name="groups" eval="[(4, ref('mrp.group_mrp_manager'))]"/>
+            </record>
+
+            <record id="bom_change_order_user_rule" model="ir.rule">
+                <field name="name">BOM Change Order</field>
+                <field ref="model_bom_change_version" name="model_id"/>
+                <field name="domain_force">[('user_id','=',user.id)]</field>
+                <field name="groups" eval="[(4, ref('mrp.group_mrp_user'))]"/>
+            </record>
+            <record model="ir.rule" id="bom_change_version_multi_company_rule">
+                <field name="name">Bom Change Version multi-company</field>
+                <field name="model_id" ref="model_bom_change_version"/>
+                <field name="global" eval="True"/>
+                <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            </record>
+           
+
+   </data>
+</odoo>

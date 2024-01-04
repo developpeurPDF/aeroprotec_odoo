@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_quality_team_tree" model="ir.ui.view">
+	   <field name="name">quality.team.tree</field>
+	   <field name="model">quality.team</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <tree string="Quality Team">
+	     <field name="name"/>
+	    
+	     <field name="alias_id"/>
+    
+	    </tree>
+	   </field>
+        </record>
+
+        <record id="view_quality_team_form" model="ir.ui.view">
+	   <field name="name">quality.team.form</field>
+	   <field name="model">quality.team</field>
+	   <field name="priority">1</field>
+	   <field name="arch" type="xml">
+	    <form string="Quality Team">
+	    	
+	    	<sheet>
+	    		<h2><field name="name"/></h2>
+	     			
+	    		<group>
+	    			<group >
+	    			<field name="alias_id"/>
+					</group>
+					</group>
+	    	
+	     </sheet>
+	 </form>
+	</field>
+</record>
+
+<record id="quality_team_action_id" model="ir.actions.act_window">
+	  <field name="name">Quality Team</field>
+	  <field name="type">ir.actions.act_window</field>
+	  <field name="res_model">quality.team</field>
+	  <field name="view_mode">tree,form</field>
+	 
+	  <field name="help" type="html">
+	   <p class="oe_view_nocontent_create"> </p>
+	   <p></p>
+	  </field>
+	</record>
+
+<menuitem id ="menu_qulity_team" 
+		 parent="stock.menu_stock_root" name="Quality Alerts"
+		sequence="32" />
+
+<menuitem id ="sub_qulity_team" 
+		action="quality_team_action_id" parent="menu_qulity_team" name="Quality Teams"
+		sequence="30" />
+
+</odoo>

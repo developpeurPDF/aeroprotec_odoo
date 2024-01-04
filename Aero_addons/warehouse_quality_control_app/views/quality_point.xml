@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+<record id="view_qualitycheck_tree" model="ir.ui.view">
+	   <field name="name">quality.checks.tree</field>
+	   <field name="model">quality.checks</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <tree string="Quality Point">
+	     <field name="product_id"/>
+	     
+	     <field name="date"/>
+	     <field name="state"/>
+	     <field name="quality_point_id"/>
+	     <field name="measure"/>
+	     
+	    </tree>
+	   </field>
+        </record>
+
+        <record id="view_qualitycheck_form" model="ir.ui.view">
+	   <field name="name">quality.checks.form</field>
+	   <field name="model">quality.checks</field>
+	   <field name="priority">1</field>
+	   <field name="arch" type="xml">
+	    <form string="Quality Check">
+	    	 
+	    	<header>
+	    		<field name="state" widget="statusbar" statusbar_visible="do,pass,fail"/>
+	    	</header>
+	    	<sheet>
+	    		
+
+	    		<group>
+	    			<group >
+	    				
+	      				<field name="product_id" />
+	      				<field name="lot_id" domain="[('product_id','=',product_id)]"/>
+	      				<field name="test_type" invisible="1"/>
+	      				
+	      				<field name="measure" attrs="{'invisible' : [('test_type','!=','measure')]}"/>
+
+	       				
+	    			</group>
+	    			<group>
+	    				<field name="date"/>
+	        			<field name="picking_id"/>
+	      				<field name="quality_point_id"/>
+	      				<field name="team_id"/>
+
+	    			</group>
+	    		</group>
+
+	    		<notebook>
+	    			<page name="Notes" string="Notes">
+	    				<field name="note"/>
+	    			</page>
+	    		</notebook>
+
+	    		
+	    		
+	     </sheet>
+	     <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+         </div>
+	     
+	 </form>
+	</field>
+</record>
+
+<record id="qualitychecks_action_id" model="ir.actions.act_window">
+	  <field name="name">Quality Checks</field>
+	  <field name="type">ir.actions.act_window</field>
+	  <field name="res_model">quality.checks</field>
+	  <field name="view_mode">tree,form</field>
+	 
+	  <field name="help" type="html">
+	   <p class="oe_view_nocontent_create"> </p>
+	   <p></p>
+	  </field>
+	</record>
+
+<record id="view_qualitypoint_tree" model="ir.ui.view">
+	   <field name="name">quality.point.tree</field>
+	   <field name="model">quality.point</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <tree string="Quality Point">
+	     <field name="name"/>
+	     <field  name="product_temp_id"/>
+	     <field name="picking_type_id"/>
+	     <field name="company_id"/>
+
+	    </tree>
+	   </field>
+        </record>
+
+        <record id="qp_idea" model="ir.sequence">
+            <field name="name">quality_sequencer</field>
+            <field name="code">quality.point</field>
+            <field name="prefix">QCP</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="view_qualitypoint_form_id" model="ir.ui.view">
+	   <field name="name">quality.point.form</field>
+	   <field name="model">quality.point</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <form string="Quality Point">	    	
+	    	<sheet>
+	    		<h2>
+	    			
+	    			<field name="name" readonly="1"/>
+
+	    		</h2>
+
+	    		<group>
+	    			<group >
+	    				<field name="product_temp_id"/>
+	      				<field name="product_id" domain="[('product_tmpl_id','=',product_temp_id)]" />
+	      				<field name="picking_type_id"/>
+	      				<field name="company_id"/>
+	       				
+	    			</group>
+
+	    			<group>
+	    				
+	        			<field name="test_type"/>
+
+	        			<label for="norm" string="Norm" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+
+
+
+	        			<div class="o_row" attrs="{'invisible': [('test_type', '!=', 'measure')]}">
+		                     <field name="norm" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+		                     <field name="unit"/>
+		                </div>
+	
+	      				<label for="min_quality" string="Tolerance" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+
+
+		                <div class="o_row" attrs="{'invisible': [('test_type', '!=', 'measure')]}">
+		                    <span>From </span> <field name="min_quality"/>
+		                    <span>To </span> <field name="max_quality"/>
+		                </div>
+	      				<field name="user_id"/>
+	      				<field name="team_id"/>
+	    			</group>
+	    		</group>
+
+	    		<notebook>
+	    			<page string="Instuction">
+	    				<field name="instruction"/>
+	    			</page>
+
+	    			<page string="Message If Fail">
+	    				<field name="message"/>
+	    			</page>
+	    		</notebook>
+	    		
+	     </sheet>
+	     <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+         </div>
+	 </form>
+	</field>
+</record>
+
+<record id="qualitypoint_action" model="ir.actions.act_window">
+	  <field name="name">Quality Point</field>
+	  <field name="type">ir.actions.act_window</field>
+	  <field name="res_model">quality.point</field>
+	  <field name="view_mode">tree,form</field>
+	  <field name="help" type="html">
+	   <p class="oe_view_nocontent_create"> </p>
+	   <p></p>
+	  </field>
+	</record>
+
+	<menuitem  id="menu_quality_point" parent="stock.menu_stock_root" name="Quality" sequence="29"/>
+
+	<menuitem id ="sub_qualitypoint" 
+		action="qualitypoint_action" parent="menu_quality_point" name="Quality Point"
+		sequence="29" />
+
+	<menuitem id ="sub_qulity_check" 
+		action="qualitychecks_action_id" parent="menu_quality_point" name="Quality Checks"
+		sequence="30" />
+
+</odoo>
