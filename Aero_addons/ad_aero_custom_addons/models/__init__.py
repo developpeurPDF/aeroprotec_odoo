@@ -7,3 +7,4 @@ from . import product_template
 from . import famille_matiere
 from . import matiere_parameter_value
 from . import model_mrp_aero
+

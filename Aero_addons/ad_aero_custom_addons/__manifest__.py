@@ -15,7 +15,7 @@
     "depends": ["base","stock","sale"],
     "data": [
         "security/ir.model.access.csv",
-        "views/parameters.xml",
+        "views/parameters_matiere.xml",
         "views/product_template.xml",
         "views/model_mrp_aero.xml"
         # "report/print.xml",

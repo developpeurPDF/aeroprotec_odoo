@@ -3,10 +3,7 @@
   <data>
     <!-- explicit list view definition -->
 
-
-
-
-    <record model="ir.ui.view" id="param_list_parameter">
+    <record model="ir.ui.view" id="param_list_parameterr">
       <field name="name">Parametre liste</field>
       <field name="model">matiere.parameter</field>
       <field name="arch" type="xml">
@@ -17,7 +14,7 @@
       </field>
     </record>
 
-      <record model="ir.ui.view" id="param_list_parameter_ref">
+      <record model="ir.ui.view" id="param_list_parameterr_ref">
       <field name="name">Réf Matière</field>
       <field name="model">matiere.parameter.ref</field>
       <field name="arch" type="xml">
@@ -28,7 +25,7 @@
       </field>
     </record>
 
-    <record model="ir.ui.view" id="param_list_parameter_form">
+    <record model="ir.ui.view" id="param_list_parameterr_form">
       <field name="name">Parametre liste</field>
       <field name="model">matiere.parameter</field>
       <field name="arch" type="xml">
@@ -39,23 +36,23 @@
                   <field name="active" invisible="1"/>
                 </group>
 
-          <notebook>
-                <page string="Matière" name="matiere">
-                  <field name="values_ids" widget="one2many">
-                    <tree string="Matière" delete="true">
-                      <field name="name"/>
-                      <field name="active" invisible="1"/>
-                    </tree>
-                  </field>
-                </page>
-          </notebook>
+                  <notebook>
+                        <page string="Matière" name="matiere">
+                          <field name="values_ids" widget="one2many">
+                            <tree string="Matière" delete="true">
+                              <field name="name"/>
+                              <field name="active" invisible="1"/>
+                            </tree>
+                          </field>
+                        </page>
+                  </notebook>
             </sheet>
         </form>
       </field>
     </record>
 
 
-    <record id="param_list_parameter_value_form" model="ir.ui.view">
+    <record id="param_list_parameterr_value_form" model="ir.ui.view">
       <field name="name">Parametre valeur</field>
       <field name="model">matiere.parameter.value</field>
       <field name="arch" type="xml">
@@ -78,7 +75,7 @@
       </field>
     </record>
 
-      <record id="param_list_parameter_ref_form" model="ir.ui.view">
+      <record id="param_list_parameterr_ref_form" model="ir.ui.view">
       <field name="name">Réf matière</field>
       <field name="model">matiere.parameter.ref</field>
       <field name="arch" type="xml">
@@ -111,7 +108,7 @@
       </field>
     </record>
 
-    <record id="param_list_parameter_resistance_form" model="ir.ui.view">
+    <record id="param_list_parameterr_resistance_form" model="ir.ui.view">
           <field name="name">Résistance</field>
           <field name="model">matiere.parameter.resistance</field>
           <field name="arch" type="xml">
@@ -133,18 +130,18 @@
           </field>
     </record>
 
-    <record model="ir.actions.act_window" id="param_action_window_parameter">
-      <field name="name">Paramètres</field>
+    <record model="ir.actions.act_window" id="param_action_window_parameterr">
+      <field name="name">Matières</field>
       <field name="res_model">matiere.parameter</field>
       <field name="view_mode">tree,form</field>
     </record>
-      <record model="ir.actions.act_window" id="param_action_window_parameter_ref">
+      <record model="ir.actions.act_window" id="param_action_window_parameterr_ref">
       <field name="name">Réf matière</field>
       <field name="res_model">matiere.parameter.ref</field>
       <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="param_menu_parameter" name="Nature matière" action="param_action_window_parameter" parent="stock.menu_product_in_config_stock" sequence="80"/>
-    <menuitem id="param_menu_parameter_ref" name="Réf matière" action="param_action_window_parameter_ref" parent="stock.menu_product_in_config_stock" sequence="82"/>
+    <menuitem id="param_menu_parameterr" name="Nature matière" action="param_action_window_parameterr" parent="stock.menu_product_in_config_stock" sequence="80"/>
+    <menuitem id="param_menu_parameterr_ref" name="Réf matière" action="param_action_window_parameterr_ref" parent="stock.menu_product_in_config_stock" sequence="82"/>
   </data>
 </odoo>
