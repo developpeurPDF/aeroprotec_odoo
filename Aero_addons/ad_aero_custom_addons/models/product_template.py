@@ -44,9 +44,6 @@ class ProductTemplate(models.Model):
     coeff_avion = fields.Integer(string="Coeff avion")
     masque_impression = fields.Char(string="Masque Impression")
 
-
-
-
     activite = fields.Many2one('activite', string="Activité",)
     motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement",)
     classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle",)
