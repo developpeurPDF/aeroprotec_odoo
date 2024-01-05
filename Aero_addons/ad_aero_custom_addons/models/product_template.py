@@ -34,17 +34,18 @@ class ProductTemplate(models.Model):
     famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
     matiere = fields.Many2one('matiere.parameter.value', string="Matière",
                            domain="[('parameter_name','=', famille_matiere_name)]")
+    matiere_abreviation = fields.Char(string="Abréviation matière", related="matiere.name_abreviation", readonly=True, store=True)
     matiere_name = fields.Char(string="Nom matière", related="matiere.name", readonly=True, store=True)
-    ref_matiere = fields.Many2one('matiere.parameter.ref', string="Réf matière",
+    ref_matiere = fields.Many2one('matiere.parameter.ref', string="Nature matière",
                            domain="[('parameter_name','=', matiere_name)]")
     ref_matiere_name = fields.Char(string="Nom matière", related="ref_matiere.name", readonly=True, store=True)
+    resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance")
+
     coeff_avion = fields.Integer(string="Coeff avion")
     masque_impression = fields.Char(string="Masque Impression")
 
 
 
-    resistance_matiere = fields.Many2one('matiere.parameter.resistance', string="Résistance matière",
-                                         domain="[('parameter_name','=', ref_matiere_name)]")
 
     activite = fields.Many2one('activite', string="Activité",)
     motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement",)

@@ -4,7 +4,7 @@
     <!-- explicit list view definition -->
 
     <record model="ir.ui.view" id="param_list_parameterr">
-      <field name="name">Parametre liste</field>
+      <field name="name">Famille matière</field>
       <field name="model">matiere.parameter</field>
       <field name="arch" type="xml">
         <tree>
@@ -14,19 +14,19 @@
       </field>
     </record>
 
-      <record model="ir.ui.view" id="param_list_parameterr_ref">
-      <field name="name">Réf Matière</field>
-      <field name="model">matiere.parameter.ref</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="active"/>
-        </tree>
-      </field>
-    </record>
+<!--      <record model="ir.ui.view" id="param_list_parameterr_ref">-->
+<!--      <field name="name">Réf Matière</field>-->
+<!--      <field name="model">matiere.parameter.ref</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="active"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
 
     <record model="ir.ui.view" id="param_list_parameterr_form">
-      <field name="name">Parametre liste</field>
+      <field name="name">Famille matière</field>
       <field name="model">matiere.parameter</field>
       <field name="arch" type="xml">
         <form>
@@ -37,10 +37,11 @@
                 </group>
 
                   <notebook>
-                        <page string="Matière" name="matiere">
+                        <page string="Sous famille matière" name="matiere">
                           <field name="values_ids" widget="one2many">
                             <tree string="Matière" delete="true">
                               <field name="name"/>
+                              <field name="name_abreviation"/>
                               <field name="active" invisible="1"/>
                             </tree>
                           </field>
@@ -53,7 +54,7 @@
 
 
     <record id="param_list_parameterr_value_form" model="ir.ui.view">
-      <field name="name">Parametre valeur</field>
+      <field name="name">Sous famille matière</field>
       <field name="model">matiere.parameter.value</field>
       <field name="arch" type="xml">
           <form string="Matière">
@@ -61,7 +62,7 @@
                 <group colspan='2'>
                     <group>
                         <field name="name" />
-                        <field name="ref_ids"/>
+
                         <field name="parameter_name" invisible="1" />
                     </group>
                     <group>
@@ -69,6 +70,17 @@
                         <field name="parameter_id" invisible="1" />
                     </group>
                 </group>
+                  <notebook>
+                        <page string="Nature de la matière" name="nature_matiere">
+                          <field name="ref_ids" widget="one2many">
+                            <tree string="Nature de la matière" delete="true">
+                              <field name="name"/>
+                              <field name="name_resistance"/>
+                              <field name="active" invisible="1"/>
+                            </tree>
+                          </field>
+                        </page>
+                  </notebook>
 
               </sheet>
           </form>
@@ -76,14 +88,15 @@
     </record>
 
       <record id="param_list_parameterr_ref_form" model="ir.ui.view">
-      <field name="name">Réf matière</field>
+      <field name="name">Nature de la matière</field>
       <field name="model">matiere.parameter.ref</field>
       <field name="arch" type="xml">
-          <form string="Réf matière">
+          <form string="Nature de la matière">
               <sheet>
                 <group colspan='2'>
                     <group>
                         <field name="name" />
+                        <field name="name_resistance" />
 
                         <field name="parameter_name" invisible="1" />
                     </group>
@@ -93,55 +106,55 @@
 <!--                        <field name="resistance_ids"/>-->
                     </group>
                 </group>
-                  <notebook>
-                <page string="Résistance matière" name="res_matiere">
-                  <field name="resistance_ids" widget="one2many">
-                    <tree string=" rs Matière" delete="true">
-                      <field name="name"/>
-                      <field name="active" invisible="1"/>
-                    </tree>
-                  </field>
-                </page>
-          </notebook>
+<!--                  <notebook>-->
+<!--                <page string="Résistance matière" name="res_matiere">-->
+<!--                  <field name="resistance_ids" widget="one2many">-->
+<!--                    <tree string=" rs Matière" delete="true">-->
+<!--                      <field name="name"/>-->
+<!--                      <field name="active" invisible="1"/>-->
+<!--                    </tree>-->
+<!--                  </field>-->
+<!--                </page>-->
+<!--          </notebook>-->
               </sheet>
           </form>
       </field>
     </record>
 
-    <record id="param_list_parameterr_resistance_form" model="ir.ui.view">
-          <field name="name">Résistance</field>
-          <field name="model">matiere.parameter.resistance</field>
-          <field name="arch" type="xml">
-              <form string="Résistance">
-                  <sheet>
-                    <group colspan='2'>
-                        <group>
-                            <field name="name" />
-                            <field name="parameter_name" invisible="1" />
-<!--                            <field name="test_ids" invisible="0" />-->
-                        </group>
-                        <group>
-                            <field name="active" invisible="1"/>
-                            <field name="parameter_id" invisible="0" />
-                        </group>
-                    </group>
-                  </sheet>
-              </form>
-          </field>
-    </record>
+<!--    <record id="param_list_parameterr_resistance_form" model="ir.ui.view">-->
+<!--          <field name="name">Résistance</field>-->
+<!--          <field name="model">matiere.parameter.resistance</field>-->
+<!--          <field name="arch" type="xml">-->
+<!--              <form string="Résistance">-->
+<!--                  <sheet>-->
+<!--                    <group colspan='2'>-->
+<!--                        <group>-->
+<!--                            <field name="name" />-->
+<!--                            <field name="parameter_name" invisible="1" />-->
+<!--&lt;!&ndash;                            <field name="test_ids" invisible="0" />&ndash;&gt;-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="active" invisible="1"/>-->
+<!--                            <field name="parameter_id" invisible="0" />-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                  </sheet>-->
+<!--              </form>-->
+<!--          </field>-->
+<!--    </record>-->
 
     <record model="ir.actions.act_window" id="param_action_window_parameterr">
       <field name="name">Matières</field>
       <field name="res_model">matiere.parameter</field>
       <field name="view_mode">tree,form</field>
     </record>
-      <record model="ir.actions.act_window" id="param_action_window_parameterr_ref">
-      <field name="name">Réf matière</field>
-      <field name="res_model">matiere.parameter.ref</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+<!--      <record model="ir.actions.act_window" id="param_action_window_parameterr_ref">-->
+<!--      <field name="name">Réf matière</field>-->
+<!--      <field name="res_model">matiere.parameter.ref</field>-->
+<!--      <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
 
-    <menuitem id="param_menu_parameterr" name="Nature matière" action="param_action_window_parameterr" parent="stock.menu_product_in_config_stock" sequence="80"/>
-    <menuitem id="param_menu_parameterr_ref" name="Réf matière" action="param_action_window_parameterr_ref" parent="stock.menu_product_in_config_stock" sequence="82"/>
+    <menuitem id="param_menu_parameterr" name="Famille matière" action="param_action_window_parameterr" parent="stock.menu_product_in_config_stock" sequence="80"/>
+<!--    <menuitem id="param_menu_parameterr_ref" name="Réf matière" action="param_action_window_parameterr_ref" parent="stock.menu_product_in_config_stock" sequence="82"/>-->
   </data>
 </odoo>

@@ -29,6 +29,7 @@
                         <field name="famille_matiere"/>
                         <field name="famille_matiere_name" invisible="1"/>
                         <field name="matiere"/>
+                        <field name="matiere_abreviation"/>
                         <field name="matiere_name" invisible="1"/>
                         <field name="ref_matiere"/>
                         <field name="ref_matiere_name" invisible="1"/>

@@ -1,7 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    "name": "ad_ad_aero_custom_addons",
+    "name": "ad_aero_custom_addons",
     "version": "16.0.0.0",
     'description':  """ Custom addons for Aeroprotech
      """,
