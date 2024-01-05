@@ -11,7 +11,7 @@ class matiereParameter(models.Model):
     #is_master = fields.Boolean("Master paramètre", readonly=True,  required=True)
     active = fields.Boolean("Active", default=True, readonly=True, required=True)
     values_ids = fields.One2many("matiere.parameter.value", "parameter_id", "Matière")
-    ref_ids = fields.One2many("matiere.parameter.ref", "parameter_id", "Réf matière")
-    resistance_ids = fields.One2many("matiere.parameter.resistance", "parameter_id", "Résistance")
+    # ref_ids = fields.One2many("matiere.parameter.ref", "parameter_id", "Réf matière")
+    # resistance_ids = fields.One2many("matiere.parameter.resistance", "parameter_id", "Résistance")
 
 

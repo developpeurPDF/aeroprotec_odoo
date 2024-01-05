@@ -41,7 +41,7 @@
                             <field name="motif_blocage_lancement"/>
                             <field name="classe_fonctionnelle"/>
                             <field name="programme_aeonautique"/>
-                            <field name="test"/>
+                            
                         </group>
                         </group>
                     </page>
