@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import date, datetime, timedelta
-from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models, _
 from math import pi
 from odoo.tools import float_round, date_utils, convert_file, html2plaintext
