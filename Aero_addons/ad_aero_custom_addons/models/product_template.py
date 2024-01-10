@@ -2,13 +2,21 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import date, datetime, timedelta
-
+from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from math import pi
 from odoo.tools import float_round, date_utils, convert_file, html2plaintext
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
+
+    is_locked = fields.Boolean(string="Locked", help="Check this box to lock product modifications.")
+
+
+    def toggle_lock(self):
+        self.ensure_one()
+        self.is_locked = not self.is_locked
+        return True
 
     code = fields.Integer("Code")
     plan_reference = fields.Char("Référence plan")
@@ -29,6 +37,13 @@ class ProductTemplate(models.Model):
             ('MONTAGE_TOURNANT','MONTAGE TOURNANT'),
     ],
         string='Type de montage')
+    type_article = fields.Selection(selection=[
+            ('Production','Production'),
+            ('Eprouvette','Eprouvette'),
+            ('Composant','Composant'),
+            ('Outillage','Outillage'),
+    ],
+        string="Type d'article")
     famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière")
     # matiere = fields.Many2one('matiere.parameter', string="Famille matière")
     famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
@@ -42,7 +57,25 @@ class ProductTemplate(models.Model):
     resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance")
 
     coeff_avion = fields.Integer(string="Coeff avion")
-    masque_impression = fields.Char(string="Masque Impression")
+    masque_impression = fields.Char(string="Masque impression marqueuse")
+    info_marquer = fields.Char(string="Information à marquer")
+    n_ft = fields.Char(string="N° FT")
+    piece_jointe_ft = fields.Binary(string="Pièce jointe FT")
+    norme_douaniere = fields.Char(string="Norme douanière")
+
+    indice = fields.Integer(string="Indice")
+    nb_piece_barre = fields.Integer(string="Nombre de pièces par barre")
+    type_indice = fields.Selection(selection=[
+        ('piece', 'Indice pièce'),
+        ('plan', 'Indice plan'),
+        ('nomenclature', 'Indice nomenclature'),
+        ('plan', 'Indice FI'),
+    ],
+        string='Type d’indice ')
+    donneur_order = fields.Many2one('res.partner', string="Donneur d'ordre")
+    client = fields.Many2one('res.partner', string="Client")
+    memo = fields.Text(string="Mémo")
+
 
     activite = fields.Many2one('activite', string="Activité",)
     motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement",)

@@ -1,53 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <data>
+
         <record id="product_template_aero_view_form" model="ir.ui.view">
             <field name="name">product.template.form.inherit</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_update_quantity_on_hand']" position="after">
+
+                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
+                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="0"/>
+                </xpath>
                 <xpath expr="//field[@name='detailed_type']" position="before">
 
-                    <field name="code"/>
-                    <field name="plan_reference"/>
-                    <field name="coeff_avion"/>
-                    <field name="masque_impression"/>
+                    <field name="client" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="code" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="plan_reference" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="coeff_avion" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="norme_douaniere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="masque_impression" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="info_marquer" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+
+
+                    <label for="n_ft"/>
+                        <div class="o_row" name="n_ft">
+                            <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="piece_jointe_ft"
+                                    attrs="{'required':[('n_ft', '!=', '')], 'readonly':[('is_locked', '=', True)]}"/>
+                        </div>
+
+                    <field name="type_article" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+
 
                 </xpath>
+
+
+
                 <notebook>
                     <page string="Méthode">
                         <group>
                         <group string="Description">
-                        <field name="forme"/>
-                        <field name="hauteur"/>
-                        <field name="largeur"/>
-                        <field name="longueur"/>
-                        <field name="diametre"/>
-                        <field name="surface"/>
-                        <field name="surface_traiter"/>
-                        <field name="type_montage"/>
-                        <field name="famille_matiere"/>
+                        <field name="forme" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="hauteur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="largeur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="longueur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="diametre" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="surface" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="surface_traiter" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="type_montage" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="nb_piece_barre" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="famille_matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         <field name="famille_matiere_name" invisible="1"/>
-                        <field name="matiere"/>
-                        <field name="matiere_abreviation"/>
+                        <field name="matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="matiere_abreviation" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         <field name="matiere_name" invisible="1"/>
-                        <field name="ref_matiere"/>
+                        <field name="ref_matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         <field name="ref_matiere_name" invisible="1"/>
-                        <field name="resistance_matiere"/>
+                        <field name="resistance_matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         </group>
-<!--                        </group>-->
-<!--                        <group>-->
-                        <group string="Info">
-                            <field name="activite"/>
-                            <field name="motif_blocage_lancement"/>
-                            <field name="classe_fonctionnelle"/>
-                            <field name="programme_aeonautique"/>
+
+                            <div>
+                        <group string="Indice" name="indice">
+                            <field name="donneur_order" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="type_indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="memo" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+
                         </group>
+                            <group string="Info">
+                            <field name="activite" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="motif_blocage_lancement" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                            <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         </group>
+                            </div>
+                        </group>
+
                     </page>
                 </notebook>
 
             </field>
     </record>
+
+
     </data>
 </odoo>

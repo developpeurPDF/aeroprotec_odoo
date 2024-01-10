@@ -18,7 +18,8 @@
         "views/parameters_matiere.xml",
         "views/product_template.xml",
         "views/model_mrp_aero.xml"
-
+        # "report/print.xml",
+        # "report/account_move.xml",
 
 
     ],
