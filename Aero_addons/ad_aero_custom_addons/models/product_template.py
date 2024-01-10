@@ -51,9 +51,9 @@ class ProductTemplate(models.Model):
 
     def _compute_air(self):
         for rec in self:
-            if rec.forme == "cube":
+            if rec.forme == "cylindre":
                 rec.surface = (((rec.hauteur * rec.diametre * pi) +(2 * pi * (rec.diametre/2)) * (rec.diametre /2)))/10000
-            elif rec.forme == "cylindre":
+            elif rec.forme == "cube":
                 rec.surface = (((rec.longueur * rec.largeur) + (rec.longueur * rec.hauteur) + (rec.largeur * rec.hauteur)) * 2)/10000
             else:
                 rec.surface = 0
