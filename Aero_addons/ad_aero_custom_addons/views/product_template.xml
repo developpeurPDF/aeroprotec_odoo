@@ -33,7 +33,7 @@
                         <div class="o_row" name="n_ft">
                             <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                             <field name="piece_jointe_ft"
-                                    attrs="{'required':[('n_ft', '!=', '')]"/>
+                                    attrs="{'required':[('n_ft', '!=', '')]}"/>
                         </div>
 
                     <field name="type_article" attrs="{'readonly':[('is_locked', '=', True)]}"/>
