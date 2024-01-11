@@ -16,7 +16,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="0"/>
+                    <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='detailed_type']" position="before">
 
