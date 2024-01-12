@@ -23,6 +23,7 @@ class ProductKit(models.Model):
         "Quantity", default=1.0, required=True
     )
     product_price = fields.Float(compute="_compute_product_price", store=True)
+    standard_price = fields.Float(compute="_compute_standard_price", store=True)
     product_uom_id = fields.Many2one(
         related="component_product_id.uom_id", index=True, store=True
     )
@@ -42,4 +43,11 @@ class ProductKit(models.Model):
         for kit_line in self:
             kit_line.product_price = (
                 kit_line.product_qty * kit_line.component_product_id.lst_price
+            )
+
+    @api.depends("component_product_id", "product_qty")
+    def _compute_standard_price(self):
+        for kit_line in self:
+            kit_line.standard_price = (
+                    kit_line.product_qty * kit_line.component_product_id.standard_price
             )

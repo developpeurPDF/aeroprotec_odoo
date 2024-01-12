@@ -25,6 +25,7 @@
                             <field name="product_qty" />
                             <field name="product_price" />
                             <field name="product_uom_id" />
+                            <field name="standard_price" sum="Coût"/>
                         </tree>
                     </field>
                 </page>
