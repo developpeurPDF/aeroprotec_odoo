@@ -11,6 +11,8 @@ class matiereParameter(models.Model):
 
     active = fields.Boolean("Active", default=True, readonly=True, required=True)
     values_ids = fields.One2many("matiere.parameter.value", "parameter_id", "Matière")
+    company_id = fields.Many2one(
+        'res.company', 'Company', index=True)
 
 
 

@@ -32,16 +32,19 @@
                     <label for="n_ft"/>
                         <div class="o_row" name="n_ft">
                             <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="piece_jointe_ft"
-                                    attrs="{'required':[('n_ft', '!=', '')]}"/>
+                            <field name="piece_jointe_ft"/>
+<!--                                    attrs="{'required':[('n_ft', '!=', '')]}"/>-->
                         </div>
 
                     <field name="type_article" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
 
                 </xpath>
-
-
+                <xpath expr="//field[@name='detailed_type']" position="after">
+                    <field name="gerer_stock"/>
+                    <field name="gestion_lots"/>
+                    <field name="gestion_sortie_auto"/>
+                </xpath>
 
                 <notebook>
                     <page string="Méthode">
@@ -67,19 +70,19 @@
                         </group>
 
                             <div>
-                        <group string="Indice" name="indice">
-                            <field name="donneur_order" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="type_indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="memo" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                <group string="Indice" name="indice">
+                                    <field name="donneur_order" domain="['|',('company_id','=',False),('company_id','=',company_id)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="type_indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="memo" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
-                        </group>
-                            <group string="Info">
-                            <field name="activite" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="motif_blocage_lancement" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        </group>
+                                </group>
+                                    <group string="Info">
+                                    <field name="activite" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    <field name="motif_blocage_lancement" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                </group>
                             </div>
                         </group>
 

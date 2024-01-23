@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from math import pi
 from odoo.tools import float_round, date_utils, convert_file, html2plaintext
@@ -62,16 +63,16 @@ class ProductTemplate(models.Model):
     piece_jointe_ft = fields.Binary(string="Pièce jointe FT")
     norme_douaniere = fields.Char(string="Norme douanière")
 
-    indice = fields.Integer(string="Indice")
+    indice = fields.Char(string="Indice")
     nb_piece_barre = fields.Integer(string="Nombre de pièces par barre")
     type_indice = fields.Selection(selection=[
         ('piece', 'Indice pièce'),
         ('plan', 'Indice plan'),
         ('nomenclature', 'Indice nomenclature'),
-        ('plan', 'Indice FI'),
+        ('planfi', 'Indice FI'),
     ],
         string='Type d’indice ')
-    donneur_order = fields.Many2one('res.partner', string="Donneur d'ordre")
+    donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre")
     client = fields.Many2one('res.partner', string="Client")
     memo = fields.Text(string="Mémo")
 
@@ -81,6 +82,30 @@ class ProductTemplate(models.Model):
     classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle",)
     programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique",)
 
+    gerer_stock = fields.Selection(string="Géré en stock", selection=[
+        ('Oui', 'Oui'),
+        ('Non', 'Non')
+    ], compute='_compute_gerer_stock')
+
+    gestion_lots = fields.Selection(string="Gestion de lots", selection=[
+        ('Oui', 'Oui'),
+        ('Non', 'Non')
+    ])
+    gestion_sortie_auto = fields.Selection(string="Gestion des sorties de stock auto", selection=[
+        ('Oui', 'Oui'),
+        ('Non', 'Non')
+    ])
+
+
+
+    def _compute_gerer_stock(self):
+        for rec in self:
+            if rec.detailed_type == "product":
+                rec.gerer_stock = "Oui"
+            else:
+                rec.gerer_stock = "Non"
+
+
     def _compute_air(self):
         for rec in self:
             if rec.forme == "cylindre":
@@ -89,7 +114,6 @@ class ProductTemplate(models.Model):
                 rec.surface = (((rec.longueur * rec.largeur) + (rec.longueur * rec.hauteur) + (rec.largeur * rec.hauteur)) * 2)/10000
             else:
                 rec.surface = 0
-
 
 
 

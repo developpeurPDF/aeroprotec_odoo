@@ -7,4 +7,8 @@ from . import product_template
 from . import famille_matiere
 from . import matiere_parameter_value
 from . import model_mrp_aero
+from . import donner_ordre
+from . import mrp_bom
+from . import mrp_production
+from . import phase
 

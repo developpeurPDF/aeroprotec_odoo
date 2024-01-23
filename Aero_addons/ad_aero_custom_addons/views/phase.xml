@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+
+      <!--Phase d'operation-->
+  <record model="ir.ui.view" id="param_phase_operation_tree">
+      <field name="name">Phase d'opération</field>
+      <field name="model">phase.operation</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="company_id"/>
+          <field name="operations"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_phase_operation_form">
+      <field name="name">Phase d'opération</field>
+      <field name="model">phase.operation</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                  <field name="name"/>
+                  <field name="company_id"/>
+                  <field name="operations" widget="many2many_tags"/>
+<!--                     domain="['|',('company_id','=',False),('company_id','=',company_id)]"-->
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_phase_operation">
+      <field name="name">Phase d'opération</field>
+      <field name="res_model">phase.operation</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="param_menu_phase_operation_mrp" name="Phase d'opération" action="param_action_window_phase_operation" parent="mrp.menu_mrp_configuration" sequence="100"/>
+  </data>
+    <record id="operation_mrp_view_form" model="ir.ui.view">
+            <field name="name">mrp.routing.workcenter.form.inherit</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="phase"/>
+
+                </xpath>
+            </field>
+    </record>
+
+
+
+
+</odoo>

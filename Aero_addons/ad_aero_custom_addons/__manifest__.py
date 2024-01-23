@@ -12,12 +12,17 @@
     'images': [''],
     "license": "LGPL-3",
     "author": "action-digitale",
-    "depends": ["base","stock","sale"],
+    "depends": ["base","stock","sale","bom_change_version"],
     "data": [
         "security/ir.model.access.csv",
         "views/parameters_matiere.xml",
         "views/product_template.xml",
-        "views/model_mrp_aero.xml"
+        "views/model_mrp_aero.xml",
+        "views/donneur_order.xml",
+        "views/mrp_bom.xml",
+        "views/mrp_production.xml",
+        "views/phase.xml",
+
         # "report/print.xml",
         # "report/account_move.xml",
 

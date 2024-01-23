@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+<record id="mrp_bomm_view_form" model="ir.ui.view">
+    <field name="name">mrp.bom.form.inherit</field>
+    <field name="model">mrp.bom</field>
+    <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='type']" position="after">
+            <field name="redacteur" attrs="{'required':[('state', '=', 'redige')]}"/>
+            <field name="date_redaction" attrs="{'required':[('state', '=', 'redige')]}"/>
+            <field name="verificateur" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')]}"/>
+            <field name="date_verification" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')]}"/>
+            <field name="approbateur" attrs="{'invisible': [('state', '!=', 'approve')], 'required':[('state', '=', 'approve')]}"/>
+            <field name="date_approbation" attrs="{'invisible': [('state', '!=', 'approve')], 'required':[('state', '=', 'approve')]}"/>
+        </xpath>
+        <xpath expr="//field[@name='product_id']" position="after">
+            <field name="donneur_order"/>
+            <field name="nom_donneur_order" invisible="1"/>
+            <field name="codes"/>
+            <field name="nb_traitement_surface"/>
+        </xpath>
+    </field>
+</record>
+      <record id="mrp_bommm_view_form" model="ir.ui.view">
+    <field name="name">mrp.bom.form.inheritt</field>
+    <field name="model">mrp.bom</field>
+    <field name="inherit_id" ref="bom_change_version.mrp_bom_form_view_inherit_bom_version"/>
+    <field name="arch" type="xml">
+        <xpath expr="//form/sheet" position="before">
+
+                <header>
+
+                <button name="action_redige" string="Rédigé" class="oe_highlight"
+                        type="object" attrs="{'invisible': ['|','|', ('state', '=', 'verifie'),('state', '=', 'redige'), ('state', '=', 'approve')]}"/>
+                <button name="action_verifie" string="Vérifié" class="oe_highlight"
+                        type="object" attrs="{'invisible': ['|', ('state', '!=', 'redige'), ('state', '=', 'approve')]}"/>
+                <button name="action_approve" string="Approuvé" class="oe_highlight"
+                        type="object" attrs="{'invisible': ['|', ('state', '=', 'redige'), ('state', '!=', 'verifie')]}"/>
+                <button name="reset_draft" string="Réinitialiser to brouillon"
+                        type="object" attrs="{'invisible': [('state', '=', 'brouillon')]}"/>
+                <field name="state" widget="statusbar" statusbar_visible="brouillon,redige,verifie,approve"/>
+                </header>
+        </xpath>
+    </field>
+      </record>
+
+  </data>
+</odoo>
