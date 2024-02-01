@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+      <!--Norme-->
+  <record model="ir.ui.view" id="param_norme_tree">
+      <field name="name">Norme</field>
+      <field name="model">norme</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="indice"/>
+          <field name="name"/>
+          <field name="type_norme"/>
+          <field name="user_id"/>
+          <field name="donneur_order"/>
+          <field name="designation"/>
+          <field name="docs"/>
+<!--          <field name="date"/>-->
+          <field name="observation"/>
+          <field name="qualifie"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_norme_form">
+      <field name="name">Norme</field>
+      <field name="model">norme</field>
+      <field name="arch" type="xml">
+        <form>
+            <header>
+
+
+                <button name="duplicate_norme" string="Evolution Norme" class="oe_highlight"
+                        type="object" attrs="{'invisible': [('evolution', '=', True)]}"/>
+                <button name="action_derogation" string="Dérogation" class="oe_highlight"
+                        type="object" attrs="{'invisible': [('state', '!=', 'conforme')]}"/>
+<!--                <button name="action_non_conforme" string="Non conforme" class="oe_highlight"-->
+<!--                        type="object" attrs="{'invisible': [('state', '=', 'derogation')]}"/>-->
+                <button name="reset_draft" string="Réinitialiser au brouillon"
+                        type="object" attrs="{'invisible': ['|','|',('state', '=', 'conforme'),('state', '=', 'en_projet'),('state', '=', 'derogation')]}"/>
+                <field name="state" widget="statusbar" statusbar_visible="en_projet,conforme,derogation,non_conforme"/>
+            </header>
+            <sheet>
+<!--                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>-->
+
+                <group>
+                    <group>
+                  <field name="indice"/>
+<!--                  <field name="create_date"/>-->
+                  <field name="name"/>
+                  <field name="type_norme"/>
+                  <field name="user_id" attrs="{'invisible': ['|', ('type_norme', '=', 'externe'), ('type_norme', '=', False)]}"/>
+                  <field name="donneur_order"  attrs="{'invisible': ['|',('type_norme', '=', 'interne'),('type_norme', '=', False)]}"/>
+                  <field name="designation"/>
+                  <field name="docs" />
+<!--                  <field name="date"/>-->
+<!--                    widget="pdf_viewer"-->
+                  <field name="observation"/>
+                  <field name="qualifie"/>
+                    </group>
+                    <group>
+
+                        <field name="evolution"/>
+                        <field name="reference_premier_document"/>
+                        <field name="date_derniere_duplication"/>
+                    </group>
+                </group>
+                <notebook>
+	    			<page name="en_projet" string="En projet">
+                        <group>
+                        <group>
+                        <field name="create_uid" string="Créer par"/>
+                        <field name="create_date" string="Date de création"/>
+                        </group>
+                        <group>
+
+
+                        <field name="employee_id"/>
+                        <field name="date_validation"/>
+
+                        <button name="action_active" string="Conforme" class="oe_highlight"
+                            type="object" attrs="{'invisible': ['|',('state', '=', 'derogation'),('state', '=', 'non_conforme')]}"/>
+                        <button name="action_non_conforme" string="Non conforme" class="oe_highlight"
+                            type="object" attrs="{'invisible': ['|',('state', '=', 'derogation'),('state', '=', 'conforme')]}"/>
+
+
+                        </group>
+
+                        </group>
+                        <group>
+
+                            <field name="note_en_projet"/>
+
+                        </group>
+
+
+                    </page>
+                    <page name="conforme" string="Qualifié" attrs="{'invisible': ['|',('state', '=', 'en_projet'),('state', '=', 'non_conforme')]}">
+	    				<group>
+	    				<group>
+                        <field name="num_rapport_qualification"/>
+                        </group>
+                        <group>
+	    				<field name="date_premiere_qualification"/>
+	    				<field name="date_fin_validite"/>
+                        </group>
+
+                        </group>
+                        <group>
+                           <field name="note_qualifie"/>
+
+                        </group>
+	    			</page>
+                    <page name="derogation" string="Dérogation" attrs="{'invisible': ['|','|',('state', '=', 'en_projet'),('state', '=', 'non_conforme'),('state', '=', 'conforme')]}">
+	    				<group>
+                            <field name="date_fin_derogation"/>
+                            <field name="note_derogation"/>
+                        </group>
+	    			</page>
+	    		</notebook>
+            </sheet>
+            <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+        </form>
+
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_norme">
+      <field name="name">Normes</field>
+      <field name="res_model">norme</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="param_menu_norme" name="Normes" action="param_action_window_norme" parent="mrp.menu_mrp_configuration" sequence="102"/>
+
+  </data>
+</odoo>

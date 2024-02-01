@@ -9,8 +9,9 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="company_id"/>
           <field name="codes"/>
+          <field name="norme"/>
+          <field name="company_id"/>
         </tree>
       </field>
     </record>
@@ -23,10 +24,16 @@
             <sheet>
                 <group>
                   <field name="name"/>
-                  <field name="company_id"/>
                   <field name="codes" widget="many2many_tags" domain="['|',('company_id','=',False),('company_id','=',company_id)]"/>
+                  <field name="norme"/>
+                  <field name="company_id"/>
                 </group>
             </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
         </form>
       </field>
     </record>
@@ -66,12 +73,17 @@
             <sheet>
                 <group>
                   <field name="donneur_order"/>
-                  <field name="name_donneur_order" invisible="0"/>
+                  <field name="name_donneur_order" invisible="1"/>
                   <field name="name"/>
                   <field name="abrege"/>
                   <field name="company_id"/>
                 </group>
             </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
         </form>
       </field>
     </record>

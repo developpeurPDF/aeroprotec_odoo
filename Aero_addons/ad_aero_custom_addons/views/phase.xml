@@ -3,29 +3,36 @@
   <data>
 
 
-      <!--Phase d'operation-->
+      <!--Sous operations-->
   <record model="ir.ui.view" id="param_phase_operation_tree">
-      <field name="name">Phase d'opération</field>
+      <field name="name">Sous opérations</field>
       <field name="model">phase.operation</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree default_order="ordre">
+          <field name="ordre"/>
           <field name="name"/>
-          <field name="company_id"/>
+          <field name="code"/>
+<!--          <field name="date"/>-->
           <field name="operations"/>
+          <field name="company_id"/>
         </tree>
       </field>
     </record>
 
     <record model="ir.ui.view" id="param_phase_operation_form">
-      <field name="name">Phase d'opération</field>
+      <field name="name">Sous opérations</field>
       <field name="model">phase.operation</field>
       <field name="arch" type="xml">
         <form>
             <sheet>
                 <group>
+                  <field name="ordre"/>
                   <field name="name"/>
+                  <field name="code"/>
+                  <field name="note"/>
+
+                  <field name="operations"/>
                   <field name="company_id"/>
-                  <field name="operations" widget="many2many_tags"/>
 <!--                     domain="['|',('company_id','=',False),('company_id','=',company_id)]"-->
                 </group>
             </sheet>
@@ -34,12 +41,51 @@
     </record>
 
     <record model="ir.actions.act_window" id="param_action_window_phase_operation">
-      <field name="name">Phase d'opération</field>
+      <field name="name">Sous opérations</field>
       <field name="res_model">phase.operation</field>
       <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="param_menu_phase_operation_mrp" name="Phase d'opération" action="param_action_window_phase_operation" parent="mrp.menu_mrp_configuration" sequence="100"/>
+    <menuitem id="param_menu_phase_operation_mrp" name="Sous opérations" action="param_action_window_phase_operation" parent="mrp.menu_mrp_configuration" sequence="100"/>
+  </data>
+    <data>
+
+
+      <!--Sous operations-->
+  <record model="ir.ui.view" id="param_nature_operation_tree">
+      <field name="name">Nature d'opération</field>
+      <field name="model">nature.operation</field>
+      <field name="arch" type="xml">
+        <tree>
+
+          <field name="name"/>
+
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_nature_operation_form">
+      <field name="name">Nature d'opération</field>
+      <field name="model">nature.operation</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                  <field name="name"/>
+
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_nature_operation">
+      <field name="name">Nature opération</field>
+      <field name="res_model">nature.operation</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="param_menu_nature_operation_mrp" name="Nature d'opération" action="param_action_window_nature_operation" parent="mrp.menu_mrp_configuration" sequence="95"/>
   </data>
     <record id="operation_mrp_view_form" model="ir.ui.view">
             <field name="name">mrp.routing.workcenter.form.inherit</field>
@@ -47,14 +93,45 @@
             <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="phase"/>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="code_operation"/>
+                    <field name="nature_operation"/>
 
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="abreviation_operation"/>
+                    <field name="type_operation"/>
+                    <field name="operation_ts"/>
+<!--                    <field name="code_operation"/>-->
+<!--                    <field name="abreviation_operation"/>-->
+                    <field name="norme_interne"/>
+                    <field name="norme_externe"/>
+                    <field name="ref_prog_automate"/>
+
+                </xpath>
+                <xpath expr="//notebook/page[@name='worksheet']" position="before">
+                    <page string="Sous opérations" name="phase">
+                        <field name="phase"/>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[@name='worksheet']" position="after">
+                    <page string="Compétences" name="competance">
+                        <field name="competance"/>
+                    </page>
                 </xpath>
             </field>
     </record>
+    <record id="mrp_routing_workcenter_tree_view" model="ir.ui.view">
+            <field name="name">mrp.routing.workcenter.tree</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[1]" position="before">
+                    <field name="code_operation"/>
+                    <field name="nature_operation"/>
+                    <field name="abreviation_operation"/>
+                </xpath>
 
-
-
-
+            </field>
+    </record>
 </odoo>

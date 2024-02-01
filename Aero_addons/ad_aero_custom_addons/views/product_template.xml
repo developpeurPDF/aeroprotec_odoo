@@ -22,19 +22,16 @@
 
                     <field name="client" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                     <field name="code" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                    <field name="plan_reference" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                    <field name="coeff_avion" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                     <field name="norme_douaniere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                    <field name="masque_impression" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                    <field name="info_marquer" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
 
-                    <label for="n_ft"/>
-                        <div class="o_row" name="n_ft">
-                            <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                            <field name="piece_jointe_ft"/>
-<!--                                    attrs="{'required':[('n_ft', '!=', '')]}"/>-->
-                        </div>
+
+<!--                    <label for="n_ft"/>-->
+<!--                        <div class="o_row" name="n_ft">-->
+<!--                            <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>-->
+<!--                            <field name="piece_jointe_ft"/>-->
+<!--&lt;!&ndash;                                    attrs="{'required':[('n_ft', '!=', '')]}"/>&ndash;&gt;-->
+<!--                        </div>-->
 
                     <field name="type_article" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
@@ -70,19 +67,31 @@
                         </group>
 
                             <div>
-                                <group string="Indice" name="indice">
-                                    <field name="donneur_order" domain="['|',('company_id','=',False),('company_id','=',company_id)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                <group string="Classification" name="classification">
+                                    <field name="donneur_order" domain="['|',('company_id','=',''),('company_id','=',company_id)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="norme" domain="[('donneur_order','=',donneur_order)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
+                                    <field name="coeff_avion" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="plan_reference" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+
                                     <field name="indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                                     <field name="type_indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                                     <field name="memo" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <label for="n_ft"/>
+                                    <div class="o_row" name="n_ft">
+                                        <field name="n_ft" class="oe_inline" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                        <field name="piece_jointe_ft"/>
+            <!--                                    attrs="{'required':[('n_ft', '!=', '')]}"/>-->
+                                    </div>
 
                                 </group>
                                     <group string="Info">
                                     <field name="activite" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
                                     <field name="motif_blocage_lancement" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
-                                    <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
-                                    <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
-                                </group>
+                                    <field name="masque_impression" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    <field name="info_marquer" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                                    </group>
                             </div>
                         </group>
 

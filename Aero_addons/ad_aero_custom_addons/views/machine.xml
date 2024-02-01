@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+            <record id="machine_mrp_workcenter_view_form" model="ir.ui.view">
+            <field name="name">mrp.workcenter.inherit</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='capacity']" position="after">
+                    <page string="Machine">
+                        <field name="machines_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="etat"/>
+                                    <field name="capacite_horaire"/>
+                                    <field name="capacite_piece"/>
+                                    <field name="nb_lot"/>
+                                </tree>
+                        </field>
+                    </page>
+                   </xpath>
+<!--                <xpath expr="//notebook/page[@name='worksheet']" position="after">-->
+<!--                    <page string="Compétences" name="competance">-->
+<!--                        <field name="competance"/>-->
+<!--                    </page>-->
+<!--                </xpath>-->
+            </field>
+    </record>
+          <record id="machine_view_form" model="ir.ui.view">
+            <field name="name">equipment.form.inherit</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="etat"/>
+                    <field name="capacite_horaire" widget="float_time"/>
+                    <field name="duree_prg" widget="float_time"/>
+                    <field name="capacite_piece"/>
+                    <field name="nb_lot"/>
+                    <field name="poste_travail_id"/>
+
+                </xpath>
+<!--                <xpath expr="//notebook/page[@name='worksheet']" position="after">-->
+<!--                    <page string="Compétences" name="competance">-->
+<!--                        <field name="competance"/>-->
+<!--                    </page>-->
+<!--                </xpath>-->
+            </field>
+    </record>
+    <menuitem id="param_menu_Equipements" name="Equipements" action="maintenance.hr_equipment_action" parent="mrp.menu_mrp_configuration" sequence="88"/>
+
+  </data>
+</odoo>

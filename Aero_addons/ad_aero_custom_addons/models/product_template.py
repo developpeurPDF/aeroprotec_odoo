@@ -18,69 +18,70 @@ class ProductTemplate(models.Model):
         self.is_locked = not self.is_locked
         return True
 
-    code = fields.Integer("Code")
-    plan_reference = fields.Char("Référence plan")
+    code = fields.Integer("Code", tracking=True)
+    plan_reference = fields.Char("Référence plan", tracking=True)
 
     forme = fields.Selection(selection=[
             ('cube','Cube'),
             ('cylindre','Cylindre')],
-        string='Forme', help="Permet de déterminer l’encombrement et la surface à traiter")
-    hauteur = fields.Float("Hauteur")
-    largeur = fields.Float("Largeur")
-    longueur = fields.Float("Longueur")
-    diametre = fields.Float("Diamètre")
+        string='Forme', help="Permet de déterminer l’encombrement et la surface à traiter", tracking=True)
+    hauteur = fields.Float("Hauteur", tracking=True)
+    largeur = fields.Float("Largeur", tracking=True)
+    longueur = fields.Float("Longueur", tracking=True)
+    diametre = fields.Float("Diamètre", tracking=True)
     surface = fields.Float("Surface", compute='_compute_air')
-    surface_traiter = fields.Char("Surface à traiter")
+    surface_traiter = fields.Char("Surface à traiter", tracking=True)
     type_montage = fields.Selection(selection=[
             ('CADRE_SIMPLE','CADRE SIMPLE'),
             ('CADRE_DOUBLE','CADRE DOUBLE'),
             ('MONTAGE_TOURNANT','MONTAGE TOURNANT'),
     ],
-        string='Type de montage')
+        string='Type de montage', tracking=True)
     type_article = fields.Selection(selection=[
             ('Production','Production'),
             ('Eprouvette','Eprouvette'),
             ('Composant','Composant'),
             ('Outillage','Outillage'),
     ],
-        string="Type d'article")
-    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière")
+        string="Type d'article", tracking=True)
+    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", tracking=True)
     # matiere = fields.Many2one('matiere.parameter', string="Famille matière")
     famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
     matiere = fields.Many2one('matiere.parameter.value', string="Matière",
-                           domain="[('parameter_name','=', famille_matiere_name)]")
+                           domain="[('parameter_name','=', famille_matiere_name)]", tracking=True)
     matiere_abreviation = fields.Char(string="Abréviation matière", related="matiere.name_abreviation", readonly=True, store=True)
     matiere_name = fields.Char(string="Nom matière", related="matiere.name", readonly=True, store=True)
     ref_matiere = fields.Many2one('matiere.parameter.ref', string="Nature matière",
-                           domain="[('parameter_name','=', matiere_name)]")
+                           domain="[('parameter_name','=', matiere_name)]", tracking=True)
     ref_matiere_name = fields.Char(string="Nom matière", related="ref_matiere.name", readonly=True, store=True)
-    resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance")
+    resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance", tracking=True)
 
-    coeff_avion = fields.Integer(string="Coeff avion")
-    masque_impression = fields.Char(string="Masque impression marqueuse")
-    info_marquer = fields.Char(string="Information à marquer")
-    n_ft = fields.Char(string="N° FT")
-    piece_jointe_ft = fields.Binary(string="Pièce jointe FT")
-    norme_douaniere = fields.Char(string="Norme douanière")
+    coeff_avion = fields.Integer(string="Coeff avion", tracking=True)
+    masque_impression = fields.Char(string="Masque impression marqueuse", tracking=True)
+    info_marquer = fields.Char(string="Information à marquer", tracking=True)
+    n_ft = fields.Char(string="N° FT", tracking=True)
+    piece_jointe_ft = fields.Binary(string="Pièce jointe FT", tracking=True)
+    norme_douaniere = fields.Char(string="Norme douanière", tracking=True)
 
-    indice = fields.Char(string="Indice")
-    nb_piece_barre = fields.Integer(string="Nombre de pièces par barre")
+    indice = fields.Char(string="Indice", tracking=True)
+    nb_piece_barre = fields.Integer(string="Nombre de pièces par barre", tracking=True)
     type_indice = fields.Selection(selection=[
         ('piece', 'Indice pièce'),
         ('plan', 'Indice plan'),
         ('nomenclature', 'Indice nomenclature'),
         ('planfi', 'Indice FI'),
     ],
-        string='Type d’indice ')
-    donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre")
-    client = fields.Many2one('res.partner', string="Client")
+        string='Type d’indice', tracking=True)
+    donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre", tracking=True)
+    client = fields.Many2one('res.partner', string="Client", tracking=True)
     memo = fields.Text(string="Mémo")
 
 
-    activite = fields.Many2one('activite', string="Activité",)
-    motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement",)
-    classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle",)
-    programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique",)
+    activite = fields.Many2one('activite', string="Activité", tracking=True)
+    motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement", tracking=True,)
+    classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle", tracking=True,)
+    programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique", tracking=True,)
+    norme = fields.Many2one('norme', string="Norme", tracking=True,)
 
     gerer_stock = fields.Selection(string="Géré en stock", selection=[
         ('Oui', 'Oui'),
@@ -90,11 +91,11 @@ class ProductTemplate(models.Model):
     gestion_lots = fields.Selection(string="Gestion de lots", selection=[
         ('Oui', 'Oui'),
         ('Non', 'Non')
-    ])
+    ], tracking=True)
     gestion_sortie_auto = fields.Selection(string="Gestion des sorties de stock auto", selection=[
         ('Oui', 'Oui'),
         ('Non', 'Non')
-    ])
+    ], tracking=True)
 
 
 

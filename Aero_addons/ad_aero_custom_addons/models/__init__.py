@@ -11,4 +11,6 @@ from . import donner_ordre
 from . import mrp_bom
 from . import mrp_production
 from . import phase
+from . import machine
+from . import norme
 

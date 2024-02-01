@@ -1,49 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-<record id="mrp_bomm_view_form" model="ir.ui.view">
-    <field name="name">mrp.bom.form.inherit</field>
-    <field name="model">mrp.bom</field>
-    <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
-    <field name="arch" type="xml">
-        <xpath expr="//field[@name='type']" position="after">
-            <field name="redacteur" attrs="{'required':[('state', '=', 'redige')]}"/>
-            <field name="date_redaction" attrs="{'required':[('state', '=', 'redige')]}"/>
-            <field name="verificateur" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')]}"/>
-            <field name="date_verification" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')]}"/>
-            <field name="approbateur" attrs="{'invisible': [('state', '!=', 'approve')], 'required':[('state', '=', 'approve')]}"/>
-            <field name="date_approbation" attrs="{'invisible': [('state', '!=', 'approve')], 'required':[('state', '=', 'approve')]}"/>
-        </xpath>
-        <xpath expr="//field[@name='product_id']" position="after">
-            <field name="donneur_order"/>
-            <field name="nom_donneur_order" invisible="1"/>
-            <field name="codes"/>
-            <field name="nb_traitement_surface"/>
-        </xpath>
-    </field>
-</record>
       <record id="mrp_bommm_view_form" model="ir.ui.view">
-    <field name="name">mrp.bom.form.inheritt</field>
-    <field name="model">mrp.bom</field>
-    <field name="inherit_id" ref="bom_change_version.mrp_bom_form_view_inherit_bom_version"/>
-    <field name="arch" type="xml">
-        <xpath expr="//form/sheet" position="before">
+            <field name="name">mrp.bom.form.inheritt</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="bom_change_version.mrp_bom_form_view_inherit_bom_version"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
 
-                <header>
+                        <header>
+                        <button name="duplicate_bom" string="Evolution Gamme" class="oe_highlight"
+                                type="object" attrs="{'invisible': [('evolution', '=', True)]}"/>
 
-                <button name="action_redige" string="Rédigé" class="oe_highlight"
-                        type="object" attrs="{'invisible': ['|','|', ('state', '=', 'verifie'),('state', '=', 'redige'), ('state', '=', 'approve')]}"/>
-                <button name="action_verifie" string="Vérifié" class="oe_highlight"
-                        type="object" attrs="{'invisible': ['|', ('state', '!=', 'redige'), ('state', '=', 'approve')]}"/>
-                <button name="action_approve" string="Approuvé" class="oe_highlight"
-                        type="object" attrs="{'invisible': ['|', ('state', '=', 'redige'), ('state', '!=', 'verifie')]}"/>
-                <button name="reset_draft" string="Réinitialiser to brouillon"
-                        type="object" attrs="{'invisible': [('state', '=', 'brouillon')]}"/>
-                <field name="state" widget="statusbar" statusbar_visible="brouillon,redige,verifie,approve"/>
-                </header>
-        </xpath>
-    </field>
+                        <button name="action_redige" string="Rédigé" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|','|','|', ('state', '=', 'verifie'),('state', '=', 'redige'), ('state', '=', 'approve'), ('state', '=', 'active')]}"/>
+                        <button name="action_verifie" string="Vérifié" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|', ('state', '!=', 'redige'), ('state', '=', 'approve')]}"/>
+                        <button name="action_approve" string="Approuvé" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|', ('state', '=', 'redige'), ('state', '!=', 'verifie')]}"/>
+                        <button name="action_active" string="Active" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|','|', ('state', '=', 'redige'), ('state', '=', 'verifie'), ('state', '!=', 'approve')]}"/>
+                        <button name="reset_draft" string="Réinitialiser to brouillon"
+                                type="object" attrs="{'invisible': ['|',('state', '=', 'brouillon'),('state', '=', 'active'),]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="brouillon,redige,verifie,approve,active"/>
+                        </header>
+                </xpath>
+            </field>
       </record>
+        <record id="mrp_bomm_view_form" model="ir.ui.view">
+            <field name="name">mrp.bom.form.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="redacteur" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="date_redaction" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="verificateur" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')],'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="date_verification" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')], 'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="approbateur" attrs="{'invisible': ['|','|', ('state', '=', 'verifie'),('state', '=', 'redige'),('state', '=', 'brouillon')], 'required':[('state', '=', 'approve')], 'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="date_approbation" attrs="{'invisible': ['|','|', ('state', '=', 'verifie'),('state', '=', 'redige'),('state', '=', 'brouillon')], 'required':[('state', '=', 'approve')], 'readonly':[('is_locked', '=', True)]}"/>
+
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="donneur_order" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="nom_donneur_order" invisible="1"/>
+                    <field name="norme" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="codes" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="nb_traitement_surface" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='custom_workorder_selection']" position="before">
+                    <field name="name" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="modele" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="1"/>
+                </xpath>
+
+                <xpath expr="//group/group[2]" position="after">
+
+                    <group string="Evolution">
+                            <field name="evolution" />
+                            <field name="reference_premier_document" />
+                            <field name="date_derniere_duplication" />
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+      <record id="mrp_bomm_view_tree" model="ir.ui.view">
+            <field name="name">mrp.bom.form.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[2]" position="after">
+                    <field name="name"/>
+                    <field name="modele"/>
+                    <field name="indice"/>
+                </xpath>
+                <xpath expr="//field[13]" position="after">
+
+                    <field name="date_approbation" string="Activé le"/>
+                    <field name="state"/>
+
+                </xpath>
+            </field>
+      </record>
+
 
   </data>
 </odoo>
