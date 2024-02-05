@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="bom_route_template_view" model="ir.ui.view">
+        <field name="name">bom.route.template.form</field>
+        <field name="model">bom.route.template</field>
+        <field name="arch" type="xml">
+       		<form string="Route Template">
+          		<sheet>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Route Name"/>
+                        <h1><field name="name" placeholder="Route Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+					<notebook>
+                        <page string="Workcenter Operations" name="route_lines">
+                            <field name="route_lines" >
+								<tree string="Route Line">
+                                    <field name="operation_name"/>
+                                    <field name="workcenter_id"/>
+                                    <field name="time_cycle_manual" widget="float_time" string='Duration (minutes)'/>
+								</tree>
+                                <form string="Routing Work Centers">
+                                    <sheet>
+                                        <group>
+                                            <group name="description">
+                                                <field name="operation_name"/>
+                                                <field name="workcenter_id"/>
+                                                <field name="sequence"/>
+                                            </group>
+                                            <group name="workorder">
+                                                <field name="time_mode" widget="radio"/>
+                                                <label for="time_mode_batch" attrs="{'invisible': [('time_mode', '=', 'manual')]}"/>
+                                                <div attrs="{'invisible': [('time_mode', '=', 'manual')]}">
+                                                    last
+                                                    <field name="time_mode_batch" class="oe_inline"/>
+                                                    work orders
+                                                </div>
+                                                <label for="time_cycle_manual" string="Default Duration"/>
+                                                <div>
+                                                    <field name="time_cycle_manual" widget="float_time" class="oe_inline"/> minutes
+                                                </div>
+                                            </group>
+                                        </group>
+                                        <notebook>
+                                            <page string="Work Sheet" name="worksheet">
+                                                <group>
+                                                    <field name="worksheet_type" widget="radio"/>
+                                                    <field name="worksheet" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'pdf')], 'required':  [('worksheet_type', '=', 'pdf')]}"/>
+                                                    <field name="worksheet_google_slide" placeholder="Google Slide Link" widget="embed_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'google_slide')], 'required': [('worksheet_type', '=', 'google_slide')]}"/>
+                                                    <field name="note" attrs="{'invisible':  [('worksheet_type', '!=', 'text')]}"/>
+                                                </group>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+							</field>
+						</page>
+                        <page string="Notes" name="notes">
+                            <field name="note"/>
+						</page>
+					</notebook>
+       			</sheet>
+       		</form>
+        </field>
+    </record>
+
+    <record id="bom_route_template_tree_view" model="ir.ui.view">
+        <field name="name">bom.route.template.tree</field>
+        <field name="model">bom.route.template</field>
+        <field name="arch" type="xml">
+			<tree string="Route Template">
+				<field name="name"/>
+			</tree>
+        </field>
+    </record>
+
+
+	<record id="action_bom_route_template_view" model="ir.actions.act_window">
+        <field name="name">Route Template</field>
+        <field name="res_model">bom.route.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="bom_route_template_tree_view"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Add an Route Template for Bill of Material.
+          </p>
+        </field>
+    </record>
+
+    <menuitem
+	 		id="menu_bom_route_template"
+			action="action_bom_route_template_view"
+			name="Route Template"
+			parent="mrp.menu_mrp_configuration"
+            groups="mrp.group_mrp_manager"
+			sequence="10"/>
+</odoo>

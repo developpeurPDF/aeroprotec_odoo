@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from math import pi
+from collections import defaultdict
 
 class MrpBom(models.Model):
     _inherit = 'mrp.bom'

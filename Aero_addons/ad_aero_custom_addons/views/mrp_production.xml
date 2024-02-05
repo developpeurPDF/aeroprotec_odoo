@@ -11,6 +11,9 @@
                     <field name="nom_donneur_order" invisible="1"/>
                     <field name="codes"/>
                 </xpath>
+                <xpath expr="//field[@name='bom_id']" position="attributes">
+                <attribute name="domain">[('state', '=', 'active')]</attribute>
+            </xpath>
             </field>
       </record>
 

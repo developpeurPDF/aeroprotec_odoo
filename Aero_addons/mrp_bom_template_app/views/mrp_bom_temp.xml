@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_mrp_bom_tree" model="ir.ui.view">
+	        <field name="name">mrp.bom.template.tree</field>
+	        <field name="model">mrp.bom.template</field>
+	        <field name="arch" type="xml">
+	            <tree>
+                    <field name="name"/>
+	                <field name="code"/>
+	                <field name="product_tmpl_id" />
+	                <field name="product_id"/>
+	                <field name="company_id"/>
+	                <field name="type" />
+	                <field name="product_qty" />
+	            </tree>
+	        </field>
+    	</record>
+
+    	<record id="view__mrp_bom_form" model="ir.ui.view">
+        <field name="name">mrp.bom.template.form</field>
+        <field name="model">mrp.bom.template</field>
+        <field name="arch" type="xml">
+            <form string='Bill of Material'>
+            	<sheet>
+            		<div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+            		<group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="product_tmpl_id" context="{'default_type': 'product'}"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="product_id" groups="product.group_product_variant" context="{'default_type': 'product'}"/>
+                            <label for="product_qty" string="Quantity"/>
+                            <div class="o_row">
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="type" widget="radio"/>
+                            <p colspan="2" class="oe_grey oe_edit_only" attrs="{'invisible': [('type','!=','phantom')]}">
+                            <ul>
+                                A BoM of type kit is used to split the product into its components.
+                                <li>
+                                    At the creation of a Manufacturing Order.
+                                </li>
+                                <li>
+                                    At the creation of a Stock Transfer.
+                                </li>
+                            </ul>
+                            </p>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Components" name="components">
+                            <field name="bom_temp_line_ids" widget="one2many" context="{'default_parent_product_tmpl_id': product_tmpl_id, 'default_product_id': False, 'default_bom_id': id}">
+                                <tree string="Components" editable="bottom">
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_type': 'product'}"/>
+                                    <field name="product_tmpl_id" invisible="1"/>
+                                    <button name="action_see_attachments" type="object" icon="fa-files-o" aria-label="Product Attachments" title="Product Attachments" class="float-right oe_read_only"/>
+                                    <field name="attachments_count" class="text-left oe_read_only"
+                                    string=" "/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="parent_product_tmpl_id" invisible="1" />
+                                    <field name="possible_bom_product_template_attribute_value_ids" invisible="1"/>
+                                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+                                    <field name="bom_product_template_attribute_value_ids" optional="hide" widget="many2many_tags" options="{'no_create': True}" attrs="{'column_invisible': [('parent.product_id', '!=', False)]}" groups="product.group_product_variant"/>
+                                    <field name="allowed_operation_ids" invisible="1"/>
+                                    <field name="operation_id" groups="mrp.group_mrp_routings" optional="hidden" attrs="{'column_invisible': [('parent.type','not in', ('normal', 'phantom'))]}" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Operations"
+                            name="operations"
+                            attrs="{'invisible': [('type', 'not in',('normal','phantom'))]}"
+                            groups="mrp.group_mrp_routings">
+                                <field name="operation_ids"
+                                    attrs="{'invisible': [('type','not in',('normal','phantom'))]}"
+                                    groups="mrp.group_mrp_routings"
+                                    context="{'bom_temp_id_invisible': True, 'default_product_tmpl_ids': [product_tmpl_id]}"/>
+                        </page>
+                        <page string="By-products"
+                            name="by_products"
+                            attrs="{'invisible': [('type','!=','normal')]}"
+                            groups="mrp.group_mrp_byproducts">
+                            <field name="byproduct_ids"  context="{'form_view_ref' : 'mrp.mrp_bom_byproduct_form_view', 'default_bom_temp_id': id}">
+                                <tree string="By-products"  editable="top">
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="product_id" context="{'default_type': 'product'}"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                    <field name="allowed_operation_ids" invisible="1"/>
+                                    <field name="operation_id" groups="mrp.group_mrp_routings" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                </tree>
+                           </field>
+                       </page>
+                        <page string="Miscellaneous" name="miscellaneous">
+                            <group>
+                                <group>
+                                    <field name="ready_to_produce" attrs="{'invisible': [('type','=','phantom')]}" string="Manufacturing Readiness" widget="radio" groups="mrp.group_mrp_routings"/>
+                                    <field name="consumption" attrs="{'invisible': [('type','=','phantom')]}" widget="radio"/>
+                                </group>
+                                <group>
+                                    <field name="picking_type_id" attrs="{'invisible': [('type','=','phantom')]}" string="Operation" groups="stock.group_adv_location"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+            	</sheet>
+            </form>
+           </field>
+        </record>
+
+        <record id="mrp_bom_template_form_action" model="ir.actions.act_window">
+            <field name="name">Bills of Materials Template</field>
+            <field name="res_model">mrp.bom.template</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_mrp_bom_tree"/>
+        </record>
+
+        <menuitem id="menu_mrp_bom_template"
+	        parent="mrp.menu_mrp_bom"
+	        sequence="40"
+	        name= "Bills of Materials Template"
+	        action="mrp_bom_template_form_action"
+    	/>
+
+  </data>
+</odoo>
+

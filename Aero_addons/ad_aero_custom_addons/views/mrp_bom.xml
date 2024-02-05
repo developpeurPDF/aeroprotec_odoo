@@ -6,6 +6,14 @@
             <field name="model">mrp.bom</field>
             <field name="inherit_id" ref="bom_change_version.mrp_bom_form_view_inherit_bom_version"/>
             <field name="arch" type="xml">
+                <xpath expr="//group/group[2]" position="after">
+
+                    <group string="Evolution">
+                            <field name="evolution" />
+                            <field name="reference_premier_document" />
+                            <field name="date_derniere_duplication" />
+                    </group>
+                </xpath>
                 <xpath expr="//form/sheet" position="before">
 
                         <header>
@@ -32,14 +40,6 @@
             <field name="model">mrp.bom</field>
             <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//group/group[2]" position="after">
-
-                    <group string="Evolution">
-                        <field name="evolution" />
-                        <field name="reference_premier_document" />
-                        <field name="date_derniere_duplication" />
-                    </group>
-                </xpath>
                 <xpath expr="//field[@name='type']" position="after">
                     <field name="redacteur" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
                     <field name="date_redaction" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
@@ -62,7 +62,7 @@
                     <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="1"/>
                 </xpath>
 
-                
+
 
             </field>
         </record>

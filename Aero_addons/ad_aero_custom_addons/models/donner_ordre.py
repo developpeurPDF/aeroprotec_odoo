@@ -8,7 +8,7 @@ class DonneurOrder(models.Model):
 
     name = fields.Many2one('res.partner', string="Donneur d'ordre", required=True, tracking=True,)
     company_id = fields.Many2one('res.company', string="Société", tracking=True,)
-    codes = fields.One2many('donneur.ordre.code', 'donneur_order', string="Codes", tracking=True, tracking_force=True)
+    codes = fields.One2many('donneur.ordre.code', 'donneur_order', string="Codes", tracking=True,)
     norme = fields.One2many('norme', 'donneur_order', string="Norme", tracking=True,)
     # codes = fields.One2many('donneur.ordre.code', 'donneur_order', string="Codes", tracking=True, tracking_force=True)
 

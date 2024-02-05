@@ -104,6 +104,21 @@
                     <field name="operation_ts"/>
 <!--                    <field name="code_operation"/>-->
 <!--                    <field name="abreviation_operation"/>-->
+
+<!--                    <label for="norme_interne"/>-->
+<!--                <div class="o_row" name="seniority">-->
+<!--                    <field name="seniority_year"/>-->
+<!--                        <span>Années</span>-->
+<!--                    <field name="seniority_month"/>-->
+<!--                        <span>Mois</span>-->
+<!--                    <field name="seniority_days"/>-->
+<!--                        <span>Jours</span>-->
+
+<!--                </div>-->
+
+
+
+
                     <field name="norme_interne"/>
                     <field name="norme_externe"/>
                     <field name="ref_prog_automate"/>
@@ -130,6 +145,10 @@
                     <field name="code_operation"/>
                     <field name="nature_operation"/>
                     <field name="abreviation_operation"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="norme_interne"/>
+                    <field name="norme_externe"/>
                 </xpath>
 
             </field>

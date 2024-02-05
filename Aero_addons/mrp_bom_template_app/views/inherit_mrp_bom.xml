@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="mrp_bom_inherit" model="ir.ui.view">
+			<field name="name">mrp.bom.form</field>
+			<field name="model">mrp.bom</field>
+			<field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+			<field name="arch" type="xml">
+			<xpath expr="//field[@name='product_id']" position="after">
+				<field name="mrp_bom_temp_id"/>
+			</xpath>
+			</field>
+		</record>
+
+		<record id="mrp_working_inherit" model="ir.ui.view">
+			<field name="name">mrp.routing.workcenter.form</field>
+			<field name="model">mrp.routing.workcenter</field>
+			<field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+			<field name="arch" type="xml">
+			<xpath expr="//field[@name='bom_id']" position="after">
+				<field name="bom_temp_id" invisible="context.get('bom_temp_id_invisible', False)"/>
+			</xpath>
+			</field>
+		</record>
+  </data>
+</odoo>
