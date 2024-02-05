@@ -23,3 +23,12 @@ class PosteTravail(models.Model):
     # machine = fields.One2many('maintenance.equipment','poste_travail', string="Machine")
     machines_ids = fields.One2many('maintenance.equipment', 'poste_travail_id', string="Machines")
 
+class OrdreFabrication(models.Model):
+    _inherit = 'mrp.workorder'
+
+    # machine = fields.One2many('maintenance.equipment','poste_travail', string="Machine")
+    norme_interne = fields.Many2one('norme', string="Norme Interne", domain=[('type_norme', '=', 'interne'), (
+    'state', 'in', ['conforme', 'derogation'])], related="operation_id.norme_interne")
+    norme_externe = fields.Many2one('norme', string="Norme Externe", domain=[('type_norme', '=', 'externe'), (
+    'state', 'in', ['conforme', 'derogation'])], related="operation_id.norme_externe")
+

@@ -49,6 +49,19 @@
             </field>
     </record>
     <menuitem id="param_menu_Equipements" name="Equipements" action="maintenance.hr_equipment_action" parent="mrp.menu_mrp_configuration" sequence="88"/>
+        <record id="mrp_production_workorder_tree_view_w_purchase_order" model="ir.ui.view">
+        <field name="name">mrp.production.work.order.tree.view.with_purchase_order</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
 
+                <field name="norme_interne"/>
+                <field name="norme_externe"/>
+            </xpath>
+
+
+        </field>
+    </record>
   </data>
 </odoo>
