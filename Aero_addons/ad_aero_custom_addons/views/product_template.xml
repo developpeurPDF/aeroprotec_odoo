@@ -8,11 +8,17 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//label[@for='produce_delay']" position="attributes">
+                    <attribute name="string">Durée du cycle</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sale_delay']" position="attributes">
+                     <attribute name="string">Durée du cycle négocié avec le client</attribute>
+                </xpath>
 
                 <xpath expr="//button[@name='action_update_quantity_on_hand']" position="after">
 
-                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
-                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
+                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', False)]}" string="Déverrouiller" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
+                    <button name="toggle_lock" attrs="{'invisible': [('is_locked', '=', True)]}" string="Verrouiller" groups="stock.group_stock_manager" type="object" data-hotkey="l"/>
                 </xpath>
 
                 <xpath expr="//field[@name='name']" position="after">
@@ -20,8 +26,9 @@
                 </xpath>
                 <xpath expr="//field[@name='detailed_type']" position="before">
 
+                    <field name="allow_multiple_boms" groups="base.group_no_one"/>
                     <field name="client" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                    <field name="code" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                    <field name="code" invisible="1"/>
                     <field name="norme_douaniere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
 
@@ -69,7 +76,7 @@
                             <div>
                                 <group string="Classification" name="classification">
                                     <field name="donneur_order" domain="['|',('company_id','=',''),('company_id','=',company_id)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                                    <field name="norme" domain="[('donneur_order','=',donneur_order)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+<!--                                    <field name="norme" domain="[('donneur_order','=',donneur_order)]" attrs="{'readonly':[('is_locked', '=', True)]}"/>-->
                                     <field name="classe_fonctionnelle" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
                                     <field name="programme_aeonautique" attrs="{'readonly':[('is_locked', '=', True)]}" domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
                                     <field name="coeff_avion" attrs="{'readonly':[('is_locked', '=', True)]}"/>

@@ -10,14 +10,18 @@
         <tree>
           <field name="indice"/>
           <field name="name"/>
-          <field name="type_norme"/>
-          <field name="user_id"/>
-          <field name="donneur_order"/>
           <field name="designation"/>
+          <field name="type_norme"/>
+          <field name="user_id" optional="hide"/>
+          <field name="donneur_order"/>
+          <field name="qualifie"/>
+          <field name="date_premiere_qualification"/>
+          <field name="date_fin_validite"/>
+          <field name="date_fin_derogation"/>
           <field name="docs"/>
 <!--          <field name="date"/>-->
           <field name="observation"/>
-          <field name="qualifie"/>
+          
         </tree>
       </field>
     </record>
@@ -37,7 +41,9 @@
 <!--                <button name="action_non_conforme" string="Non conforme" class="oe_highlight"-->
 <!--                        type="object" attrs="{'invisible': [('state', '=', 'derogation')]}"/>-->
                 <button name="reset_draft" string="Réinitialiser au brouillon"
-                        type="object" attrs="{'invisible': ['|','|',('state', '=', 'conforme'),('state', '=', 'en_projet'),('state', '=', 'derogation')]}"/>
+                        type="object"/>
+                <button name="action_archived" string="Archivée" class="oe_highlight"
+                        type="object"/>
                 <field name="state" widget="statusbar" statusbar_visible="en_projet,conforme,derogation,non_conforme"/>
             </header>
             <sheet>
@@ -45,77 +51,86 @@
 
                 <group>
                     <group>
-                  <field name="indice"/>
+                    <field name="is_locked" string="Locked" help="Check this box to lock product modifications." invisible="1"/>
+
 <!--                  <field name="create_date"/>-->
-                  <field name="name"/>
-                  <field name="type_norme"/>
-                  <field name="user_id" attrs="{'invisible': ['|', ('type_norme', '=', 'externe'), ('type_norme', '=', False)]}"/>
-                  <field name="donneur_order"  attrs="{'invisible': ['|',('type_norme', '=', 'interne'),('type_norme', '=', False)]}"/>
-                  <field name="designation"/>
-                  <field name="docs" />
+                  <field name="name" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="indice" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="type_norme" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="user_id" attrs="{'invisible': ['|', ('type_norme', '=', 'externe'), ('type_norme', '=', False)], 'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="donneur_order"  attrs="{'invisible': ['|',('type_norme', '=', 'interne'),('type_norme', '=', False)], 'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="designation" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="docs" attrs="{'readonly':[('is_locked', '=', True)]}" />
 <!--                  <field name="date"/>-->
 <!--                    widget="pdf_viewer"-->
-                  <field name="observation"/>
-                  <field name="qualifie"/>
+                  <field name="observation" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="qualifie" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                  <field name="company_id" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                     </group>
                     <group>
 
-                        <field name="evolution"/>
-                        <field name="reference_premier_document"/>
-                        <field name="date_derniere_duplication"/>
+                        <field name="evolution" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="reference_premier_document" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="date_derniere_duplication" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="date_archived" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                     </group>
                 </group>
                 <notebook>
 	    			<page name="en_projet" string="En projet">
                         <group>
                         <group>
-                        <field name="create_uid" string="Créer par"/>
-                        <field name="create_date" string="Date de création"/>
+                        <field name="create_uid" string="Créer par" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="create_date" string="Date de création" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         </group>
-                        <group>
-
-
-                        <field name="employee_id"/>
-                        <field name="date_validation"/>
-
-                        <button name="action_active" string="Conforme" class="oe_highlight"
-                            type="object" attrs="{'invisible': ['|',('state', '=', 'derogation'),('state', '=', 'non_conforme')]}"/>
-                        <button name="action_non_conforme" string="Non conforme" class="oe_highlight"
-                            type="object" attrs="{'invisible': ['|',('state', '=', 'derogation'),('state', '=', 'conforme')]}"/>
-
-
-                        </group>
+                        
 
                         </group>
                         <group>
 
-                            <field name="note_en_projet"/>
+                            <field name="note_en_projet" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
                         </group>
 
 
                     </page>
-                    <page name="conforme" string="Qualifié" attrs="{'invisible': ['|',('state', '=', 'en_projet'),('state', '=', 'non_conforme')]}">
+                    <page name="conforme" string="Qualifié">
 	    				<group>
 	    				<group>
-                        <field name="num_rapport_qualification"/>
+                        <field name="num_rapport_qualification" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         </group>
                         <group>
-	    				<field name="date_premiere_qualification"/>
-	    				<field name="date_fin_validite"/>
+                        <field name="date_premiere_qualification" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="employee_id" readonly="1"/>
+                        <field name="date_validation"/>
+                        <field name="date_fin_validite" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <button name="action_active" string="Conforme" class="oe_highlight"
+                            type="object" attrs="{'invisible': [('state', 'in', ['derogation','conforme','archived'])]}"/>
+                        <button name="action_non_conforme" string="Non conforme" class="oe_highlight"
+                            type="object" attrs="{'invisible': [('state', 'in', ['derogation','conforme','archived'])]}"/>
+	    				          
                         </group>
 
                         </group>
                         <group>
-                           <field name="note_qualifie"/>
+                           <field name="note_qualifie" attrs="{'readonly':[('is_locked', '=', True)]}"/>
 
                         </group>
 	    			</page>
                     <page name="derogation" string="Dérogation" attrs="{'invisible': ['|','|',('state', '=', 'en_projet'),('state', '=', 'non_conforme'),('state', '=', 'conforme')]}">
 	    				<group>
-                            <field name="date_fin_derogation"/>
+                            <field name="date_fin_derogation" />
                             <field name="note_derogation"/>
                         </group>
+	    			</page>
+                    <page name="op_ni" string="Opération" attrs="{'invisible': ['|',('type_norme', '=', 'externe'),('type_norme', '=', False)]}">
+<!--	    				<group>-->
+                            <field name="operation_ni"/>
+<!--                        </group>-->
+	    			</page>
+                    <page name="op_ne" string="Opération" attrs="{'invisible': ['|',('type_norme', '=', 'interne'),('type_norme', '=', False)]}">
+<!--	    				<group>-->
+                            <field name="operation_ne"/>
+<!--                        </group>-->
 	    			</page>
 	    		</notebook>
             </sheet>
@@ -128,11 +143,32 @@
 
       </field>
     </record>
+      <record id="norme_view_search" model="ir.ui.view">
+            <field name="name">norme.search</field>
+            <field name="model">norme</field>
+            <field name="arch" type="xml">
+                <search string="Norme">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
 
     <record model="ir.actions.act_window" id="param_action_window_norme">
       <field name="name">Normes</field>
       <field name="res_model">norme</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="norme_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
     </record>
 
 

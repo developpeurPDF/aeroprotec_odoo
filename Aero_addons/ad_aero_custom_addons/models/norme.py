@@ -6,16 +6,17 @@ class Norme(models.Model):
     _name = 'norme'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    indice = fields.Char(string="Indice", tracking=True,)
+    indice = fields.Char(string="Indice", tracking=True, required=True,)
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
     name = fields.Char(string="Libellé",required=True, tracking=True,)
     type_norme = fields.Selection([
             ('interne', 'Norme Interne'),
             ('externe', 'Norme Externe')],
-        string="Type de la norme", store=True, tracking=True,)
-    user_id = fields.Many2one('res.users', string="Utilisateur", tracking=True,)
-    employee_id = fields.Many2one('hr.employee', string="Validateur", tracking=True,)
+        string="Type de la norme", store=True, tracking=True, required=True,)
+    user_id = fields.Many2one('res.users', string="Valideur interne", tracking=True,)
+    employee_id = fields.Many2one('hr.employee', string="Validateur", tracking=True, readonly=True)
     donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre", tracking=True,)
-    designation = fields.Char(string="Designation", tracking=True,)
+    designation = fields.Char(string="Designation", tracking=True,required=True,)
     docs = fields.Binary(string="Docs", tracking=True,)
     # date = fields.Date(string="Date de qualification")
     observation = fields.Char(string="Observation", tracking=True,)
@@ -27,9 +28,10 @@ class Norme(models.Model):
     state = fields.Selection(
         selection=[
             ('en_projet', 'En projet'),
-            ('conforme', 'Qualifié'),
+            ('conforme', 'Qualifiée'),
             ('derogation', 'Dérogation'),
             ('non_conforme', 'Non applicable'),
+            ('archived', 'Archivée'),
         ],
         string='Status',
         copy=False,
@@ -41,6 +43,7 @@ class Norme(models.Model):
     #     return self.env.user.employee_id
     # valider_par = fields.Many2one('res.users', string="Valider par", default=_default_employee)
     date_validation = fields.Datetime(string="Date de qualification")
+    date_archived = fields.Datetime(string="Date d'archivage")
 
     def reset_draft(self):
         self.write({'state': 'en_projet'})
@@ -52,6 +55,13 @@ class Norme(models.Model):
     def action_derogation(self):
         self.write({'state': 'derogation'})
 
+    def action_archived(self):
+        self.write({'state': 'archived'})
+        self.date_archived = datetime.now()
+        self.ensure_one()
+        self.is_locked = True
+        return True
+
     def action_active(self):
         self.write({'state': 'conforme'})
         # self.ensure_one()
@@ -61,6 +71,9 @@ class Norme(models.Model):
         # self.employee_id = self.env.user  # Utilisateur actuel
         self.date_validation = datetime.now()
         self.qualifie = "Oui"
+        self.ensure_one()
+        self.is_locked = not self.is_locked
+        self.employee_id = self.env.user.employee_id.id
 
         return True
 
@@ -72,17 +85,43 @@ class Norme(models.Model):
     note_qualifie = fields.Html(string="Note")
     note_derogation = fields.Html(string="Note")
 
+    is_locked = fields.Boolean(string="Locked", help="Check this box to lock product modifications.")
+
 
     # Fonction dipliquée
 
     reference_premier_document = fields.Many2one('norme',string="Référence du premier document", copy=False, readonly=True)
     date_derniere_duplication = fields.Datetime(string="Date de dernière duplication", copy=False, readonly=True)
-    evolution = fields.Boolean(string="Evolution Effectué", default=False, readonly=True)
+    evolution = fields.Boolean(string="Evolution Effectué", default=False, readonly=True, tracking=True)
 
     @api.model
     def duplicate_norme(self, norme_id):
         # Récupérer l'enregistrement d'origine
         norme_original = self.browse(norme_id)
+
+        # Incrémenter l'indice en fonction de sa valeur actuelle
+        indice = norme_original.indice
+        new_indice = ''
+        numeric_part = ''
+        alpha_part = ''
+        for char in indice:
+            if char.isdigit():
+                numeric_part += char
+            else:
+                alpha_part += char
+
+        if numeric_part.isdigit():
+            numeric_part = str(int(numeric_part) + 1)
+        # elif alpha_part.isdigit():
+
+        else:
+            numeric_part = str(int(''.join(filter(str.isdigit, numeric_part))) + 1) if numeric_part else ''
+        if not any(
+                char.isdigit() for char in numeric_part):  # Vérifier si la partie alphabétique ne contient aucun chiffre
+            if alpha_part:
+                alpha_part = chr(ord(alpha_part) + 1)
+
+        new_indice = alpha_part + numeric_part
 
 
         # Créer une copie avec un indice incrémenté de 1
@@ -95,7 +134,7 @@ class Norme(models.Model):
             'designation': norme_original.designation,
             'docs': norme_original.docs,
             'observation': norme_original.observation,
-            'qualifie': norme_original.qualifie,
+            'qualifie': False,
             'state': 'en_projet',  # Vous pouvez définir l'état initial ici
             'date_validation': False,  # Réinitialiser la date de validation
             'num_rapport_qualification': False,  # Réinitialiser le numéro de rapport
@@ -107,16 +146,14 @@ class Norme(models.Model):
             'note_derogation': False,  # Réinitialiser la note de dérogation
             'reference_premier_document': norme_original.id,  # Réinitialiser la référence du premier document
             'date_derniere_duplication': fields.Datetime.now(),  # Mettre à jour la date de dernière duplication
+            'indice': new_indice,  # Mettre à jour l'indice
             'evolution': False,
         }
 
         # Créer la copie
         new_norme = self.create(norme_copy_data)
-
-        # Copier les champs additionnels selon vos besoins
-
         # Mettre à jour l'indice
-        new_norme.write({'indice': str(int(norme_original.indice) + 1)})
+        # new_norme.write({'indice': str(int(norme_original.indice) + 1)})
         norme_original.write({'evolution': True})
 
         return {
@@ -128,3 +165,5 @@ class Norme(models.Model):
             'res_id': new_norme.id,
             'type': 'ir.actions.act_window',
         }
+    operation_ni = fields.One2many('mrp.routing.workcenter','norme_interne',string="Opération NI")
+    operation_ne = fields.One2many('mrp.routing.workcenter','norme_externe',string="Opération NE")

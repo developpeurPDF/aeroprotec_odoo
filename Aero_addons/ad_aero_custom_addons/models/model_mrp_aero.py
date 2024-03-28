@@ -31,5 +31,6 @@ class ProgrammeAeronautique(models.Model):
     _description = 'Programme aéronautique '
 
     name = fields.Char(string="Libellé de programme aéronautique ")
+    donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre", tracking=True, )
     company_id = fields.Many2one(
         'res.company', 'Company', index=True)

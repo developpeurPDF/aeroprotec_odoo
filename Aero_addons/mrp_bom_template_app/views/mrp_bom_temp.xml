@@ -21,7 +21,7 @@
         <field name="name">mrp.bom.template.form</field>
         <field name="model">mrp.bom.template</field>
         <field name="arch" type="xml">
-            <form string='Bill of Material'>
+            <form string='Nomenclature'>
             	<sheet>
             		<div class="oe_title">
                         <h1>
@@ -34,11 +34,18 @@
                             <field name="product_tmpl_id" context="{'default_type': 'product'}"/>
                             <field name="product_uom_category_id" invisible="1"/>
                             <field name="product_id" groups="product.group_product_variant" context="{'default_type': 'product'}"/>
+
                             <label for="product_qty" string="Quantity"/>
                             <div class="o_row">
                                 <field name="product_qty"/>
                                 <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
                             </div>
+                            <field name="type_gamme"/>
+                            <field name="produce_delay"/>
+                            <field name="nb_traitement_surface"/>
+<!--                            <field name="bom_id"/>-->
+
+
                         </group>
                         <group>
                             <field name="code"/>
@@ -83,10 +90,19 @@
                             name="operations"
                             attrs="{'invisible': [('type', 'not in',('normal','phantom'))]}"
                             groups="mrp.group_mrp_routings">
-                                <field name="operation_ids"
-                                    attrs="{'invisible': [('type','not in',('normal','phantom'))]}"
-                                    groups="mrp.group_mrp_routings"
-                                    context="{'bom_temp_id_invisible': True, 'default_product_tmpl_ids': [product_tmpl_id]}"/>
+                            <field name="operation_ids" domain="[('standard_operations', '=', True)]"
+                                attrs="{'invisible': [('type','not in',('normal','phantom'))]}"
+                                groups="mrp.group_mrp_routings"
+                                context="{'bom_temp_id_invisible': True, 'default_product_tmpl_ids': [product_tmpl_id], 'bom_temp_id': id, 'active_model': 'mrp.routing.workcenter', 'tree_view_ref': 'mrp.mrp_routing_workcenter_copy_to_bom_tree_view'}"
+                            />
+
+<!--                                    <field name="operation_ids" attrs="{'invisible': [('type','not in',('normal','phantom'))]}"-->
+<!--                                           groups="mrp.group_mrp_routings"-->
+<!--                                           context="{'bom_id_invisible': True, 'default_bom_id': id, 'tree_view_ref': 'mrp.mrp_routing_workcenter_bom_tree_view'}"/>-->
+
+
+
+                               
                         </page>
                         <page string="By-products"
                             name="by_products"
@@ -121,17 +137,35 @@
            </field>
         </record>
 
+        <record id="mrp_bom_template_view_search" model="ir.ui.view">
+            <field name="name">mrp.bom.template.search</field>
+            <field name="model">mrp.bom.template</field>
+            <field name="arch" type="xml">
+                <search string="Modèle de nomenclatures">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
         <record id="mrp_bom_template_form_action" model="ir.actions.act_window">
-            <field name="name">Bills of Materials Template</field>
+            <field name="name">Modèle de nomenclatures</field>
             <field name="res_model">mrp.bom.template</field>
 			<field name="view_mode">tree,form</field>
 			<field name="view_id" ref="view_mrp_bom_tree"/>
+            <field name="search_view_id" ref="mrp_bom_template_view_search"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                    'allowed_company_ids': allowed_company_ids}</field>
         </record>
 
         <menuitem id="menu_mrp_bom_template"
-	        parent="mrp.menu_mrp_bom"
-	        sequence="40"
-	        name= "Bills of Materials Template"
+	        parent="mrp.menu_mrp_configuration"
+	        sequence="120"
+	        name= "Modèle de nomenclatures"
 	        action="mrp_bom_template_form_action"
     	/>
 

@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 from math import pi
 
 class Machine(models.Model):
@@ -26,9 +26,40 @@ class PosteTravail(models.Model):
 class OrdreFabrication(models.Model):
     _inherit = 'mrp.workorder'
 
-    # machine = fields.One2many('maintenance.equipment','poste_travail', string="Machine")
-    norme_interne = fields.Many2one('norme', string="Norme Interne", domain=[('type_norme', '=', 'interne'), (
-    'state', 'in', ['conforme', 'derogation'])], related="operation_id.norme_interne")
-    norme_externe = fields.Many2one('norme', string="Norme Externe", domain=[('type_norme', '=', 'externe'), (
-    'state', 'in', ['conforme', 'derogation'])], related="operation_id.norme_externe")
+    def _get_default_norme_interne(self):
+        if self.operation_id:
+            return self.operation_id.norme_interne.id
+        else:
+            return False
+
+    norme_interne = fields.Many2one(
+        'norme',
+        string="N. Interne",
+        domain=[('type_norme', '=', 'interne'), ('state', 'in', ['conforme', 'derogation'])],
+        default=_get_default_norme_interne
+    )
+
+    indice_ni = fields.Char(string="Indice NI", related="norme_interne.indice")
+    # date_derogation_ni = fields.Datetime(string="Date DG NI",
+    #                                      related="operation_id.norme_interne.date_fin_derogation")
+    # date_archivage_ni = fields.Datetime(string="Date AC NI", related="norme_interne.date_archived")
+
+
+    def _get_default_norme_externe(self):
+        if self.operation_id:
+            return self.operation_id.norme_externe.id
+        else:
+            return False
+
+    norme_externe = fields.Many2one(
+        'norme',
+        string="N. Externe",
+        domain=[('type_norme', '=', 'externe'), ('state', 'in', ['conforme', 'derogation'])],
+        default=_get_default_norme_externe
+    )
+
+    indice_ne = fields.Char(string="Indice NE", related="norme_externe.indice")
+    # date_derogation_ne = fields.Datetime(string="Date DG NE",
+    #                                      related="norme_externe.date_fin_derogation")
+    # date_archivage_ne = fields.Datetime(string="Date AC NE", related="norme_externe.date_archived")
 

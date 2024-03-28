@@ -17,3 +17,36 @@ class MrpProduction(models.Model):
         for production in self:
             if production.bom_id and production.bom_id.state != 'active':
                 production.bom_id = False
+
+    def action_confirm(self):
+        self.split_production_order()
+        res = super(MrpProduction, self).action_confirm()
+        return res
+
+    def split_production_order(self):
+        for order in self:
+            # Calculer le nombre de lots nécessaires en fonction de la capacité minimale des postes de travail
+            capacity_list = [workcenter.default_capacity for workcenter in order.workorder_ids.mapped('workcenter_id')]
+            min_capacity = min(capacity_list)
+            num_lots = -(-order.product_qty // min_capacity)  # Division arrondie à l'entier supérieur
+
+            # Variable temporaire pour suivre la quantité totale déjà planifiée
+            total_qty_planned = 0
+
+            # Créer les nouveaux ordres de fabrication avec les quantités appropriées
+            for i in range(int(num_lots) - 1):
+                new_order_qty = min_capacity if i < num_lots - 1 else order.product_qty % min_capacity or min_capacity
+                total_qty_planned += new_order_qty
+                new_order_vals = {
+                    'product_id': order.product_id.id,
+                    'product_uom_id': order.product_uom_id.id,
+                    'product_qty': new_order_qty,
+                    'origin': order.name,
+                    'state': 'draft',  # Vous pouvez changer cet état selon vos besoins
+                }
+
+                # Créer un nouveau nom pour l'ordre de fabrication
+                new_order_vals['name'] = order.name + ' - ' + chr(65 + i)
+
+                new_order = self.create(new_order_vals)
+            order.product_qty -= total_qty_planned

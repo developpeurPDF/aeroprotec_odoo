@@ -16,18 +16,98 @@ class NatureOperation(models.Model):
     _name = 'nature.operation'
 
     name = fields.Char(string="Nature d'opération", required=True, )
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
 
 
 class MrpRoutingWorkcenter(models.Model):
-    _inherit = 'mrp.routing.workcenter'
+    _name = 'mrp.routing.workcenter'
+    _inherit = ['mrp.routing.workcenter', 'mail.thread', 'mail.activity.mixin']
 
+    standard_operations = fields.Boolean(string="Operation Standard", default=False)
+
+
+    def copy_to_bom(self):
+        print("nonnnn")
+        if 'bom_id' in self.env.context:
+            print("self.env.contextcontext", self.env.context)
+            print("noooooooooooooonnnn")
+            bom_id = self.env.context.get('bom_id')
+            for operation in self:
+                # Copier l'opération avec le champ standard_operations toujours à False
+                operation.copy({
+                    'bom_id': bom_id,
+                    'standard_operations': False,  # Forcer le champ standard_operations à False
+                })
+            return {
+                'view_mode': 'form',
+                'res_model': 'mrp.bom',
+                'views': [(False, 'form')],
+                'type': 'ir.actions.act_window',
+                'res_id': bom_id,
+            }
+        # Assure qu'il n'y a qu'un seul enregistrement
+        print("self.env.context",self.env.context)
+        print("self.env.context.get('bom_temp_id')",self.env.context.get('bom_temp_id'))
+        if 'bom_temp_id' in self.env.context:
+            print("yesssssssssssss")
+            bom_temp_id  = self.env.context.get('bom_temp_id')
+            copied_operations = []
+            for operation in self:
+                # Copier l'opération avec le champ standard_operations toujours à False
+
+                # Copier l'opération avec le champ standard_operations toujours à False
+                copied_operation = operation.copy({
+                    'bom_temp_id': bom_temp_id,
+                    'standard_operations': False,
+                    })
+                copied_operations.append(copied_operation)
+
+                # Récupérer le modèle mrp.bom.template correspondant à l'ID bom_temp_id
+            bom_template = self.env['mrp.bom.template'].browse(bom_temp_id)
+            # Ajouter les opérations copiées au champ operation_ids du modèle mrp.bom.template
+            bom_template.write({
+                'operation_ids': [(4, copied_op.id) for copied_op in copied_operations]
+            })
+            return {
+                'name': _('Copied Operations'),
+                'view_mode': 'form',
+                'views': [(False, 'form')],
+                'res_model': 'mrp.bom.template',
+                'res_id': bom_temp_id,
+                'type': 'ir.actions.act_window',
+
+            }
+
+
+    def copy_existing_operations(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Copier les opérations existantes'),
+            'res_model': 'mrp.routing.workcenter',
+            'view_mode': 'tree,form',
+            'domain': ['|', ('bom_id', '=', False), ('bom_id.active', '=', True), ('standard_operations', '=', True)],
+            'context': {
+                'bom_id': self.env.context["bom_id"],
+                'tree_view_ref': 'mrp.mrp_routing_workcenter_copy_to_bom_tree_view',
+            }
+        }
+
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id, related=False)
     nature_operation = fields.Many2one('nature.operation', string="Nature d'opérations", tracking=True)
-    phase = fields.One2many('phase.operation','operations', string="Sous opérations", tracking=True)
-    # norme_ = fields.Many2one('norme', string="Norme Interne")
-    norme_interne = fields.Many2one('norme', string="Norme Interne", domain=[('type_norme','=', 'interne'), ('state','in',['conforme', 'derogation'])], tracking=True)
-    norme_externe = fields.Many2one('norme', string="Norme Externe", domain=[('type_norme','=','externe'), ('state','in',['conforme', 'derogation'])], tracking=True)
-    # code = fields.Char(string="Code")
-    ref_prog_automate = fields.Char(string="Référence programme automate")
+    phase = fields.Many2many('phase.operation', string="Sous opérations", tracking=True)
+
+    norme_interne = fields.Many2one('norme', string="Norme Interne",
+                                    domain=[('type_norme', '=', 'interne'),
+                                            ('state', 'in', ['conforme', 'derogation'])],
+                                    tracking=True)
+    norme_externe = fields.Many2one('norme', string="Norme Externe",
+                                    domain=[('type_norme', '=', 'externe'),
+                                            ('state', 'in', ['conforme', 'derogation'])],
+                                    tracking=True)
+    bom_id = fields.Many2one(
+        'mrp.bom', 'Bill of Material',
+        index=True, ondelete='cascade', required=False, check_company=True)
+    ref_prog_automate = fields.Char(string="Référence programme automate", tracking=True)
     competance = fields.Text(string="Compétences")
     abreviation_operation = fields.Char(string="Abréviation de l’opération", tracking=True)
     code_operation = fields.Char(string="Code de l’opération", tracking=True)
@@ -51,3 +131,21 @@ class MrpRoutingWorkcenter(models.Model):
                 rec.operation_ts = "Oui"
             else:
                 rec.operation_ts = "Non"
+
+    capacity_ids = fields.One2many('mrp.workcenter.capacity', 'operation_ids', string='Product Capacities',
+                                   help="Specific number of pieces that can be produced in parallel per product.",
+                                   copy=True)
+
+
+class MrpWorkCenterCapacity(models.Model):
+    _inherit = 'mrp.workcenter.capacity'
+
+    operation_ids = fields.Many2one('mrp.routing.workcenter', string='Opérations', required=True)
+    workcenter_id = fields.Many2one('mrp.workcenter', string='Poste de travail', required=True)
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
+
+
+    @api.onchange('operation_ids')
+    def _onchange_operation_ids(self):
+        if self.operation_ids:
+            self.workcenter_id = self.operation_ids.workcenter_id.id

@@ -10,7 +10,7 @@
         Create Bill of Material from it and we can easily create Bill of Material from it
 	""",
 	"license" : "OPL-1",
-	'depends': ['base','mrp'],
+	'depends': ['base','mrp','ad_aero_custom_addons'],
 	'data': [
 			'security/ir.model.access.csv',
 			'data/ir_sequence_data.xml',

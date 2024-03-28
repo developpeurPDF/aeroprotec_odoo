@@ -24,8 +24,16 @@
             <sheet>
                 <group>
                   <field name="name"/>
+                </group>
+                <group>
                   <field name="codes" widget="many2many_tags" domain="['|',('company_id','=',False),('company_id','=',company_id)]"/>
-                  <field name="norme"/>
+                </group>
+
+                <label for="norme" string="Norme"/>
+                    <div class="o_row">
+                        <field name="norme"/>
+                    </div>
+                <group>
                   <field name="company_id"/>
                 </group>
             </sheet>
@@ -37,11 +45,32 @@
         </form>
       </field>
     </record>
+      <record id="donneur_order_view_search" model="ir.ui.view">
+            <field name="name">donneur.order.search</field>
+            <field name="model">donneur.order</field>
+            <field name="arch" type="xml">
+                <search string="Donneur d'ordre">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
 
     <record model="ir.actions.act_window" id="param_action_window_DonneurDordre">
       <field name="name">Donneur d'ordre</field>
       <field name="res_model">donneur.order</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="donneur_order_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
     </record>
 
     <menuitem id="param_menu_DonneurDordre_stock" name="Donneur d'ordre" action="param_action_window_DonneurDordre" parent="stock.menu_product_in_config_stock" sequence="94"/>
@@ -88,14 +117,39 @@
       </field>
     </record>
 
+      <record id="code_donneur_order_view_search" model="ir.ui.view">
+            <field name="name">donneur.ordre.code.search</field>
+            <field name="model">donneur.ordre.code</field>
+            <field name="arch" type="xml">
+                <search string="Code donneur d'ordre">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_CodeDonneurOrdre">
       <field name="name">Code</field>
       <field name="res_model">donneur.ordre.code</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="code_donneur_order_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
     </record>
 
     <menuitem id="param_menu_CodeDonneurOrdre_stock" name="Code" action="param_action_window_CodeDonneurOrdre" parent="stock.menu_product_in_config_stock" sequence="94"/>
     <menuitem id="param_menu_CodeDonneurOrdre_mrp" name="Code" action="param_action_window_CodeDonneurOrdre" parent="mrp.menu_mrp_configuration" sequence="94"/>
-
+    <menuitem id="mrp.menu_mrp_bom_form_action"
+            action="mrp.mrp_bom_form_action"
+            parent="mrp.menu_mrp_configuration"
+            sequence="150"/>
   </data>
 </odoo>

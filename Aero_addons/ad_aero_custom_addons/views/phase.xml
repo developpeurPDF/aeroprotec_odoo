@@ -13,7 +13,7 @@
           <field name="name"/>
           <field name="code"/>
 <!--          <field name="date"/>-->
-          <field name="operations"/>
+          <field name="operations" invisible="1"/>
           <field name="company_id"/>
         </tree>
       </field>
@@ -31,7 +31,7 @@
                   <field name="code"/>
                   <field name="note"/>
 
-                  <field name="operations"/>
+                  <field name="operations" invisible="1"/>
                   <field name="company_id"/>
 <!--                     domain="['|',('company_id','=',False),('company_id','=',company_id)]"-->
                 </group>
@@ -40,10 +40,32 @@
       </field>
     </record>
 
+      <record id="phase_operation_view_search" model="ir.ui.view">
+            <field name="name">phase.operation.search</field>
+            <field name="model">phase.operation</field>
+            <field name="arch" type="xml">
+                <search string="Phase Opération">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_phase_operation">
       <field name="name">Sous opérations</field>
       <field name="res_model">phase.operation</field>
       <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="phase_operation_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
     </record>
 
     <menuitem id="param_menu_phase_operation_mrp" name="Sous opérations" action="param_action_window_phase_operation" parent="mrp.menu_mrp_configuration" sequence="100"/>
@@ -72,17 +94,40 @@
             <sheet>
                 <group>
                   <field name="name"/>
+                  <field name="company_id"/>
+
 
                 </group>
             </sheet>
         </form>
       </field>
     </record>
+        <record id="nature_operation_view_search" model="ir.ui.view">
+            <field name="name">nature.operation.search</field>
+            <field name="model">nature.operation</field>
+            <field name="arch" type="xml">
+                <search string="Nature d'opération">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
 
     <record model="ir.actions.act_window" id="param_action_window_nature_operation">
       <field name="name">Nature opération</field>
       <field name="res_model">nature.operation</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="nature_operation_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
     </record>
 
     <menuitem id="param_menu_nature_operation_mrp" name="Nature d'opération" action="param_action_window_nature_operation" parent="mrp.menu_mrp_configuration" sequence="95"/>
@@ -92,8 +137,14 @@
             <field name="model">mrp.routing.workcenter</field>
             <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
             <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="replace">
+
+                    <field name="note"/>
+                </xpath>
 
                 <xpath expr="//field[@name='name']" position="before">
+
+                    <field name="standard_operations"/>
                     <field name="code_operation"/>
                     <field name="nature_operation"/>
 
@@ -102,25 +153,8 @@
                     <field name="abreviation_operation"/>
                     <field name="type_operation"/>
                     <field name="operation_ts"/>
-<!--                    <field name="code_operation"/>-->
-<!--                    <field name="abreviation_operation"/>-->
-
-<!--                    <label for="norme_interne"/>-->
-<!--                <div class="o_row" name="seniority">-->
-<!--                    <field name="seniority_year"/>-->
-<!--                        <span>Années</span>-->
-<!--                    <field name="seniority_month"/>-->
-<!--                        <span>Mois</span>-->
-<!--                    <field name="seniority_days"/>-->
-<!--                        <span>Jours</span>-->
-
-<!--                </div>-->
-
-
-
-
-                    <field name="norme_interne"/>
-                    <field name="norme_externe"/>
+                    <field name="norme_interne" options='{"no_create": True}'/>
+                    <field name="norme_externe" options='{"no_create": True}'/>
                     <field name="ref_prog_automate"/>
 
                 </xpath>
@@ -134,23 +168,157 @@
                         <field name="competance"/>
                     </page>
                 </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Capacités spécifiques" name="capacity">
+                        <field name="capacity_ids" context="{'default_workcenter_id': id}">
+                            <tree editable="bottom">
+                                <field name="operation_ids"/>
+                                <field name="workcenter_id"/>
+                                <field name="product_id"/>
+                                <field name="product_uom_id" groups="uom.group_uom"/>
+                                <field name="capacity"/>
+                                <field name="time_start" optional="hide"/>
+                                <field name="time_stop" optional="hide"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
     </record>
     <record id="mrp_routing_workcenter_tree_view" model="ir.ui.view">
-            <field name="name">mrp.routing.workcenter.tree</field>
-            <field name="model">mrp.routing.workcenter</field>
-            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[1]" position="before">
-                    <field name="code_operation"/>
-                    <field name="nature_operation"/>
-                    <field name="abreviation_operation"/>
-                </xpath>
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="norme_interne"/>
-                    <field name="norme_externe"/>
-                </xpath>
+        <field name="name">mrp.routing.workcenter.tree</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+<!--            <field name="priority">1001</field>-->
+        <field name="arch" type="xml">
+<!--                <xpath expr="//tree" position="attributes">-->
+<!--                    <attribute name="delete">1</attribute>-->
+<!--                </xpath>-->
+            <xpath expr="//field[1]" position="before">
+                <field name="sequence" widget="handle"/>
+                <field name="code_operation"/>
+                <field name="nature_operation"/>
+                <field name="abreviation_operation"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="norme_interne"/>
+                <field name="norme_externe"/>
+            </xpath>
+            <xpath expr="//field[last()]" position="after">
+                <field name="id"/>
 
-            </field>
+
+            </xpath>
+        </field>
     </record>
+<!--    <record id="mrp_routing_workcenter_filter_inherit" model="ir.ui.view">-->
+<!--    <field name="name">mrp.routing.workcenter.filter.inherit</field>-->
+<!--    <field name="model">mrp.routing.workcenter</field>-->
+<!--    <field name="inherit_id" ref="mrp.mrp_routing_workcenter_filter"/>-->
+<!--    <field name="arch" type="xml">-->
+<!--        <data>-->
+<!--            <xpath expr="//field[@name='bom_id']" position="after">-->
+<!--                <field name="standard_operations" default="1"/>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//search/group/filter[@name='bom']" position="after">-->
+<!--                <filter string="Standard Operations" name="standard_operations" domain="[('standard', '=', True)]" context="{'group_by': 'workcenter_id'}"/>-->
+<!--            </xpath>-->
+
+<!--        </data>-->
+<!--    </field>-->
+<!--    </record>-->
+
+    <record id="mrp_routing_workcenter_bommm_tree_view" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.bom.tree</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+        <field name="priority">2000</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="delete">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+          <!--Capacités spécifiques-->
+  <record model="ir.ui.view" id="param_mrp_workcenter_capacity_tree">
+      <field name="name">Capacités spécifiques</field>
+      <field name="model">mrp.workcenter.capacity</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="operation_ids"/>
+          <field name="workcenter_id"/>
+          <field name="product_id"/>
+          <field name="product_uom_id"/>
+          <field name="capacity"/>
+          <field name="time_start"/>
+          <field name="time_stop"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_mrp_workcenter_capacity_form">
+      <field name="name">Capacité spécifique</field>
+      <field name="model">mrp.workcenter.capacity</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                  <field name="operation_ids"/>
+                  <field name="workcenter_id"/>
+
+
+                  <field name="product_id"/>
+                  <field name="product_uom_id"/>
+                  <field name="capacity"/>
+                  <field name="time_start"/>
+                  <field name="time_stop"/>
+                  <field name="company_id"/>
+<!--                     domain="['|',('company_id','=',False),('company_id','=',company_id)]"-->
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="mrp_workcenter_capacity_view_search" model="ir.ui.view">
+            <field name="name">mrp.workcenter.capacity.search</field>
+            <field name="model">mrp.workcenter.capacity</field>
+            <field name="arch" type="xml">
+                <search string="Donneur d'ordre">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_mrp_workcenter_capacity">
+      <field name="name">Capacités spécifiques</field>
+      <field name="res_model">mrp.workcenter.capacity</field>
+      <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="mrp_workcenter_capacity_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="param_menu_mrp_workcenter_capacity" name="Capacités spécifiques" action="param_action_window_mrp_workcenter_capacity" parent="mrp.menu_mrp_configuration" sequence="100"/>
+
+
 </odoo>

@@ -33,10 +33,28 @@
       </field>
     </record>
 
+      <record id="activite_view_search" model="ir.ui.view">
+            <field name="name">activite.search</field>
+            <field name="model">activite</field>
+            <field name="arch" type="xml">
+                <search string="Activité">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_activite">
       <field name="name">Activité</field>
       <field name="res_model">activite</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="activite_view_search"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                    'allowed_company_ids': allowed_company_ids}</field>
     </record>
 
     <menuitem id="param_menu_activite" name="Activité" action="param_action_window_activite" parent="stock.menu_product_in_config_stock" sequence="91"/>
@@ -69,10 +87,29 @@
       </field>
     </record>
 
+      <record id="MotifDeBlocageDeLancement_view_search" model="ir.ui.view">
+            <field name="name">motif.blocage.lancement.search</field>
+            <field name="model">motif.blocage.lancement</field>
+            <field name="arch" type="xml">
+                <search string="Motif de blocage de lancement">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_MotifDeBlocageDeLancement">
       <field name="name">Motif de blocage de lancement</field>
       <field name="res_model">motif.blocage.lancement</field>
       <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="MotifDeBlocageDeLancement_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+
     </record>
 
     <menuitem id="param_menu_MotifDeBlocageDeLancement" name="Motif de blocage de lancement" action="param_action_window_MotifDeBlocageDeLancement" parent="stock.menu_product_in_config_stock" sequence="92"/>
@@ -105,10 +142,29 @@
       </field>
     </record>
 
+
+      <record id="ClasseFonctionnelle_view_search" model="ir.ui.view">
+            <field name="name">classe.fonctionnelle.search</field>
+            <field name="model">classe.fonctionnelle</field>
+            <field name="arch" type="xml">
+                <search string="Classe fonctionnelle">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_ClasseFonctionnelle">
       <field name="name">Classe fonctionnelle</field>
       <field name="res_model">classe.fonctionnelle</field>
       <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="ClasseFonctionnelle_view_search"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                    'allowed_company_ids': allowed_company_ids}</field>
     </record>
 
     <menuitem id="param_menu_ClasseFonctionnelle" name="Classe fonctionnelle" action="param_action_window_ClasseFonctionnelle" parent="stock.menu_product_in_config_stock" sequence="93"/>
@@ -122,7 +178,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-            <field name="company_id"/>
+          <field name="donneur_order"/>
+          <field name="company_id"/>
 <!--          <field name="active"/>-->
         </tree>
       </field>
@@ -136,17 +193,36 @@
             <sheet>
                 <group>
                   <field name="name"/>
-                    <field name="company_id"/>
+                  <field name="donneur_order"/>
+                  <field name="company_id"/>
                 </group>
             </sheet>
         </form>
       </field>
     </record>
 
+      <record id="ProgrammeAeronautique_view_search" model="ir.ui.view">
+            <field name="name">programme.aeonautique.search</field>
+            <field name="model">programme.aeonautique</field>
+            <field name="arch" type="xml">
+                <search string="Programme aéronautique">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_ProgrammeAeronautique">
       <field name="name">Programme aéronautique</field>
       <field name="res_model">programme.aeonautique</field>
       <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="ProgrammeAeronautique_view_search"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                    'allowed_company_ids': allowed_company_ids}</field>
     </record>
 
     <menuitem id="param_menu_ProgrammeAeronautique" name="Programme aéronautique" action="param_action_window_ProgrammeAeronautique" parent="stock.menu_product_in_config_stock" sequence="94"/>

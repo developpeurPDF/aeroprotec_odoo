@@ -18,6 +18,20 @@
 			</field>
 		</record>
 
+		<record id="mrp_production_workorder_tree_view_w_purchase_order" model="ir.ui.view">
+			<field name="name">mrp.production.work.order.tree.view.with_purchase_order</field>
+			<field name="model">mrp.workorder</field>
+			<field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='state']" position="before">
+	<!--            <field name="state" position="after">-->
+					<field name="purchase_id" readonly="1"/>
+				</xpath>
+
+
+			</field>
+		</record>
+
 		<!-- add purchase and picking details in workorder form -->
 		<record id="production_workorder_form_inherit" model="ir.ui.view">
 			<field name="name">mrp.workorder.form</field>
@@ -49,6 +63,7 @@
 				<xpath expr="//field[@name='state']" position="before">
 					<field name="is_subcontract" invisible="1"/>
 				</xpath>
+
 			</field>
 		</record>
 

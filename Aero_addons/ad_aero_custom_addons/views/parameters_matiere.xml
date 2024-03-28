@@ -34,6 +34,7 @@
                 <group>
                   <field name="name"/>
                   <field name="active" invisible="1"/>
+                  <field name="company_id"/>
                 </group>
 
                   <notebook>
@@ -143,10 +144,29 @@
 <!--          </field>-->
 <!--    </record>-->
 
+
+      <record id="matiere_parameter_view_search" model="ir.ui.view">
+            <field name="name">matiere.parameter.search</field>
+            <field name="model">matiere.parameter</field>
+            <field name="arch" type="xml">
+                <search string="Modèle de nomenclatures">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
     <record model="ir.actions.act_window" id="param_action_window_parameterr">
       <field name="name">Matières</field>
       <field name="res_model">matiere.parameter</field>
       <field name="view_mode">tree,form</field>
+      <field name="search_view_id" ref="matiere_parameter_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
     </record>
 <!--      <record model="ir.actions.act_window" id="param_action_window_parameterr_ref">-->
 <!--      <field name="name">Réf matière</field>-->

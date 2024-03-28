@@ -67,7 +67,7 @@ class MrpWorkorder(models.Model):
         self.ensure_one()
         res = self.env.ref('mrp_workorder_task.action_view_task_mrp')
         res = res.sudo().read()[0]
-        res['domain'] = str([('id','=',rec.task_id.id)])
+        res['domain'] = str([('id','=',self.task_id.id)])
         return res
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

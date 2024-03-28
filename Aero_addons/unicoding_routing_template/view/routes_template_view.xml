@@ -5,11 +5,11 @@
         <field name="name">bom.route.template.form</field>
         <field name="model">bom.route.template</field>
         <field name="arch" type="xml">
-       		<form string="Route Template">
+       		<form string="Opération standard">
           		<sheet>
                     <div class="oe_title">
-                        <label class="oe_edit_only" for="name" string="Route Name"/>
-                        <h1><field name="name" placeholder="Route Name"/></h1>
+                        <label class="oe_edit_only" for="name" string="Nom du modèle d'opérations"/>
+                        <h1><field name="name" placeholder="Nom du modèle d'opérations standards"/></h1>
                     </div>
                     <group>
                         <group>
@@ -17,49 +17,55 @@
                         </group>
                     </group>
 					<notebook>
-                        <page string="Workcenter Operations" name="route_lines">
-                            <field name="route_lines" >
-								<tree string="Route Line">
-                                    <field name="operation_name"/>
-                                    <field name="workcenter_id"/>
-                                    <field name="time_cycle_manual" widget="float_time" string='Duration (minutes)'/>
-								</tree>
-                                <form string="Routing Work Centers">
-                                    <sheet>
-                                        <group>
-                                            <group name="description">
-                                                <field name="operation_name"/>
-                                                <field name="workcenter_id"/>
-                                                <field name="sequence"/>
-                                            </group>
-                                            <group name="workorder">
-                                                <field name="time_mode" widget="radio"/>
-                                                <label for="time_mode_batch" attrs="{'invisible': [('time_mode', '=', 'manual')]}"/>
-                                                <div attrs="{'invisible': [('time_mode', '=', 'manual')]}">
-                                                    last
-                                                    <field name="time_mode_batch" class="oe_inline"/>
-                                                    work orders
-                                                </div>
-                                                <label for="time_cycle_manual" string="Default Duration"/>
-                                                <div>
-                                                    <field name="time_cycle_manual" widget="float_time" class="oe_inline"/> minutes
-                                                </div>
-                                            </group>
-                                        </group>
-                                        <notebook>
-                                            <page string="Work Sheet" name="worksheet">
-                                                <group>
-                                                    <field name="worksheet_type" widget="radio"/>
-                                                    <field name="worksheet" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'pdf')], 'required':  [('worksheet_type', '=', 'pdf')]}"/>
-                                                    <field name="worksheet_google_slide" placeholder="Google Slide Link" widget="embed_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'google_slide')], 'required': [('worksheet_type', '=', 'google_slide')]}"/>
-                                                    <field name="note" attrs="{'invisible':  [('worksheet_type', '!=', 'text')]}"/>
-                                                </group>
-                                            </page>
-                                        </notebook>
-                                    </sheet>
-                                </form>
-							</field>
-						</page>
+                        <page string="Operations" name="route_line">
+                            <field name="operation_ids" domain="[('standard_operations', '=', True),('company_id', '=?', company_id)]">
+
+                            </field>
+                        </page>
+<!--                        <page string="Workcenter Operations" name="route_lines">-->
+<!--                            <field name="route_lines" >-->
+<!--								<tree string="Route Line">-->
+<!--&lt;!&ndash;                                    <field name="operation_id"/>&ndash;&gt;-->
+<!--                                    <field name="operation_name"/>-->
+<!--                                    <field name="workcenter_id"/>-->
+<!--                                    <field name="time_cycle_manual" widget="float_time" string='Duration (minutes)'/>-->
+<!--								</tree>-->
+<!--                                <form string="Routing Work Centers">-->
+<!--                                    <sheet>-->
+<!--                                        <group>-->
+<!--                                            <group name="description">-->
+<!--                                                <field name="operation_name"/>-->
+<!--                                                <field name="workcenter_id"/>-->
+<!--                                                <field name="sequence"/>-->
+<!--                                            </group>-->
+<!--                                            <group name="workorder">-->
+<!--                                                <field name="time_mode" widget="radio"/>-->
+<!--                                                <label for="time_mode_batch" attrs="{'invisible': [('time_mode', '=', 'manual')]}"/>-->
+<!--                                                <div attrs="{'invisible': [('time_mode', '=', 'manual')]}">-->
+<!--                                                    last-->
+<!--                                                    <field name="time_mode_batch" class="oe_inline"/>-->
+<!--                                                    work orders-->
+<!--                                                </div>-->
+<!--                                                <label for="time_cycle_manual" string="Default Duration"/>-->
+<!--                                                <div>-->
+<!--                                                    <field name="time_cycle_manual" widget="float_time" class="oe_inline"/> minutes-->
+<!--                                                </div>-->
+<!--                                            </group>-->
+<!--                                        </group>-->
+<!--                                        <notebook>-->
+<!--                                            <page string="Work Sheet" name="worksheet">-->
+<!--                                                <group>-->
+<!--                                                    <field name="worksheet_type" widget="radio"/>-->
+<!--                                                    <field name="worksheet" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'pdf')], 'required':  [('worksheet_type', '=', 'pdf')]}"/>-->
+<!--                                                    <field name="worksheet_google_slide" placeholder="Google Slide Link" widget="embed_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'google_slide')], 'required': [('worksheet_type', '=', 'google_slide')]}"/>-->
+<!--                                                    <field name="note" attrs="{'invisible':  [('worksheet_type', '!=', 'text')]}"/>-->
+<!--                                                </group>-->
+<!--                                            </page>-->
+<!--                                        </notebook>-->
+<!--                                    </sheet>-->
+<!--                                </form>-->
+<!--							</field>-->
+<!--						</page>-->
                         <page string="Notes" name="notes">
                             <field name="note"/>
 						</page>
@@ -73,30 +79,75 @@
         <field name="name">bom.route.template.tree</field>
         <field name="model">bom.route.template</field>
         <field name="arch" type="xml">
-			<tree string="Route Template">
+<!--			<tree string="Route Template">-->
+			<tree string="Opérations standards">
 				<field name="name"/>
 			</tree>
         </field>
     </record>
 
+    <record id="bom_route_template_view_search" model="ir.ui.view">
+            <field name="name">bom.route.template.search</field>
+            <field name="model">bom.route.template</field>
+            <field name="arch" type="xml">
+                <search string="Opérations standards">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
 
 	<record id="action_bom_route_template_view" model="ir.actions.act_window">
-        <field name="name">Route Template</field>
+        <field name="name">Opérations standards</field>
         <field name="res_model">bom.route.template</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="bom_route_template_tree_view"/>
+        <field name="search_view_id" ref="bom_route_template_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
         <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Add an Route Template for Bill of Material.
-          </p>
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
+<!--        <field name="help" type="html">-->
+<!--          <p class="o_view_nocontent_smiling_face">-->
+<!--            Add an Route Template for Bill of Material.-->
+<!--          </p>-->
+<!--        </field>-->
+    </record>
+
+    <record id="operation_mrp_view_form" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.form.inherit</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='time_mode']" position="after">
+                <field name="route_id"/>
+            </xpath>
         </field>
     </record>
 
+
+<!--    <record id="view__mrp_bom_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">mrp.bom.template.form</field>-->
+<!--            <field name="model">mrp.bom.template</field>-->
+<!--            <field name="inherit_id" ref="mrp_bom_template_app.view__mrp_bom_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                 <xpath expr="//field[@name='product_id']" position="after">-->
+<!--                     <field name="route_id"/>-->
+<!--                 </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
     <menuitem
 	 		id="menu_bom_route_template"
 			action="action_bom_route_template_view"
-			name="Route Template"
+			name="Modèle d'opérations standards"
 			parent="mrp.menu_mrp_configuration"
             groups="mrp.group_mrp_manager"
-			sequence="10"/>
+			sequence="110"/>
 </odoo>

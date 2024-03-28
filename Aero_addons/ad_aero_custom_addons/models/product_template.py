@@ -7,11 +7,17 @@ from odoo import api, fields, models, _
 from math import pi
 from odoo.tools import float_round, date_utils, convert_file, html2plaintext
 
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     is_locked = fields.Boolean(string="Locked", help="Check this box to lock product modifications.")
-
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
+    allow_multiple_boms = fields.Boolean(string='Autoriser plusieurs nomenclatures', default=False)
 
     def toggle_lock(self):
         self.ensure_one()
@@ -44,7 +50,7 @@ class ProductTemplate(models.Model):
             ('Outillage','Outillage'),
     ],
         string="Type d'article", tracking=True)
-    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", tracking=True)
+    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", tracking=True,  domain="['|',('company_id','=',False),('company_id','=',company_id)]")
     # matiere = fields.Many2one('matiere.parameter', string="Famille matière")
     famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
     matiere = fields.Many2one('matiere.parameter.value', string="Matière",
@@ -81,7 +87,7 @@ class ProductTemplate(models.Model):
     motif_blocage_lancement = fields.Many2one('motif.blocage.lancement', string="Motif de blocage de lancement", tracking=True,)
     classe_fonctionnelle = fields.Many2one('classe.fonctionnelle', string="Classe fonctionnelle", tracking=True,)
     programme_aeonautique = fields.Many2one('programme.aeonautique', string="Programme aéronautique", tracking=True,)
-    norme = fields.Many2one('norme', string="Norme", tracking=True,)
+    # norme = fields.Many2one('norme', string="Norme", tracking=True,)
 
     gerer_stock = fields.Selection(string="Géré en stock", selection=[
         ('Oui', 'Oui'),
@@ -97,6 +103,12 @@ class ProductTemplate(models.Model):
         ('Non', 'Non')
     ], tracking=True)
 
+    @api.onchange('custom_bom_id')
+    def _onchange_custom_bom_id(self):
+        if self.custom_bom_id:
+            self.produce_delay = self.custom_bom_id.produce_delay
+        else:
+            self.produce_delay = 0.0
 
 
     def _compute_gerer_stock(self):

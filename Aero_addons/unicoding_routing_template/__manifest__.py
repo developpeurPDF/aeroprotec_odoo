@@ -7,7 +7,7 @@
     'sequence': 1,
     "author": "Unicoding.by",
     "website": "https://unicoding.by",
-    'depends': ['base','mrp'],
+    'depends': ['base','mrp','ad_aero_custom_addons','mrp_bom_template_app'],
     "license": "AGPL-3",
     'data': [
             'security/ir.model.access.csv',

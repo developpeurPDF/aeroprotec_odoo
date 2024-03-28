@@ -7,18 +7,22 @@ from odoo.exceptions import AccessError, UserError
 
 class MrpBomTemplate(models.Model):
     _name = 'mrp.bom.template'
-    _rec_name = 'product_tmpl_id'
+    _rec_name = 'code'
     _order = 'sequence'
 
 
     def _get_default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
 
+    bom_id = fields.Many2one(
+        'mrp.bom', 'Modèle de nomenclatures',
+        index=True, ondelete='cascade', required=False)
+
     name = fields.Char('Name', copy=False, readonly=True, default=lambda x: _('New'))
     active = fields.Boolean(
         'Active', default=True,
         help="If the active field is set to False, it will allow you to hide the bills of material without removing it.")
-    code = fields.Char('Reference')
+    code = fields.Char('Reference', required=True)
     product_tmpl_id = fields.Many2one(
         'product.template', 'Product',
         check_company=True, index=True,
@@ -43,15 +47,17 @@ class MrpBomTemplate(models.Model):
 
     type = fields.Selection([
         ('normal', 'Manufacture this product'),
-        ('phantom', 'Kit')], 'BoM Type',
+        ('phantom', 'Kit'),('subcontract', 'Sous-traitance')], 'BoM Type',
         default='normal', required=True)
 
     product_qty = fields.Float(
         'Quantity', default=1.0,
         digits='Unit of Measure', required=True)
-    
+    # route_id = fields.Many2one('bom.route.template', string="Modèle d'opération standard")
+
     bom_temp_line_ids = fields.One2many('mrp.bom.temp.line', 'bom_temp_id', 'BoM Lines', copy=True)
-    operation_ids = fields.One2many('mrp.routing.workcenter', 'bom_temp_id', 'Operations', copy=True)
+    # operation_ids = fields.One2many('mrp.routing.workcenter', 'bom_temp_id', 'Operations', copy=True)
+    operation_ids = fields.Many2many('mrp.routing.workcenter', string="Operations", copy=True)
     byproduct_ids = fields.One2many('mrp.bom.temp.byproduct', 'bom_temp_id', 'By-products', copy=True)
     ready_to_produce = fields.Selection([
         ('all_available', ' When all components are available'),
@@ -76,6 +82,15 @@ class MrpBomTemplate(models.Model):
              "a Manufacturing Order for that product using a BoM of the same operation type. That allows "
              "to define stock rules which trigger different manufacturing orders with different BoMs.")
 
+    produce_delay = fields.Float(
+        'Durée du cycle', default=0.0,
+        help="Average lead time in days to manufacture this product. In the case of multi-level BOM, the manufacturing lead times of the components will be added. In case the product is subcontracted, this can be used to determine the date at which components should be sent to the subcontractor.")
+
+    type_gamme = fields.Selection([
+        ('production', 'GAMME DE PRODUCTION'),
+        ('reprise', 'GAMME DE REPRISE'),('epouvettes', 'GAMME DES ARTICLES EPOUVETTES')], 'Type de gamme',
+        )
+    nb_traitement_surface = fields.Integer(string="Nombre de traitement de surface")
 
     @api.model 
     def create(self,vals):
@@ -114,6 +129,10 @@ class MrpBomTemplate(models.Model):
                 self.product_id = False
             for line in self.bom_temp_line_ids:
                 line.bom_product_template_attribute_value_ids = False
+
+
+
+
 
 
 class MrpBomTempLine(models.Model):

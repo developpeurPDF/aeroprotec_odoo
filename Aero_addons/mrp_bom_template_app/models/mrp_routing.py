@@ -7,4 +7,4 @@ class MrpRoutingWorkcenter(models.Model):
 
     bom_temp_id = fields.Many2one(
         'mrp.bom.template', 'Parent BoM',
-        index=True, ondelete='cascade', required=True)
+        index=True, ondelete='cascade') #, required=True

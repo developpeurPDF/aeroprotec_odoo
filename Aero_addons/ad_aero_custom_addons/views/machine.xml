@@ -49,15 +49,24 @@
             </field>
     </record>
     <menuitem id="param_menu_Equipements" name="Equipements" action="maintenance.hr_equipment_action" parent="mrp.menu_mrp_configuration" sequence="88"/>
-        <record id="mrp_production_workorder_tree_view_w_purchase_order" model="ir.ui.view">
-        <field name="name">mrp.production.work.order.tree.view.with_purchase_order</field>
-        <field name="model">mrp.workorder</field>
-        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>
-        <field name="arch" type="xml">
+        <record id="mrp_production_workorder_tree_editable_view_inherit" model="ir.ui.view">
+			<field name="name">mrp.production.work.order.tree.editable.inherit</field>
+			<field name="model">mrp.workorder</field>
+			<field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+			<field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
 
                 <field name="norme_interne"/>
+                <field name="indice_ni"/>
+<!--                <field name="date_derogation_ni"/>-->
+<!--                <field name="date_archivage_ni"/>-->
+
+
+
                 <field name="norme_externe"/>
+                <field name="indice_ne"/>
+<!--                <field name="date_derogation_ne"/>-->
+<!--                <field name="date_archivage_ne"/>-->
             </xpath>
 
 
