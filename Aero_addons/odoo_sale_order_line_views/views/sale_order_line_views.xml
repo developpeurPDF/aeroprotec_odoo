@@ -18,8 +18,7 @@
         <field name="name">sale.lines.form</field>
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
-            <form string="Lignes de commande" edit="0" create="0" duplicate="0"
-                  delete="0">
+            <form string="Lignes de commande">
                 <sheet>
                     <field name="order_line_image" widget="image"
                            class="oe_avatar"/>
@@ -63,8 +62,7 @@
         <field name="name">sale.lines.tree</field>
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
-            <tree string="Lignes de commande" create="false" edit="false"
-                  delete="false">
+            <tree string="Lignes de commande">
                 <field name="order_id"/>
                 <field name="order_partner_id"/>
                 <field name="name"/>

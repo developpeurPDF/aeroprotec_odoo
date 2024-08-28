@@ -11,33 +11,102 @@
 <!--                <xpath expr="//field[@name='list_price']" position="before">-->
 <!--                    -->
 <!--                </xpath>-->
+                <xpath expr="//field[@name='property_stock_inventory']" position="after">
+                    <field name="produit_recu_client"/>
+                    <field name="emplacement_produit_recu_client"/>
+                    <field name="emplacement_produit_recu_client_qy"/>
+                    <field name="emplacement_produit_recu_client_stock" invisible="1"/>
+                </xpath>
                 <xpath expr="//notebook/page[last()]" position="after">
                     <page string="Frais">
                         <group string="Frais">
-                            <field name="frais" widget="many2many_tags"/>
-
-
+                            <field name="frais" widget="many2many_tags" options="{'no_create': True}" invisible="0"/>
+<!--                            <field name="frais_aog" widget="many2many_tags"/>-->
+<!--                            <field name="frais_code_rouge" widget="many2many_tags"/>-->
+<!--                            <field name="frais_fil_rouge" widget="many2many_tags"/>-->
                         </group>
                         <group>
                                 <group>
-                                <field name="montant_seuil_a_la_commande"/>
+                                    <group>
+                                        <field name="appliquer_seuil_a_la_ligne"/>
+                                    </group>
+                                    <group>
+                                        <field name="montant_seuil_a_la_commande"/>
+                                    </group>
+                                    <group>
+                                        <field name="frais_seuil_a_la_commande" invisible="1"/>
 
+                                    </group>
                                 </group>
                                     <group>
                                         <span><field name="currency_id"/></span>
                                     </group>
+                            <group>
+                                <field name="type_frais"/>
+                            </group>
                                 </group>
+                        <group name="group_product_fees" string="Frais produits">
+                    <field name="product_fees_ids" context="{'default_partner_id': client}" no_label="1">
+                        <tree>
+                            <field name="partner_id" invisible="1" string="Client"/>
+                            <field name="frais" options="{'no_create': True}"/>
+                            <field name="type_frais"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="partner_id" invisible="0" string="Client"/>
+                                <field name="frais" options="{'no_create': True}"/>
+                            </group>
+                        </form>
+                    </field>
+                </group>
                     </page>
                     <page string="FAI">
                         <group>
+                             <group>
                                 <group>
-                        <field name="last_order_date"/>
-                                </group>
-                            <group>
-                        <field name="days_since_last_order"/>
+                                    <field name="fai"/>
                                 </group>
 
-                        <field name="order_line_ids"/>
+                                <group>
+                                    <field name="days_since_last_order"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="last_order_date"/>
+                            </group>
+
+
+                        <field name="order_line_ids">
+                            <tree create="0" delete="0" editable="top">
+                                <field name="order_id"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="display_type" invisible="1"/>
+                                <field name="product_uom" invisible="1" groups="!uom.group_uom"/>
+                                <field name="product_uom_readonly" invisible="1"/>
+                                 <field name="product_uom" invisible="1" force_save="1" groups="uom.group_uom" class="oe_no_button" attrs="{                                                     'readonly': [('product_uom_readonly', '=', True)],                                                     'required': [('display_type', '=', False)],                                                 }"/>
+                                <field name="product_updatable" invisible="1"/>
+                                <field name="product_id" invisible="1" attrs="{'readonly': [('product_updatable', '=', False)], 'required': [('display_type', '=', False)],}" force_save="1" context="{'quantity': product_uom_qty, 'uom':product_uom,'company_id': parent.company_id,'default_lst_price': price_unit,'default_description_sale': name}" options="{'no_open': True,}" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="sol_product_many2one"/>
+                                <field name="name"/>
+                                <field name="salesman_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="qty_delivered"/>
+                                <field name="qty_invoiced"/>
+                                <field name="qty_to_invoice"/>
+                                <field name="price_unit"/>
+                                <field name="tax_id" string="Taxes et Frais" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id),]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                                <field name="discount"/>
+                                <field name="type_ligne"/>
+                                <field name="n_poste_client"/>
+                                <field name="n_dossier"/>
+                                <field name="n_contrat"/>
+                                <field name="qte_previsionnelle_marche"/>
+                                <field name="cycle_production_estimatif"/>
+                                <field name="taux_previsionnel_reussite"/>
+                                <field name="date_previsionnelle_reussite"/>
+                                <field name="statut_ligne"/>
+                            </tree>
+                        </field>
 
                     </group>
 
@@ -57,13 +126,14 @@
 
                 </xpath>
 
+
             </field>
     </record>
         <record id="ir_cron_update_sale_warnings" model="ir.cron">
             <field name="name">Update Sale Warnings Cron</field>
             <field name="model_id" ref="model_product_template"/>
             <field name="code">model._cron_update_sale_warnings()</field>
-            <field name="interval_number">3</field> <!-- Run Every 3 Days -->
+            <field name="interval_number">1</field> <!-- Run Every 1 Days -->
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field> <!-- Run indefinitely -->
             <field name="user_id" ref="base.user_root"/>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The taxes are sorted in the file: Type of tax > Scope of tax > Tax Due
+         * PURCHASE
+            - Goods (Based on Invoice)
+            - Services (Based on Invoice)
+            - Services (Based on Payment)
+         * SALE
+            - Goods (Based on Invoice)
+            - Services (Based Payment)
+    -->
+
+
+    <!-- ########### PURCHASE, Goods (Based on Invoice) ########### -->
+    <record model="account.tax.template" id="tva_acq_normale">
+        <field name="chart_template_id" ref="l10n_fr_pcg_chart_template"/>
+        <field name="name">TVA 20%</field>
+        <field name="description">TVA 20%</field>
+        <field name="amount" eval="20.0"/>
+        <field name="amount_type">percent</field>
+        <field name="sequence" eval="9"/>
+        <field name="type_tax_use">purchase</field>
+        <field name="tax_scope">consu</field>
+        <field name="include_base_amount" eval="1"/>
+        <field name="tax_group_id" ref="tax_group_tva_20"/>
+        <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+                'plus_report_expression_ids': [],
+            }),
+
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'plus_report_expression_ids': [ref('l10n_fr.tax_report_20_tag')],
+                'account_id': ref('pcg_44566'),
+            }),
+        ]"/>
+        <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'base',
+                'minus_report_expression_ids': [],
+            }),
+
+            (0,0, {
+                'factor_percent': 100,
+                'repartition_type': 'tax',
+                'minus_report_expression_ids': [ref('l10n_fr.tax_report_20_tag')],
+                'account_id': ref('pcg_44566'),
+            }),
+        ]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bi_sales_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-03 14:21+0000\n"
+"PO-Revision-Date: 2021-06-03 14:21+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bi_sales_delivery
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_move__delivery_date
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_rule__delivery_date
+msgid "Delivery Date"
+msgstr "Fecha de entrega"
+
+#. module: bi_sales_delivery
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_sale_order_line__delivery_dates
+msgid "Delivery Datetime"
+msgstr "Fecha y hora de entrega"
+
+#. module: bi_sales_delivery
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_move__display_name
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_rule__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: bi_sales_delivery
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_sale_order_line__id
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_move__id
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_picking__id
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_rule__id
+msgid "ID"
+msgstr "IDENTIFICACIÓN"
+
+#. module: bi_sales_delivery
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_sale_order_line____last_update
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_move____last_update
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:bi_sales_delivery.field_stock_rule____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: bi_sales_delivery
+#: code:addons/bi_sales_delivery/models/stock_pick_inherit.py:0
+#, python-format
+msgid "Nothing to check the availability for."
+msgstr "Nada para comprobar la disponibilidad."
+
+#. module: bi_sales_delivery
+#: model:ir.model,name:bi_sales_delivery.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de pedido de venta"
+
+#. module: bi_sales_delivery
+#: model:ir.model,name:bi_sales_delivery.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: bi_sales_delivery
+#: model:ir.model,name:bi_sales_delivery.model_stock_rule
+msgid "Stock Rule"
+msgstr "Regla de Inventario"
+
+#. module: bi_sales_delivery
+#: model:ir.model,name:bi_sales_delivery.model_stock_picking
+msgid "Transfer"
+msgstr "Albarán"

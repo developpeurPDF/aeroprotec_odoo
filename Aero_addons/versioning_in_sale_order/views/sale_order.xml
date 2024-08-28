@@ -23,6 +23,7 @@
             </div>
             <xpath expr="//field[@name='validity_date']" position="after">
                 <field name="is_version" invisible="1"/>
+                <field name="current_version_number" invisible="1"/>
             </xpath>
             <xpath expr="//button[@name='action_draft']" position='attributes'>
                 <attribute name="attrs">

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+
+      <!--poids.carbone-->
+  <record model="ir.ui.view" id="param_poids_carbone_tree">
+      <field name="name">poids.carbone.tree</field>
+      <field name="model">poids.carbone</field>
+      <field name="arch" type="xml">
+        <tree>
+
+          <field name="name"/>
+          <field name="poids_carbone"/>
+          <field name="company_id"/>
+
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_poids_carbone_form">
+      <field name="name">poids.carbone.form</field>
+      <field name="model">poids.carbone</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="poids_carbone"/>
+                        <field name="company_id"/>
+                    </group>
+
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="poids_carbone_view_search" model="ir.ui.view">
+        <field name="name">poids.carbone.search</field>
+        <field name="model">poids.carbone</field>
+        <field name="arch" type="xml">
+            <search string="poids.carbone">
+                <field name="company_id" string="Company"/>
+                <separator/>
+                <searchpanel>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_poids_carbone">
+      <field name="name">poids.carbone</field>
+      <field name="res_model">poids.carbone</field>
+      <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="poids_carbone_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
+    </record>
+
+    <menuitem id="param_menu_poids_carbone" name="Poids carbone" action="param_action_window_poids_carbone" parent="sale.menu_sales_config" sequence="5"/>
+
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="n_quality"/>
+                <field name="poids_carbone"/>
+                <field name="afaq" widget="image"/>
+                <field name="utiliser_afaq"/>
+                <field name="nadscap" widget="image"/>
+                <field name="utiliser_nadscap"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</odoo>

@@ -1,3 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 ad_aero_sale.access_frais,access_frais,ad_aero_sale.model_frais,base.group_user,1,1,1,1
-
+ad_aero_sale.access_partner_product_fees,access_partner_product_fees,ad_aero_sale.model_partner_product_fees,base.group_user,1,1,1,1
+ad_aero_sale.access_modes_reglement,access_modes_reglement,ad_aero_sale.model_modes_reglement,base.group_user,1,1,1,1
+ad_aero_sale.access_res_partner_invoice_total,access_res_partner_invoice_total,ad_aero_sale.model_res_partner_invoice_total,base.group_user,1,1,1,1
+ad_aero_sale.access_poids_carbone,access_poids_carbone,ad_aero_sale.model_poids_carbone,base.group_user,1,1,1,1
+ad_aero_sale.access_control_table_wizard,access_control_table_wizard,ad_aero_sale.model_control_table_wizard,base.group_user,1,1,1,1
+ad_aero_sale.access_quality_control,access_quality_control,ad_aero_sale.model_quality_control,base.group_user,1,1,1,1

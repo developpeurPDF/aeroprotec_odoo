@@ -1,0 +1,303 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* app_mass_edit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e-20230721\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-01 07:29+0000\n"
+"PO-Revision-Date: 2023-08-01 07:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: app_mass_edit
+#: model_terms:ir.ui.view,arch_db:app_mass_edit.view_server_action_form
+msgid ""
+"<b>WARNING</b>: Take into account that adding a field with a domain, and not"
+" including the fields of such domain in this operation definition, will lead"
+" to an error when trying to perform it. Make sure you include them."
+msgstr "<b>警告</b>：请注意，添加具有域的字段，而不在此操作定义中包含此类域的字段，将导致尝试执行该字段时出错。确保包含它们。"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server__state
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_cron__state
+msgid "Action To Do"
+msgstr "待办的动作"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "Add"
+msgstr "添加"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,help:app_mass_edit.field_ir_actions_server_mass_edit_line__widget_option
+msgid ""
+"Add widget text that will be used to display the field in the wizard.\n"
+"Example: 'many2many_tags', 'selection', 'image'"
+msgstr ""
+"添加将用于在向导中显示字段的小组件文本。\n"
+"示例：“many2many_tags”、“选择”、“图像”"
+
+#. module: app_mass_edit
+#: model_terms:ir.ui.view,arch_db:app_mass_edit.view_mass_editing_wizard_form
+msgid "Apply"
+msgstr "应用"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__apply_domain
+msgid "Apply Domain"
+msgstr "应用域"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,help:app_mass_edit.field_ir_actions_server_mass_edit_line__apply_domain
+msgid "Apply default domain related to field"
+msgstr "应用与字段相关的默认域"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server__mass_edit_apply_domain_in_lines
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_cron__mass_edit_apply_domain_in_lines
+msgid "Apply domain in lines"
+msgstr "在明细行中应用域"
+
+#. module: app_mass_edit
+#: model_terms:ir.ui.view,arch_db:app_mass_edit.view_mass_editing_wizard_form
+msgid "Cancel"
+msgstr "取消"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__create_uid
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__create_uid
+msgid "Created by"
+msgstr "创建者"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__create_date
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__create_date
+msgid "Created on"
+msgstr "创建于"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__display_name
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "Don't touch"
+msgstr "不处理"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__field_id
+msgid "Field"
+msgstr "字段"
+
+#. module: app_mass_edit
+#: model_terms:ir.ui.view,arch_db:app_mass_edit.view_server_action_form
+msgid "Fields"
+msgstr "字段"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__id
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: app_mass_edit
+#: model:ir.model.fields,help:app_mass_edit.field_ir_actions_server__mass_edit_message
+#: model:ir.model.fields,help:app_mass_edit.field_ir_cron__mass_edit_message
+msgid "If set, this message will be displayed in the wizard."
+msgstr "如果设置，此消息将显示在向导中。"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line____last_update
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard____last_update
+msgid "Last Modified on"
+msgstr "上次修改时间"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__write_uid
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__write_uid
+msgid "Last Updated by"
+msgstr "最后更新者"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__write_date
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__write_date
+msgid "Last Updated on"
+msgstr "最后更新于"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/models/ir_actions_server.py:0
+#, python-format
+msgid "Mass Edit"
+msgstr "批量编辑"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server__mass_edit_line_ids
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_cron__mass_edit_line_ids
+msgid "Mass Edit Line"
+msgstr "批量编辑行"
+
+#. module: app_mass_edit
+#: model:ir.model.fields.selection,name:app_mass_edit.selection__ir_actions_server__state__mass_edit
+msgid "Mass Edit Records"
+msgstr "批量编辑记录"
+
+#. module: app_mass_edit
+#: model:ir.actions.act_window,name:app_mass_edit.action_server_action_mass_edit
+#: model:ir.ui.menu,name:app_mass_edit.menu_mass_edit_server_action
+msgid "Mass Editing"
+msgstr "批量编辑"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/models/ir_actions_server_mass_edit_line.py:0
+#, python-format
+msgid "Mass edit fields should belong to the server action model."
+msgstr "批量编辑字段应属于服务器操作模型。"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server__mass_edit_message
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_cron__mass_edit_message
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__message
+#: model_terms:ir.ui.view,arch_db:app_mass_edit.view_server_action_form
+msgid "Message"
+msgstr "消息"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__model_id
+msgid "Model"
+msgstr "模型"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,help:app_mass_edit.field_ir_actions_server_mass_edit_line__model_id
+msgid "Model on which the server action runs."
+msgstr "运行服务器操作的模型。"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "None of the %(amount)d record(s) you have selected can be processed."
+msgstr "您选择的 %(amount)d 条记录都无法处理。"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__operation_description_danger
+msgid "Operation Description Danger"
+msgstr "操作说明 危险"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__operation_description_info
+msgid "Operation Description Info"
+msgstr "操作说明信息"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__operation_description_warning
+msgid "Operation Description Warning"
+msgstr "操作说明警告"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__remaining_item_qty
+msgid "Remaining Item Qty"
+msgstr "剩余项目数量"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "Remove"
+msgstr "清空值"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_mass_editing_wizard__selected_item_qty
+msgid "Selected Item Qty"
+msgstr "所选项目数量"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__sequence
+msgid "Sequence"
+msgstr "序列"
+
+#. module: app_mass_edit
+#: model:ir.model,name:app_mass_edit.model_ir_actions_server
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__server_action_id
+msgid "Server Action"
+msgstr "服务器动作"
+
+#. module: app_mass_edit
+#: model:ir.model,name:app_mass_edit.model_ir_actions_server_mass_edit_line
+msgid "Server Actions Mass Edit Lines"
+msgstr "服务器操作批量编辑行"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "Set"
+msgstr "设置"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid "The treatment will be processed on the [ %(amount)d ] selected record(s)."
+msgstr "将对【%(amount)d】条所选记录进行处理。"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,help:app_mass_edit.field_ir_actions_server__state
+#: model:ir.model.fields,help:app_mass_edit.field_ir_cron__state
+msgid ""
+"Type of server action. The following values are available:\n"
+"- 'Execute Python Code': a block of python code that will be executed\n"
+"- 'Create a new Record': create a new record with new values\n"
+"- 'Update a Record': update the values of a record\n"
+"- 'Execute several actions': define an action that triggers several other server actions\n"
+"- 'Send Email': post a message, a note or send an email (Discuss)\n"
+"- 'Add Followers': add followers to a record (Discuss)\n"
+"- 'Create Next Activity': create an activity (Discuss)\n"
+"- 'Send SMS Text Message': send SMS, log them on documents (SMS)"
+msgstr ""
+"服务器操作的类型。 可以使用以下值：\n"
+"- “执行 Python 代码”：将执行的 Python 代码块\n"
+"- “创建新记录”：使用新值创建新记录\n"
+"- '更新记录'：更新记录的值\n"
+"- '执行几个动作'：定义一个触发其他几个服务器动作的动作\n"
+"- “发送电子邮件”：发布消息、注释或发送电子邮件（讨论）\n"
+"- “添加关注者”：将关注者添加到记录（讨论）\n"
+"- “创建下一个活动”：创建一个活动（讨论）\n"
+"- '发送 SMS 文本消息'：发送 SMS，将它们记录在文件（SMS）上"
+
+#. module: app_mass_edit
+#: model:ir.model.fields,field_description:app_mass_edit.field_ir_actions_server_mass_edit_line__widget_option
+msgid "Widget Option"
+msgstr "小部件选项"
+
+#. module: app_mass_edit
+#: model:ir.model,name:app_mass_edit.model_mass_editing_wizard
+msgid "Wizard for mass edition"
+msgstr "批量向导"
+
+#. module: app_mass_edit
+#. odoo-python
+#: code:addons/app_mass_edit/wizard/mass_editing_wizard.py:0
+#, python-format
+msgid ""
+"You have selected %(origin_amount)d record(s) that can not be processed.\n"
+"Only %(amount)d record(s) will be processed."
+msgstr ""
+"您选择了无法处理的 %(origin_amount)d 条记录。\n"
+"仅处理 %(amount)d 条记录将会处理。"

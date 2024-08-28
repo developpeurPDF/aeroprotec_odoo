@@ -55,7 +55,7 @@
             <field name="name">Frais.search</field>
             <field name="model">frais</field>
             <field name="arch" type="xml">
-                <search string="Nature d'opération">
+                <search string="Frais">
                     <field name="company_id" string="Company"/>
                     <separator/>
                     <searchpanel>
@@ -78,21 +78,21 @@
                 <p class="oe_view_nocontent_create">Create new record</p>
         </field>
     </record>
-    <menuitem id="menu_frais" name="Frais" parent="contacts.res_partner_menu_config" sequence="94"/>
-    <menuitem id="param_menu_frais" name="Frais" action="param_action_window_frais" parent="menu_frais" sequence="95"/>
+
+    <menuitem id="param_menu_frais" name="Frais 0" action="param_action_window_frais" parent="menu_frais" sequence="95"/>
 
 
-    <record id="view_move_inherited" model="ir.ui.view">
-        <field name="name">account.move.form.inherited</field>
-        <field name="model">account.move</field>
+<!--    <record id="view_move_inherited" model="ir.ui.view">-->
+<!--        <field name="name">account.move.form.inherited</field>-->
+<!--        <field name="model">account.move</field>-->
 
-        <field name="inherit_id" ref="account.view_move_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
-                <field name="frais"/>
+<!--        <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">-->
+<!--                <field name="frais"/>-->
 
-            </xpath>
-        </field>
-    </record>
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
 </data>
 </odoo>

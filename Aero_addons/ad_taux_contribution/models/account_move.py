@@ -12,39 +12,30 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    guarantee_percentage_amount = fields.Float(compute='compute_guarantee_percentage_amount')
+    energie_percentage_amount = fields.Float(compute='compute_contributions')
+    cont_env_total_amount = fields.Float(compute='compute_contributions')
     sale_order_id = fields.Many2one('sale.order')
-    guarantee_return = fields.Boolean(string="Contribution énergétique")
+    energie_return = fields.Boolean(string="Contribution énergétique")
     rg_percentage = fields.Float('Taux de Contribution énergétique')
-    date_echeance = fields.Date("Date d'échéance",  readonly=False) #compute='compute_date_echeance',
-    prime_total_amount = fields.Float(compute='compute_prime_percentage')
-    prime_amount = fields.Float("Taux de Contribution environnementale")
-    prime = fields.Boolean(string="Contribution environnementale")
+    date_echeance = fields.Date("Date d'échéance", readonly=False)  # compute='compute_date_echeance',
+    cont_env_amount = fields.Float("Taux de Contribution environnementale")
+    cont_env = fields.Boolean(string="Contribution environnementale")
     invoice_line_ids = fields.One2many(domain=lambda self: self._domain_invoice_line_ids())
 
     @api.model
     def _domain_invoice_line_ids(self):
         company = self.company_id or self.env.company
-        account_id = company.acs_cee_account_id
-        rg_account_id = company.acs_rg_account_id
+        account_id = company.ad_cee_account_id
+        rg_account_id = company.ad_rg_account_id
         res = [('account_id', 'not in', (account_id.id, rg_account_id.id)),
                ('display_type', 'in', ('product', 'line_section', 'line_note'))]
         return res
 
-    @api.depends('amount_total', 'prime_amount')
-    def compute_prime_percentage(self):
+    @api.depends('amount_total', 'rg_percentage', 'cont_env_amount')
+    def compute_contributions(self):
         for rec in self:
-            rec.prime_total_amount = rec.amount_total - rec.prime_amount
-
-    @api.depends('amount_total', 'rg_percentage')
-    def compute_guarantee_percentage_amount(self):
-        for rec in self:
-            total_credit = sum([aml.credit for aml in rec.line_ids])
-            rec.guarantee_percentage_amount = total_credit * (rec.rg_percentage / 100)
-
-    # def compute_date_echeance(self):
-    #     for rec in self:
-    #         rec.date_echeance = fields.Date.context_today(self).replace(fields.Date.context_today(self).year + 1)
+            rec.energie_percentage_amount = rec.amount_untaxed * (rec.rg_percentage / 100)
+            rec.cont_env_total_amount = rec.amount_untaxed * (rec.cont_env_amount / 100)
 
     @api.model
     def default_get(self, fields_list):
@@ -52,23 +43,27 @@ class AccountMove(models.Model):
         if self._context.get('is_payment'):
             return res
 
-        rg_account_id = self.env.company.acs_rg_account_id
+        rg_account_id = self.env.company.ad_rg_account_id
         rg_product_id = self.env['product.product'].search([('property_account_income_id', '=', rg_account_id.id)])
-        account_id = self.env.company.acs_cee_account_id
+        account_id = self.env.company.ad_cee_account_id
         product_id = self.env['product.product'].search([('property_account_income_id', '=', account_id.id)])
         currency_id = account_id.company_id.currency_id
-        if res.get('move_type')=='out_invoice':
+        if res.get('move_type') == 'out_invoice':
             line_ids = []
             if rg_account_id:
                 line_ids.append(
-                    (0, 0, {'product_id': rg_product_id.id, 'name': 'RG', 'account_id': rg_account_id.id,
+                    (0, 0, {'product_id': rg_product_id.id, 'name': 'Contribution énergétique',
+                            'account_id': rg_account_id.id,
                             'quantity': 1.0, 'price_unit': 0.0, 'tax_ids': False,
-                            'price_subtotal': 0.0, 'currency_id': currency_id.id, 'acs_is_rg_line': True, 'display_type': 'product'}))
+                            'price_subtotal': 0.0, 'currency_id': currency_id.id, 'ad_is_rg_line': True,
+                            'display_type': 'product'}))
             if account_id:
                 line_ids.append(
-                    (0, 0, {'product_id': product_id.id, 'name': 'Contribution environnementale', 'account_id': account_id.id,
-                            'quantity': 1.0, 'price_unit': 0.0, 'tax_ids': False,
-                            'price_subtotal': 0.0, 'currency_id': currency_id.id, 'acs_is_rg_line': True, 'display_type': 'product'}))
+                    (0, 0,
+                     {'product_id': product_id.id, 'name': 'Contribution environnementale', 'account_id': account_id.id,
+                      'quantity': 1.0, 'price_unit': 0.0, 'tax_ids': False,
+                      'price_subtotal': 0.0, 'currency_id': currency_id.id, 'ad_is_rg_line': True,
+                      'display_type': 'product'}))
             if line_ids:
                 res['line_ids'] = line_ids
         return res
@@ -76,82 +71,85 @@ class AccountMove(models.Model):
     @api.onchange('line_ids')
     def onchange_move_lines_rg(self):
         for rec in self:
-            rg_account_id = rec.company_id.acs_rg_account_id
+            rg_account_id = rec.company_id.ad_rg_account_id
             rg_line_id = rec.line_ids.filtered(lambda line: line.account_id.id == rg_account_id.id)
             if rg_account_id and rg_line_id:
-                if rec.guarantee_return:
-                    rg_line_id.price_unit = -(rec.guarantee_percentage_amount)
+                if rec.energie_return:
+                    rg_line_id.price_unit = (rec.energie_percentage_amount)
                 else:
                     rg_line_id.price_unit = 0
-            account_id = rec.company_id.acs_cee_account_id
+            account_id = rec.company_id.ad_cee_account_id
             line_id = rec.line_ids.filtered(lambda line: line.account_id.id == account_id.id)
             if account_id and line_id:
-                if rec.prime:
-                    line_id.price_unit = -rec.prime_amount
+                if rec.cont_env:
+                    line_id.price_unit = (rec.cont_env_total_amount)
                 else:
                     line_id.price_unit = 0
 
-    @api.onchange('guarantee_return', 'rg_percentage', 'amount_total')
+    @api.onchange('energie_return', 'rg_percentage', 'amount_untaxed')
     def onchange_rg_ec(self):
         for rec in self:
-            rg_account_id = rec.company_id.acs_rg_account_id
-            if rec.guarantee_return and not rg_account_id:
-                raise UserError(_("Please set Contribution environnementale & Contribution énergétique Accounts on company."))
+            rg_account_id = rec.company_id.ad_rg_account_id
+            if rec.energie_return and not rg_account_id:
+                raise UserError(
+                    _("Please set Contribution environnementale & Contribution énergétique Accounts on company."))
             rg_line_id = rec.line_ids.filtered(lambda line: line.account_id.id == rg_account_id.id)
             if rg_account_id and rg_line_id:
-                if rec.guarantee_return:
-                    rg_line_id.price_unit = -(rec.guarantee_percentage_amount)
+                if rec.energie_return:
+                    rg_line_id.price_unit = (rec.energie_percentage_amount)
                 else:
                     rg_line_id.price_unit = 0
 
-    @api.onchange('prime_amount', 'prime', 'amount_total')
-    def onchange_prime_ec(self):
+    @api.onchange('cont_env_amount', 'cont_env', 'amount_untaxed')
+    def onchange_cont_env_ec(self):
         for rec in self:
-            account_id = rec.company_id.acs_cee_account_id
-            if rec.prime_amount and not account_id:
-                raise UserError(_("Please set Contribution environnementale & Contribution énergétique Accounts on company."))
+            account_id = rec.company_id.ad_cee_account_id
+            if rec.cont_env_amount and not account_id:
+                raise UserError(
+                    _("Please set Contribution environnementale & Contribution énergétique Accounts on company."))
 
             line_id = rec.line_ids.filtered(lambda line: line.account_id.id == account_id.id)
             if account_id and line_id:
-                if rec.prime:
-                    line_id.price_unit = -(rec.prime_amount)
+                if rec.cont_env:
+                    line_id.price_unit = (rec.cont_env_total_amount)
                 else:
                     line_id.price_unit = 0
 
     def action_post(self):
         for record in self:
             if record.move_type == 'out_invoice':
-                lines_to_remove = record.line_ids.filtered(lambda line: line.debit == 0.0 and line.credit == 0.0 and not line.move_id.state == 'posted')
+                lines_to_remove = record.line_ids.filtered(
+                    lambda line: line.debit == 0.0 and line.credit == 0.0 and not line.move_id.state == 'posted')
                 if lines_to_remove:
                     lines_to_remove.unlink()
         due_date = fields.Date.context_today(self) + timedelta(days=365)
         res = super(AccountMove, self).action_post()
         for record in self:
             if record.move_type == 'out_invoice':
-                if record.guarantee_return:
+                if record.energie_return:
                     vals = {
                         'name': _('Retention Number'),
                         'invoice_number': record.name,
                         'customer_id': record.partner_id.id,
                         'invoice_date': record.invoice_date,
-                        'amount': record.guarantee_percentage_amount,
+                        'amount': record.energie_percentage_amount,
                         'due_date': due_date
                     }
-                    guarantee = self.env['sf.retenue.guarantee'].create(vals)
-                    guarantee.action_confirm()
-                if record.prime:
-                    account = record.company_id.acs_cee_account_id
+                    energie = self.env['contribution.energetique'].create(vals)
+                    energie.action_confirm()
+                if record.cont_env:
+                    account = record.company_id.ad_cee_account_id
                     vals_cee = {
                         'name': _('New'),
                         'invoice_number': record.name,
                         'origin_move_id': record.id,
                         'invoice_date': record.invoice_date,
                         'customer_id': record.partner_id.id,
-                        'amount': record.prime_amount,
+                        'amount': record.cont_env_total_amount,
                         'due_date': record.invoice_date_due,
                         'account_id': account.id
                     }
-                    rec = self.env['sf.prime.cee'].create(vals_cee)
+                    rec = self.env['contribution.environnementale'].create(vals_cee)
                     if rec:
                         rec.action_confirm()
         return res
@@ -164,11 +162,11 @@ class AccountMove(models.Model):
         'invoice_line_ids.price_subtotal',
         'invoice_payment_term_id',
         'partner_id',
-        'guarantee_percentage_amount',
+        'energie_percentage_amount',
         'rg_percentage',
-        'guarantee_return',
-        'prime_amount',
-        'prime')
+        'energie_return',
+        'cont_env_amount',
+        'cont_env')
     def _compute_tax_totals(self):
         """ Computed field used for custom widget's rendering.
             Only set on invoices.
@@ -176,11 +174,11 @@ class AccountMove(models.Model):
         for move in self:
             extra_amount = 0
             if move.is_invoice(include_receipts=True):
-                base_lines = move.line_ids.filtered(lambda line: line.display_type == 'product' and not line.acs_is_rg_line)
+                base_lines = move.line_ids.filtered(lambda line: line.display_type == 'product' and not line.ad_is_rg_line)
                 base_line_values_list = [line._convert_to_tax_base_line_dict() for line in base_lines]
 
                 if move.id:
-                    sign = -1 if move.is_inbound(include_receipts=True) else 1
+                    sign = 1 if move.is_inbound(include_receipts=True) else 1
                     base_line_values_list += [
                         {
                             **line._convert_to_tax_base_line_dict(),
@@ -235,50 +233,52 @@ class AccountMove(models.Model):
                     move.tax_totals['formatted_amount_total_rounded'] = formatLang(self.env, amount_total_rounded,
                                                                                    currency_obj=move.currency_id) or ''
 
-                if move.prime and move.guarantee_return:
-                    extra_amount = (move.prime_amount + move.guarantee_percentage_amount)
+                if move.cont_env and move.energie_return:
+                    extra_amount = (move.cont_env_total_amount + move.energie_percentage_amount)
                     if move.tax_totals.get('subtotals'):
                         for subtotal in move.tax_totals['subtotals']:
                             if subtotal['name'] in ['Montant HT', 'Untaxed Amount']:
                                 ut_amount = formatLang(self.env, subtotal['amount'], currency_obj=move.currency_id)
                                 subtotal['formatted_amount'] = ut_amount
                                 move.tax_totals['custom_untaxed_formatted_amount'] = ut_amount
-                
-                    move.tax_totals['untaxed_custom'] = formatLang(self.env, move.tax_totals['amount_untaxed'] + (move.prime_amount + move.guarantee_percentage_amount), currency_obj=move.currency_id)
-                    move.tax_totals['prime_amount'] = move.prime_amount
-                    
-                    move.tax_totals['prime_amount_formatted'] = formatLang(self.env, move.prime_amount, currency_obj=move.currency_id)
-                    move.tax_totals['guarantee_percentage_amount'] = move.guarantee_percentage_amount
+
+                    move.tax_totals['untaxed_custom'] = formatLang(self.env, move.tax_totals['amount_untaxed'] + (move.cont_env_total_amount + move.energie_percentage_amount), currency_obj=move.currency_id)
+                    move.tax_totals['cont_env_total_amount'] = move.cont_env_total_amount
+
+                    move.tax_totals['cont_env_amount_formatted'] = formatLang(self.env, move.cont_env_total_amount, currency_obj=move.currency_id)
+                    move.tax_totals['energie_percentage_amount'] = move.energie_percentage_amount
                     move.tax_totals['rg_percentage'] = move.rg_percentage
-                    move.tax_totals['guarantee_percentage_amount_formatted'] = formatLang(self.env, move.guarantee_percentage_amount, currency_obj=move.currency_id)
- 
-                elif move.prime:
-                    extra_amount = move.prime_amount
+                    move.tax_totals['energie_percentage_amount_formatted'] = formatLang(self.env, move.energie_percentage_amount, currency_obj=move.currency_id)
+
+                elif move.cont_env:
+                    extra_amount = move.cont_env_total_amount
                     if move.tax_totals.get('subtotals'):
                         for subtotal in move.tax_totals['subtotals']:
                             if subtotal['name'] in ['Montant HT', 'Untaxed Amount']:
                                 ut_amount = formatLang(self.env, subtotal['amount'], currency_obj=move.currency_id)
                                 subtotal['formatted_amount'] = ut_amount
                                 move.tax_totals['custom_untaxed_formatted_amount'] = ut_amount
-                    
-                    move.tax_totals['untaxed_custom'] = formatLang(self.env, move.tax_totals['amount_untaxed'] + move.prime_amount, currency_obj=move.currency_id)
-                    move.tax_totals['prime_amount'] = move.prime_amount
-                    move.tax_totals['prime_amount_formatted'] = formatLang(self.env, move.prime_amount, currency_obj=move.currency_id)
-                elif move.guarantee_return:
-                    extra_amount = move.guarantee_percentage_amount
+
+                    move.tax_totals['untaxed_custom'] = formatLang(self.env, move.tax_totals['amount_untaxed'] + move.cont_env_total_amount, currency_obj=move.currency_id)
+                    move.tax_totals['cont_env_total_amount'] = move.cont_env_total_amount
+                    move.tax_totals['cont_env_amount'] = move.cont_env_amount
+                    move.tax_totals['cont_env_amount_formatted'] = formatLang(self.env, move.cont_env_total_amount, currency_obj=move.currency_id)
+                elif move.energie_return:
+                    extra_amount = move.energie_percentage_amount
                     if move.tax_totals.get('subtotals'):
                         for subtotal in move.tax_totals['subtotals']:
                             if subtotal['name'] in ['Montant HT', 'Untaxed Amount']:
                                 ut_amount = formatLang(self.env, subtotal['amount'], currency_obj=move.currency_id)
                                 subtotal['formatted_amount'] = ut_amount
                                 move.tax_totals['custom_untaxed_formatted_amount'] = ut_amount
-                    
+
                     move.tax_totals['untaxed_custom'] = formatLang(self.env, move.tax_totals['amount_untaxed'] + extra_amount, currency_obj=move.currency_id)
-                    move.tax_totals['guarantee_percentage_amount'] = extra_amount
+                    move.tax_totals['energie_percentage_amount'] = extra_amount
                     move.tax_totals['rg_percentage'] = move.rg_percentage
-                    move.tax_totals['guarantee_percentage_amount_formatted'] = formatLang(self.env, extra_amount, currency_obj=move.currency_id)
-                print ("move.tax_totals---",move.tax_totals)
-                move.tax_totals['custom'] = formatLang(self.env, move.tax_totals['amount_total'] - extra_amount, currency_obj=move.currency_id) 
+                    move.tax_totals['energie_percentage_amount_formatted'] = formatLang(self.env, extra_amount, currency_obj=move.currency_id)
+                print("move.tax_totals---",move.tax_totals)
+                move.tax_totals['custom'] = formatLang(self.env, move.tax_totals['amount_total'] + extra_amount, currency_obj=move.currency_id)
+                print("move.tax_totals['custom']",move.tax_totals['custom'])
             else:
                 move.tax_totals = None
 
@@ -286,7 +286,7 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    acs_is_rg_line = fields.Boolean("Is RG Line")
+    ad_is_rg_line = fields.Boolean("Is RG Line")
 
     @api.depends('balance', 'move_id.is_storno')
     def _compute_debit_credit(self):
@@ -298,19 +298,19 @@ class AccountMoveLine(models.Model):
                 line.debit = line.balance if line.balance < 0.0 else 0.0
                 line.credit = -line.balance if line.balance > 0.0 else 0.0
     
-    #ACS: Avoid validation for RG lines
+    #ad: Avoid validation for RG lines
     @api.constrains('account_id', 'display_type')
     def _check_payable_receivable(self):
         for line in self:
             account_type = line.account_id.account_type
             if line.move_id.is_sale_document(include_receipts=True):
-                if ((line.display_type == 'payment_term') ^ (account_type == 'asset_receivable')) and not line.acs_is_rg_line:
+                if ((line.display_type == 'payment_term') ^ (account_type == 'asset_receivable')) and not line.ad_is_rg_line:
                     raise UserError(_("Any journal item on a receivable account must have a due date and vice versa."))
             if line.move_id.is_purchase_document(include_receipts=True):
-                if ((line.display_type == 'payment_term') ^ (account_type == 'liability_payable')) and not line.acs_is_rg_line:
+                if ((line.display_type == 'payment_term') ^ (account_type == 'liability_payable')) and not line.ad_is_rg_line:
                     raise UserError(_("Any journal item on a payable account must have a due date and vice versa."))
 
-    #ACS: only avoid for frequent account.
+    #ad: only avoid for frequent account.
     def _compute_account_id(self):
         term_lines = self.filtered(lambda line: line.display_type == 'payment_term')
         if term_lines:
@@ -411,7 +411,7 @@ class AccountMoveLine(models.Model):
                 elif line.move_id.is_purchase_document(include_receipts=True):
                     line.account_id = accounts['expense'] or line.account_id
             elif line.partner_id:
-                if line.acs_is_rg_line:
+                if line.ad_is_rg_line:
                     line.account_id = line.account_id.id
                 else:
                     line.account_id = self.env['account.account']._get_most_frequent_account_for_partner(
@@ -422,10 +422,10 @@ class AccountMoveLine(models.Model):
         for line in self:
             if not line.account_id and line.display_type not in ('line_section', 'line_note'):
                 previous_two_accounts = line.move_id.line_ids.filtered(
-                    lambda l: l.account_id and l.display_type == line.display_type and not line.acs_is_rg_line
+                    lambda l: l.account_id and l.display_type == line.display_type and not line.ad_is_rg_line
                 )[-2:].account_id
-                if len(previous_two_accounts) == 1 and len(line.move_id.line_ids) > 2 and not line.acs_is_rg_line:
+                if len(previous_two_accounts) == 1 and len(line.move_id.line_ids) > 2 and not line.ad_is_rg_line:
                     line.account_id = previous_two_accounts
                 else:
-                    if not line.acs_is_rg_line:
+                    if not line.ad_is_rg_line:
                         line.account_id = line.move_id.journal_id.default_account_id

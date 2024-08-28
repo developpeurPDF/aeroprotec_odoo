@@ -3,42 +3,168 @@
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
+        <record id="sale_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="before">
+                    <field name="poids_carbone_total" sum="Poids carbone"/>
+                </xpath>
+            </field>
+        </record>
+
+
     <record id="sale_order_form" model="ir.ui.view">
         <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <xpath expr="//form/div[1]" position="after">
+        <xpath expr="//header" position="inside">
+            <button name="action_devis_validee" type="object" string="Devis Validée" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['devis_validee', 'sale', 'done', 'cancel'])]}"/>
+            <button name="action_commande_non_traite" type="object" string="CNT" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['commande_non_traite', 'sale', 'done', 'cancel'])]}"/>
+            <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'in', ['sent','draft','approve2','sale','done','cancel','refuse'])]}"/>
+        </xpath>
+        <xpath expr="//field[@name='state']" position="attributes">
+            <attribute name="widget">statusbar</attribute>
+            <attribute name="statusbar_visible">draft,sent,devis_validee,commande_non_traite,sale</attribute>
+        </xpath>
 
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+            <attribute name="attrs">{'readonly': [('state', 'in', ['devis_validee', 'sale', 'done', 'cancel'])]}</attribute>
+        </xpath>
+        <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+            <attribute name="attrs">{'readonly': [('state', 'in', ['devis_validee', 'sale', 'done', 'cancel'])]}</attribute>
+        </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="interlocuteur"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <field name="date_reponse"/>
+                <field name="modes_reglement" options="{'no_create': True}"/>
+<!--                <field name="poids_carbone_unit"/>-->
+<!--                <field name="poids_carbone_total"/>-->
+            </xpath>
+            <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                <field name="n_quality"/>
+                <field name="poids_carbone_unit"/>
+                <field name="poids_carbone_total"/>
+<!--                <field name="partner_invoice"/>-->
+            </xpath>
+
+            <xpath expr="//form/div[1]" position="after">
                 <div class="alert alert-danger text-center" role="alert" attrs="{'invisible': [('seuil_a_la_ligne','=',0)]}">
                     <div>
                         <strong>Le client a un montant de seuil à la ligne de <field name="seuil_a_la_ligne"/> <field name="currency_id"/></strong>
                     </div>
                 </div>
-
             </xpath>
-            <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="frais_client"/>
-                <field name="appliquer_seuil_a_la_ligne"/>
-                <field name="seuil_a_la_ligne" invisible="1"/>
-
-<!--                <field name="frais_sale_order" widget="many2many_tags"/>-->
+            <xpath expr="//group[@name='sale_header']" position="after">
+                <group>
+                <group>
+                </group>
+                <group>
+                    <field name="appliquer_seuil_a_la_ligne" invisible="1"/>
+                    <field name="seuil_a_la_ligne" invisible="1"/>
+                </group>
+                </group>
             </xpath>
-            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
-                <field name="frais" widget="many2many_tags"/>
-                <field name="frais_amount"/>
 
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[1]" position="before">
+                <field name="is_threshold_line" optional="hide"/>
+                <field name="sequence_order" string="n°" optional="hide"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[last()]" position="after">
+                <field name="price_total"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[1]" position="before">
+
+                <field name="appliquer_seuil_a_la_ligne" optional="hide"/>
+                <field name="seuil" optional="hide"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="type_ligne" string="Type" optional="hide"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
-                <field name="n_poste_client"/>
-                <field name="n_dossier"/>
-                <field name="n_contrat"/>
-                <field name="qte_previsionnelle_marche"/>
-                <field name="cycle_production_estimatif"/>
-                <field name="taux_previsionnel_reussite"/>
-                <field name="date_previsionnelle_reussite"/>
-                <field name="statut_ligne"/>
+
+                <field name="n_poste_client" string="n° poste" optional="hide"/>
+                <field name="n_dossier" string="n° dossier" optional="hide"/>
+                <field name="n_contrat" optional="hide"/>
+                <field name="qte_previsionnelle_marche" optional="hide"/>
+                <field name="cycle_production_estimatif" optional="hide"/>
+                <field name="taux_previsionnel_reussite" string="Taux réussite" optional="hide"/>
+                <field name="date_previsionnelle_reussite" string="Date prév." optional="hide"/>
+                <field name="statut_ligne" optional="hide"/>
             </xpath>
-        </field>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                    <attribute name="string">Taxes et Frais</attribute>
+                </xpath>
+            <xpath expr="//notebook/page[1]" position="after">
+            <page name="sale_order_line2" string="Compléments">
+                <field name="custom_order_line_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}">
+                    <tree editable="bottom" create="1" delete="1">
+                        <field name="id" optional="hide"/>
+                        <field name="order_id_display" optional="hide"/>
+                        <field name="order_id" optional="hide"/>
+                        <field name="product_uom_category_id" invisible="1"/>
+                        <field name="display_type" invisible="1"/>
+                        <field name="product_uom" invisible="1" groups="!uom.group_uom"/>
+                        <field name="product_uom_readonly" invisible="1"/>
+                        <field name="product_uom" invisible="1" force_save="1" groups="uom.group_uom" class="oe_no_button" attrs="{                                                     'readonly': [('product_uom_readonly', '=', True)],                                                     'required': [('display_type', '=', False)],                                                 }"/>
+                        <field name="product_updatable" invisible="1"/>
+                        <field name="product_id" invisible="1" attrs="{'readonly': [('product_updatable', '=', False)], 'required': [('display_type', '=', False)],}" force_save="1" context="{'partner_id': parent.partner_id,'quantity': product_uom_qty,'pricelist': parent.pricelist_id,'uom':product_uom,'company_id': parent.company_id,'default_lst_price': price_unit,'default_description_sale': name}" options="{'no_open': True,}" domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" widget="sol_product_many2one"/>
+                        <field name="name"/>
+                        <field name="salesman_id" invisible="1"/>
+                        <field name="product_uom_qty"/>
+                        <field name="qty_delivered" optional="hide"/>
+                        <field name="qty_invoiced" optional="hide"/>
+                        <field name="qty_to_invoice" optional="hide"/>
+                        <field name="price_unit"/>
+                        <field name="tax_id" string="Taxes et Frais" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                        <field name="discount"/>
+                        <field name="type_ligne" string="Type"/>
+                        <field name="n_poste_client" string="n° poste"/>
+                        <field name="n_dossier" string="n° dossier"/>
+                        <field name="n_contrat"/>
+                        <field name="produit_recu_client" invisible="1"/>
+                        <field name="qte_previsionnelle_marche"/>
+                        <field name="cycle_production_estimatif"/>
+                        <field name="taux_previsionnel_reussite" string="Taux réussite"/>
+                        <field name="date_previsionnelle_reussite" string="Date prév."/>
+                        <field name="statut_ligne" string="Etat OF"/>
+                    </tree>
+
+                </field>
+            </page>
+        </xpath>
+    </field>
     </record>
+    <record id="email_template_reminder" model="mail.template">
+        <field name="name">Order Validity Reminder</field>
+        <field name="email_from">${object.company_id.email or ''}</field>
+        <field name="email_to">${object.partner_id.email or ''}</field>
+        <field name="subject">Reminder: Your Order Validity is Approaching</field>
+        <field name="body_html">
+            <![CDATA[
+            <p>Dear ${object.partner_id.name},</p>
+            <p>This is a reminder that your order ${object.name} is valid until ${object.validity_date}.</p>
+            <p>Thank you for your business!</p>
+            ]]>
+        </field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+    </record>
+
+    <record id="ir_cron_order_reminder" model="ir.cron">
+        <field name="name">Order Validity Reminder</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_reminder_email()</field>
+        <field name="active" eval="True"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+
 </odoo>

@@ -7,10 +7,14 @@
         <field name="arch" type="xml">
             <field name="vat" position="before">
                 <field
-                    name="company_group_id"
-                    attrs="{'invisible': [('is_company','=', False)]}"
-                />
+                    name="company_group_id"/>
+<!--                    attrs="{'invisible': [('is_company','=', False)]}"-->
+
             </field>
+            <xpath expr="//sheet/div[2]/field[@name='company_type']" position="after">
+                    <field name="groupe_societe"/><label for="groupe_societe" string="Groupe société"/>
+
+            </xpath>
         </field>
     </record>
     <record id="view_res_partner_filter" model="ir.ui.view">

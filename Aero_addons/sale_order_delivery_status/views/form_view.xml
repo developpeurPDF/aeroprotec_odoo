@@ -47,7 +47,7 @@
 
 
                      <field name="compute_field" invisible="1"/>
-                     <label for="delivery_state" string="Update Delivery Status" attrs="{'readonly': [('compute_field', '=', False)], 'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+                     <label for="delivery_state" string="Mettre à jour le statut de livraison" attrs="{'readonly': [('compute_field', '=', False)], 'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
                      <div name="delivery_state_div" class="o_row">
                          <field name="delivery_state" attrs="{'readonly': [('compute_field', '=', False)], 'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
                      </div>

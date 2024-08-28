@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="view_control_table_wizard_form" model="ir.ui.view">
+            <field name="name">control.table.wizard.form</field>
+            <field name="model">control.table.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Contrôle de Qualité">
+                   <group>
+                        <field name="name" style="font-weight: bold; text-align: center; font-size: 20px;"/>
+                    </group>
+                    <group>
+                    <group>
+                        <group>
+                            <field name="prix"/>
+                        </group>
+                        <group>
+                            <field name="value_prix"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_prix"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="quantite"/>
+                        </group>
+                        <group>
+                            <field name="value_quantite"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_quantite"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="delai"/>
+                        </group>
+                        <group>
+                            <field name="value_delai"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_delai"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="changement_indice"/>
+                        </group>
+                        <group>
+                            <field name="value_changement_indice"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_changement_indice"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="changement_traitement"/>
+                        </group>
+                        <group>
+                            <field name="value_changement_traitement"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_changement_traitement"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="ecart"/>
+                        </group>
+                        <group>
+                            <field name="value_ecart"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_ecart"/>
+                        </group>
+                    </group>
+
+                    <group>
+                    <group>
+                        <group>
+                            <field name="etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="value_etat_piece"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="photo_etat_piece"/>
+                         </group>
+                    </group>
+                    <group>
+                            <field name="conforme" decoration-danger="conforme == 'non_conforme'"
+                                decoration-success="conforme == 'conforme'"
+                                widget="badge"/>
+                    </group>
+
+                    <footer>
+                        <button name="save_quality_control" string="Enregistrer" type="object" class="btn-primary"/>
+                        <button string="Fermer" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_control_table_wizard_form_wizard" model="ir.actions.act_window">
+            <field name="name">Contrôle de Qualité</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">control.table.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_control_table_wizard_form"/>
+            <field name="target">new</field>
+<!--            <field name="context">{'default_stock_move_id': active_id}</field>-->
+	    </record>
+
+        <record id="view_quality_control_table_form" model="ir.ui.view">
+            <field name="name">quality.control.form</field>
+            <field name="model">quality.control</field>
+            <field name="arch" type="xml">
+                <form string="Contrôle de Qualité">
+                   <group>
+                        <field name="name" style="font-weight: bold; text-align: center; font-size: 20px;"/>
+                    </group>
+                    <group>
+                    <group>
+                        <group>
+                            <field name="prix"/>
+                        </group>
+                        <group>
+                            <field name="value_prix"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_prix"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="quantite"/>
+                        </group>
+                        <group>
+                            <field name="value_quantite"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_quantite"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="delai"/>
+                        </group>
+                        <group>
+                            <field name="value_delai"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_delai"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="changement_indice"/>
+                        </group>
+                        <group>
+                            <field name="value_changement_indice"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_changement_indice"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="changement_traitement"/>
+                        </group>
+                        <group>
+                            <field name="value_changement_traitement"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_changement_traitement"/>
+                        </group>
+                    </group>
+
+                <group>
+                    <group>
+                        <group>
+                            <field name="ecart"/>
+                        </group>
+                        <group>
+                            <field name="value_ecart"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_ecart"/>
+                        </group>
+                    </group>
+
+                    <group>
+                    <group>
+                        <group>
+                            <field name="etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="value_etat_piece"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="photo_etat_piece"/>
+                         </group>
+                    </group>
+
+                    <group>
+                            <field name="conforme" decoration-danger="conforme == 'non_conforme'"
+                                decoration-success="conforme == 'conforme'"
+                                widget="badge"/>
+                    </group>
+
+                    <footer>
+                        <button special="save" string="Enregistrer" type="object" class="btn-primary"/>
+                        <button string="Fermer" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_quality_control_table__form" model="ir.actions.act_window">
+            <field name="name">Contrôle de Qualité</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quality.control</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_quality_control_table_form"/>
+            <field name="target">new</field>
+<!--            <field name="context">{'default_stock_move_id': active_id}</field>-->
+	    </record>
+    </data>
+</odoo>

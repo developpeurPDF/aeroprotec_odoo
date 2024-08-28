@@ -41,7 +41,7 @@ class CreateSaleQuotation(models.TransientModel):
                     for line in customer_dict[value]:
                         data.append((0, 0,{'product_id': line.product_id.id,
                                            'product_uom': line.sale_line_id.product_uom.id,
-                                           'frais': [(6, 0, line.sale_line_id.frais.ids)],
+                                           # 'frais': [(6, 0, line.sale_line_id.frais.ids)],
                                            'tax_id': [(6, 0, line.sale_line_id.tax_id.ids)],
                                            'discount': line.discount,
                                            'product_uom_qty': line.order_qty,
@@ -76,7 +76,7 @@ class CreateSaleQuotationLine(models.TransientModel):
     remaining_qty = fields.Float(string='Quantité restante', related='sale_line_id.remaining_qty')
     partner_id = fields.Many2one('res.partner', string='Customer', related='sale_line_id.order_id.partner_id')
     order_qty = fields.Float(string='New Quotation Quantity')
-    frais = fields.Many2many('frais', string="Frais", related='sale_line_id.frais')
+    # frais = fields.Many2many('frais', string="Frais", related='sale_line_id.frais')
     tax_id = fields.Many2many('account.tax', string="Taxes", related='sale_line_id.tax_id')
     discount = fields.Float('Discount %', related='sale_line_id.discount')
 

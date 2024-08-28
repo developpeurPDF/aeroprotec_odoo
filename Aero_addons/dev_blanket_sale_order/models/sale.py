@@ -86,26 +86,26 @@ class SaleOrder(models.Model):
     blanket_order_ids = fields.Many2many(comodel_name='sale.order', relation='sale', column1='order_type', column2='blanket_expiry_date', string='Blanket Quotation')
     sale_quote_count = fields.Integer(string='Sale Orders', compute='compute_sale_quote_count')
 
-    @api.depends('order_line.tax_id', 'order_line.price_unit', 'order_line.frais_amount', 'amount_total',
-                 'amount_untaxed', 'currency_id')
-    def _compute_tax_totals(self):
-        for order in self:
-            order_lines = order.order_line.filtered(lambda x: not x.display_type)
-            tax_base_lines = []
-            for line in order_lines:
-                tax_base_line = line._convert_to_tax_base_line_dict()
-                if self.appliquer_seuil_a_la_ligne:
-                    tax_base_line[
-                        'price_unit'] = line.price_subtotal / line.product_uom_qty if line.product_uom_qty else line.price_subtotal
-                    tax_base_lines.append(tax_base_line)
-                else:
-                    tax_base_line[
-                        'price_unit'] += line.frais_amount / line.product_uom_qty if line.product_uom_qty else line.frais_amount
-                    tax_base_lines.append(tax_base_line)
-            order.tax_totals = self.env['account.tax']._prepare_tax_totals(
-                tax_base_lines,
-                order.currency_id or order.company_id.currency_id,
-            )
+    # @api.depends('order_line.tax_id', 'order_line.price_unit', 'order_line.frais_amount', 'amount_total',
+    #              'amount_untaxed', 'currency_id')
+    # def _compute_tax_totals(self):
+    #     for order in self:
+    #         order_lines = order.order_line.filtered(lambda x: not x.display_type)
+    #         tax_base_lines = []
+    #         for line in order_lines:
+    #             tax_base_line = line._convert_to_tax_base_line_dict()
+    #             if self.appliquer_seuil_a_la_ligne:
+    #                 tax_base_line[
+    #                     'price_unit'] = line.price_subtotal / line.product_uom_qty if line.product_uom_qty else line.price_subtotal
+    #                 tax_base_lines.append(tax_base_line)
+    #             else:
+    #                 tax_base_line[
+    #                     'price_unit'] += line.frais_amount / line.product_uom_qty if line.product_uom_qty else line.frais_amount
+    #                 tax_base_lines.append(tax_base_line)
+    #         order.tax_totals = self.env['account.tax']._prepare_tax_totals(
+    #             tax_base_lines,
+    #             order.currency_id or order.company_id.currency_id,
+    #         )
 
 
 

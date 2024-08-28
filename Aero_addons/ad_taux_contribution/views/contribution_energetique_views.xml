@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="contribution_energetique_view_search" model="ir.ui.view">
+            <field name="name">contribution.energetique.search</field>
+            <field name="model">contribution.energetique</field>
+            <field name="arch" type="xml">
+                <search string="RG">
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Date" name="name_invoice_date" domain="[]" context="{'group_by':'invoice_date'}"/>
+                        <filter string="Customer" name="customer_id_groupby" domain="[]" context="{'group_by':'customer_id'}"/>
+                        <filter string="Company" name="company_id_groupby" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="contribution_energetique_view_form" model="ir.ui.view">
+            <field name="model">contribution.energetique</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_confirm" string="Confirmer" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', '!=', 'draft')]}"/>
+                        <button name="reset_draft" string="Réinitialiser to brouillon" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|', ('active', '=', False), '&amp;', ('state', '!=', 'cancel'), ('state', '!=', 'paid')]}"/>
+                        <button name="action_paid" string="Payer" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', '!=', 'confirmed')]}"/>
+                        <button name="action_cancel" string="Annuler"
+                                type="object" attrs="{'invisible': ['|', ('active', '=', False), '&amp;', ('state', '!=', 'draft'), ('state', '!=', 'confirmed')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" attrs="{'invisible':[('name', '=', '/')],
+                                'readonly': [('state', '!=', 'draft')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="invoice_number"/>
+                                <field name="customer_id"/>
+                                <field name="invoice_date"/>
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="due_date"/>
+                                <field name="active" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="contribution_energetique_view_list" model="ir.ui.view">
+            <field name="model">contribution.energetique</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="invoice_number"/>
+                    <field name="invoice_date"/>
+                    <field name="due_date"/>
+                    <field name="customer_id"/>
+                    <field name="amount"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="contribution_energetique_action" model="ir.actions.act_window">
+            <field name="name">Contribution énergétique</field>
+            <field name="res_model">contribution.energetique</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="contribution_energetique_confirm_action" model="ir.actions.server">
+            <field name="name">Payer</field>
+            <field name="model_id" ref="ad_taux_contribution.model_contribution_energetique"/>
+            <field name="state">code</field>
+            <field name="code">records.action_confirm()</field>
+            <field name="binding_model_id" ref="ad_taux_contribution.model_contribution_energetique"/>
+            <field name="binding_type">action</field>
+        </record>
+
+    </data>
+</odoo>

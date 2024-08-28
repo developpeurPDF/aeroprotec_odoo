@@ -39,12 +39,15 @@ class SaleOrder(models.Model):
                                   inverse_name="current_version_id",
                                   help="Versions created")
 
+    current_version_number = fields.Integer("Numéro de version")
+
     def action_create_versions(self):
         """For creating the versions of the sale order"""
         sale_order_copy_id = self.copy()
         sale_order_copy_id.is_version = True
         length = len(self.version_ids)
         sale_order_copy_id.name = "%s-%s" % (self.name, str(length + 1))
+        sale_order_copy_id.current_version_number = length + 1
 
         self.write({'version_ids': [(4, sale_order_copy_id.id)]})
 

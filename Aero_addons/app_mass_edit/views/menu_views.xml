@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="menu_mass_edit_server_action" action="action_server_action_mass_edit"
+        parent="app_odoo_customize.menu_app_group"/>
+</odoo>

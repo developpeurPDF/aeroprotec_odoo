@@ -30,7 +30,7 @@ class SaleOrder(models.Model):
         copy=False, default=False, index=True, readonly=False,
         help="Delivery Status.")
 
-    compute_delivery_state = fields.Char(string='Delivery Status', compute='_calculate_delivery_state', store=False,
+    compute_delivery_state = fields.Char(string='Statut de livraison', compute='_calculate_delivery_state', store=False,
                                         copy=False, default='waiting', index=True, readonly=True,
                                         help="Delivery Status.")
 

@@ -16,7 +16,7 @@ For Module Support : devintelle@gmail.com  or Skype : devintelle
                         <field name="sale_line_id" invisible="1"/>
                         <field name="product_id" readonly="1"/>
                         <field name="discount" readonly="1"/>
-                        <field name="frais" widget="many2many_tags"/>
+<!--                        <field name="frais" widget="many2many_tags"/>-->
                         <field name="tax_id" widget="many2many_tags"/>
                         <field name="partner_id" options="{'no_create': True}"/>
                         <field name="remaining_qty" readonly="1"/>

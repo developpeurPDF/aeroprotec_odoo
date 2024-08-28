@@ -33,24 +33,24 @@
                         />
                     </t>
                 </t>
-                <tr t-if="totals.guarantee_percentage_amount_formatted">
+                <tr t-if="totals.energie_percentage_amount_formatted">
                     <td class="o_td_label">
                         <label class="o_form_label o_tax_total_label">Contribution énergétique</label>
                     </td>
                     <td>
                         <span
-                                t-out="totals.guarantee_percentage_amount_formatted"
+                                t-out="totals.energie_percentage_amount_formatted"
                                 style="white-space: nowrap; font-size: 1em;"
                         />
                     </td>
                 </tr>
-                <tr t-if="totals.prime_amount_formatted">
+                <tr t-if="totals.cont_env_amount_formatted">
                     <td class="o_td_label">
                         <label class="o_form_label o_tax_total_label">Contribution environnementale</label>
                     </td>
                     <td>
                         <span
-                                t-out="totals.prime_amount_formatted"
+                                t-out="totals.cont_env_amount_formatted"
                                 style="white-space: nowrap; font-size: 1em;"
                         />
                     </td>

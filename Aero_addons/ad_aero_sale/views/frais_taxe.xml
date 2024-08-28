@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+           <record id="view_frais_tax_tree" model="ir.ui.view">
+            <field name="name">account.tax.tree</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <tree string="Account Tax" decoration-muted="not active">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name" string="Nom du frais"/>
+                    <field name="type_tax_use" string="Type du frais"/>
+                    <field name="tax_scope" string="Portée du frais"/>
+                    <field name="description"/>
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                    <field name="country_id" optional="hide"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_frais_taxe_form" model="ir.ui.view">
+            <field name="name">account.tax.frais.form</field>
+            <field name="model">account.tax</field>
+            <field name="arch" type="xml">
+                <form string="Frais">
+                    <field name="company_id" invisible="1"/>
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Nom du frais"/>
+                            <field name="frais" context="{'default_frais': True}"/>
+                            <field name="amount_type" string="Calcul du frais" invisible="1"/>
+                            <field name="amount_frais_type"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="type_tax_use" invisible="1"/>
+                            <field name="tax_scope" string="Portée du frais"/>
+                            <label for="amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}"/>
+                            <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}">
+                                <field name="amount" class="oe_inline" nolabel="1"/>
+                                <span class="o_form_label oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}">%</span>
+                            </div>
+                            <field name="type_frais"/>
+                            <field name="product_id" widget="many2many_tags" attrs="{'invisible':[('type_frais','!=','article')]}"/>
+                            <field name="product_ids" attrs="{'invisible':[('type_frais','!=','seuil')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Definition" name="definition">
+                            <div attrs="{'invisible': [('amount_type', '=', 'group')]}">
+                                <field name="country_code" invisible="1"/>
+                                <group string="Distribution for Invoices">
+                                    <field name="invoice_repartition_line_ids" nolabel="1" colspan="2">
+                                        <tree editable="bottom" create="1" delete="1">
+                                            <field name="factor_percent" readonly="0" attrs="{'invisible': [('repartition_type', '=', 'base')]}"/>
+                                            <field name="repartition_type" readonly="0"/>
+                                            <field name="account_id"/>
+                                            <field name="company_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+<!--                                <group string="Distribution for Refunds">-->
+<!--                                    <field name="refund_repartition_line_ids" nolabel="1" colspan="2"/>-->
+<!--                                </group>-->
+                            </div>
+                            <field name="children_tax_ids" attrs="{'invisible':['|', ('amount_type','!=','group'), ('type_tax_use','=','none')]}" domain="[('type_tax_use','in',('none',type_tax_use)), ('amount_type','!=','group')]">
+                                <tree string="Children Taxes">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="amount_type"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Advanced Options" name="advanced_options">
+                            <group>
+                                <group>
+                                    <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
+                                    <field name="tax_group_id" string="Groupe du frais" attrs="{'invisible': [('amount_type', '=', 'group')], 'required': [('amount_type', '!=', 'group')]}"/>
+                                    <field name="analytic" attrs="{'invisible':[('amount_type','=', 'group')]}" groups="analytic.group_analytic_accounting" />
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="country_id" required="True"/>
+                                </group>
+                                <group name="advanced_booleans">
+                                    <field name="price_include" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                                    <field name="include_base_amount" invisible="1" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                                    <field name="is_base_affected"
+                                           attrs="{'invisible': ['|', ('amount_type','=', 'group'), ('price_include', '=', True)]}"
+                                           groups="base.group_no_one"/>
+                                    <field name="hide_tax_exigibility" invisible="1"/>
+                                    <field name="tax_exigibility" widget="radio" attrs="{'invisible':['|', ('amount_type','=', 'group'), ('hide_tax_exigibility', '=', False)]}" groups="account.group_account_readonly"/>
+                                    <field name="cash_basis_transition_account_id" options="{'no_create': True}" attrs="{'invisible': [('tax_exigibility', '=', 'on_invoice')], 'required': [('tax_exigibility', '=', 'on_payment')]}" groups="account.group_account_readonly"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+              </field>
+        </record>
+
+        <record id="frais_taxe_view_search" model="ir.ui.view">
+            <field name="name">Frais.taxe.search</field>
+            <field name="model">frais</field>
+            <field name="arch" type="xml">
+                <search string="Frais">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="param_action_window_frais_taxe">
+          <field name="name">Frais</field>
+          <field name="res_model">account.tax</field>
+          <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="frais_taxe_view_search"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_frais_tax_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_frais_taxe_form')})]"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids),('frais', '=', True)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                    'allowed_company_ids': allowed_company_ids}</field>
+    <!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+            <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create new record</p>
+            </field>
+        </record>
+        <menuitem id="menu_frais" name="Frais" parent="contacts.res_partner_menu_config" sequence="94"/>
+        <menuitem id="menu_frais_taxe" name="Frais" action="param_action_window_frais_taxe" parent="ad_aero_sale.menu_frais" sequence="95"/>
+
+        <record id="view_tax_form_inherit" model="ir.ui.view">
+        <field name="name">account.tax.form.inherit</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="frais"/>
+            </xpath>
+        </field>
+    </record>
+
+    </data>
+</odoo>

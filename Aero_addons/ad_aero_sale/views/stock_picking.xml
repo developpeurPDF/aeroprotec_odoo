@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="view_picking_form_inherit_control" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit.control</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='operations']/field[@name='move_ids_without_package']/tree/field[1]" position="before">
+<!--                    <button name="action_show_control_table" type="object" string="Contrôle"-->
+<!--                            class="btn-primary"/>-->
+<!--                            attrs="{'invisible': ['|', ('sale_id', '=', False), ('picking_type_code', '!=', 'incoming')]}"/>-->
+                    <field name="is_conforme" decoration-danger="is_conforme == 'non_conforme'"
+                                decoration-success="is_conforme == 'conforme'"
+                                widget="badge"/>
+                    <field name="quality_control_done" invisible="1"/>
+                     <button name="%(ad_aero_sale.view_control_table_wizard_form_wizard)s" string="Contrôle"
+                        class="fa fa-check oe_highlight"
+                        type="action" context="{'default_move_id': id}"
+                        attrs="{'invisible': [('quality_control_done', '=', True)]}"/>
+                    <field name="quality_control_id" invisible="1"/>
+                    <button name="action_open_quality_control" string="Voir Contrôle" type="object"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

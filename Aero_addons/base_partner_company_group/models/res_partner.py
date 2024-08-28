@@ -10,7 +10,7 @@ class Contact(models.Model):
     company_group_id = fields.Many2one(
         "res.partner",
         "Company group",
-        domain=[("is_company", "=", True)],
+        domain=[("groupe_societe", "=", True)],
         recursive=True,
     )
     company_group_member_ids = fields.One2many(
@@ -18,6 +18,7 @@ class Contact(models.Model):
         inverse_name="company_group_id",
         string="Company group members",
     )
+    groupe_societe = fields.Boolean(string="Groupe société")
 
     def _commercial_fields(self):
         return super()._commercial_fields() + ["company_group_id"]

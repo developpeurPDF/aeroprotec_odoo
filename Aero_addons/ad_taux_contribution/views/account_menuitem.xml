@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem id="menu_retenue_garantie" name="Retenues de garantie" action="retenue_garantie_action"
+    <menuitem id="menu_contribution_energetique" name="Retenues de garantie" action="contribution_energetique_action"
               parent="account.menu_finance_receivables"
               sequence="120"/>
 
-    <menuitem id="menu_prime_cee" name="Contribution environnementale" action="prime_cee_action"
+    <menuitem id="menu_cont_env_cee" name="Contribution environnementale" action="cont_env_cee_action"
               parent="account.menu_finance_receivables"
               sequence="130"/>
 </odoo>

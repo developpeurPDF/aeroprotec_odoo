@@ -8,15 +8,15 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@id='aml_tab']//field[@name='line_ids']/tree/field[@name='account_id']" position="after">
                 <field name="price_unit" invisible="1" force_save="1"/>
-                <field name="acs_is_rg_line" invisible="1" force_save="1"/>
+                <field name="ad_is_rg_line" invisible="1" force_save="1"/>
             </xpath>
             <field name="to_check" position="after">
-                <field name="guarantee_return" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="rg_percentage" attrs="{'invisible':[('guarantee_return','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="guarantee_percentage_amount" invisible="1"/>
-                <field name="date_echeance" attrs="{'invisible':[('guarantee_return','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="prime" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="prime_amount" attrs="{'invisible':[('prime','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="energie_return" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="rg_percentage" attrs="{'invisible':[('energie_return','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="energie_percentage_amount" invisible="1"/>
+<!--                <field name="date_echeance" attrs="{'invisible':[('energie_return','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>-->
+                <field name="cont_env" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="cont_env_amount" attrs="{'invisible':[('cont_env','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
             </field>
         </field>
     </record>

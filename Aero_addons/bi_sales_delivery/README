@@ -1,0 +1,15 @@
+16.0.0.1 ==>Added multi step routes for delivery date functionality.
+16.0.0.2 ==>fixed issue of traceback for delivery date while confirm the SO.
+16.0.0.3 ==>fixed issue of manufacturing order schedule date.
+16.0.0.4 ==>fixed issue of sale order confirmation.
+16.0.0.5 ==>Fixed issue of when confrim sale order with MTO route product at that time show error.
+16.0.0.6 ==> When create mrp order from sale order at that time in child mrp order schedual date can't be updated.
+16.0.0.7 ==> Fixed issue of when multiple same product added in sale order and create mrp  from sale order at that time trace back occur.
+
+16.0.0.8 ==> Update module flow added new field in config and also added flow of manufacturing lead and customer lead time in this module.
+
+=> 16.0.0.9 : Improved an index as per latest improvement points.
+
+16.0.1.0 ==> Update Deadline of delivery based on sale order line.
+
+16.0.1.1 ==> Fixed issue of when we update quantity from foracsted report at that time trace back occur.

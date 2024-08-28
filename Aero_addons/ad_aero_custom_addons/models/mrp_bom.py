@@ -22,7 +22,7 @@ class MrpBom(models.Model):
 
     name = fields.Char(string="Libellé de nomenclature", tracking=True)
     operation_ids = fields.One2many('mrp.routing.workcenter', 'bom_id', 'Operations', copy=True, ondelete="cascade")
-    # code = fields.Char('Reference',compute='_compute_code' )
+    code = fields.Char('Reference',compute='_compute_code' )
     modele = fields.Char(string="Modèle de nomenclature", tracking=True)
     donneur_order = fields.Many2one('donneur.order',related="product_tmpl_id.donneur_order", string="Donneur d'ordre", tracking=True)
     indice = fields.Char(string="Indice", related="product_tmpl_id.indice", tracking=True)
@@ -105,24 +105,27 @@ class MrpBom(models.Model):
         self.is_locked = not self.is_locked
         return True
 
-    # @api.model
-    # def _compute_code(self):
-    #     for rec in self:
-    #         # Génération de la référence en utilisant le code de produit, le code de norme et le code de traitement
-    #         product_code = rec.product_tmpl_id.indice
-    #         standard_code = rec.codes.name
-    #         treatment_code = rec.norme.indice
-    #         print('product_code', product_code)
-    #         print('standard_code', standard_code)
-    #         print('treatment_code', treatment_code)
-    #
-    #         reference = f"{product_code}-{standard_code}-{treatment_code}"
-    #
-    #         # Ajout de la référence aux valeurs avant de créer la nomenclature
-    #         rec.code = reference
+    @api.depends('product_tmpl_id.indice', 'codes.name', 'norme.indice')
+    def _compute_code(self):
+        for rec in self:
+            # Récupération des codes avec vérification de valeur nulle
+            product_code = rec.product_tmpl_id.indice or ''
+            product_default_code = rec.product_tmpl_id.client.code_abreviation or ''
+            product_plan_reference = rec.product_tmpl_id.plan_reference or ''
+            product_donneur_order = rec.product_tmpl_id.donneur_order.name.name or ''
+            product_famille_matiere = rec.product_tmpl_id.famille_matiere.name or ''
+            product_abreviation_matiere = rec.product_tmpl_id.matiere_abreviation or ''
+            standard_code = rec.codes.name or ''
+            treatment_code = rec.norme.indice or ''
 
-            # Appel de la méthode create du modèle parent avec les valeurs modifiées
-            # return super(MrpBom, self).create(rec.code)
+            # Récupération des abréviations d'opérations
+            operation_abbrs = '-'.join(op.abreviation_operation for op in rec.operation_ids if op.abreviation_operation)
+
+            # Génération de la référence en utilisant le code de produit, le code de norme, le code de traitement et les abréviations des opérations
+            reference = f"{product_plan_reference}-{product_donneur_order}-{product_famille_matiere} {product_abreviation_matiere}-{operation_abbrs}"
+
+            # Assignation de la référence au champ 'code'
+            rec.code = reference
 
 
     evolution = fields.Boolean(string="Evolution Effectué", default=False, readonly=True)
@@ -150,7 +153,7 @@ class MrpBom(models.Model):
             'longueur': bom_original.product_tmpl_id.longueur,
             'diametre': bom_original.product_tmpl_id.diametre,
             'surface_traiter': bom_original.product_tmpl_id.surface_traiter,
-            'type_montage': bom_original.product_tmpl_id.type_montage,
+            #'type_montage': bom_original.product_tmpl_id.type_montage,
             'type_article': bom_original.product_tmpl_id.type_article,
             'famille_matiere': bom_original.product_tmpl_id.famille_matiere,
             'matiere': bom_original.product_tmpl_id.matiere,
@@ -163,7 +166,7 @@ class MrpBom(models.Model):
             'masque_impression': bom_original.product_tmpl_id.masque_impression,
             'info_marquer': bom_original.product_tmpl_id.info_marquer,
             'n_ft': bom_original.product_tmpl_id.n_ft,
-            'piece_jointe_ft': bom_original.product_tmpl_id.piece_jointe_ft,
+            #'piece_jointe_ft': bom_original.product_tmpl_id.piece_jointe_ft,
             'norme_douaniere': bom_original.product_tmpl_id.norme_douaniere,
             'indice': bom_original.product_tmpl_id.indice,
             'nb_piece_barre': bom_original.product_tmpl_id.nb_piece_barre,

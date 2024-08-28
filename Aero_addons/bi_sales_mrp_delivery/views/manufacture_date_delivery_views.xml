@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inherit_mrp_production_delv_date_view" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='date_planned_start']" position="attributes">
+                <attribute name="string">Deadline Start</attribute>
+            </xpath>
+            <xpath expr="//field[@name='components_availability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="origin"/>
+                <field name="delivery_date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_mrp_tree_view" model="ir.ui.view">
+        <field name="name">mrp.production.tree.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='date_planned_start']" position="after">
+                <field name="delivery_date"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

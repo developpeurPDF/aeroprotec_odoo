@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_aero_devis_commande" name="Report layout retenue">
+    <t t-if="not o" t-set="o" t-value="docs"/>
+        <t t-set="company" t-value="company_id"/>
+        <div class="header">
+            <div class="first-page">
+                <div class="row">
+                    <div class="col-5">
+                        <img src="ad_aero_report/static/src/img/aeroprotec_snr.jpg" class="row" style="width: 350px; height: 120px;float: right; margin: 0px 0px 0px 10px;"/>
+                    </div>
+                        <div class="col-6" style="margin-top:30px">
+                        <t t-esc="o.company_id.name" style="font-weight: bold; color: black;"/>
+                        <t t-if="o.company_id.street">
+                            <br/>
+                            <span t-field="o.company_id.street"></span>
+                        </t>
+                        <t t-if="o.company_id.street2">
+                            <br/>
+                            <span t-field="o.company_id.street2"></span>
+                        </t>
+                        <t t-if="o.company_id.zip or o.company_id.city">
+                            <br/>
+                            <span t-field="o.company_id.zip"></span>
+                            <span t-field="o.company_id.city"></span>
+                        </t>
+                        <t t-if="o.company_id.phone">
+                            <br/>
+                            Tel: <span t-field="o.company_id.phone"></span>
+                        </t>
+          </div>
+                </div>
+            </div>
+<!--            <h2 class="mt-4">-->
+<!--                <span t-if="env.context.get('proforma', False) or is_pro_forma">Pro-Forma Invoice # </span>-->
+<!--                <span t-elif="doc.state in ['draft','sent']">Quotation # </span>-->
+<!--                <span t-else="">Order # </span>-->
+<!--                <span t-field="doc.name"/>-->
+<!--            </h2>-->
+            <div style="text-align: center; font-weight: bold; font-size: 24px;margin-top:0px" t-if="env.context.get('proforma', False) or is_pro_forma">
+                Facture Pro-forma <span t-field="doc.name"/>
+            </div>
+            <div style="text-align: center; font-weight: bold; font-size: 24px;margin-top:0px" t-elif="doc.state in ['draft','sent']">
+                OFFRE DE PRIX <span t-field="doc.name"/> Avenant N° <span t-field="doc.current_version_number"/>
+            </div>
+            <div style="text-align: center; font-weight: bold; font-size: 24px;margin-top:0px" t-else="">
+                Commande N°<span t-field="doc.name"/>
+            </div>
+
+            <br/>
+                <div class="row">
+                        <div class="col-6">
+                            <span t-field="doc.n_quality"/><br/><br/>
+                            <t t-esc="o.get_formatted_date()" /><br/><br/>
+                            Votre référence : <span t-field="doc.client_order_ref"/><br/>
+                            Date Devis : <span t-field="doc.date_order"/><br/>
+                            Contact commercial : <span t-field="doc.user_id"/><br/><br/>
+                            <p t-if="not is_html_empty(doc.payment_term_id.note)">
+                                <span t-field="doc.payment_term_id.note"/>
+                            </p>
+
+                        </div>
+                        <div class="col-1"/>
+                        <div class="col-5  p-2 border border-dark">
+                            <t t-esc="doc.partner_id.name" style="font-weight: bold; color: black;"/>
+                            <t t-if="doc.partner_id.street">
+                                <br/>
+                                <span t-field="doc.partner_id.street"></span>
+                            </t>
+                            <t t-if="doc.partner_id.street2">
+                                <br/>
+                                <span t-field="doc.partner_id.street2"></span>
+                            </t>
+                            <t t-if="doc.partner_id.zip or doc.partner_id.city">
+                                <br/>
+                                <span t-field="doc.partner_id.zip"></span>
+                                <span t-field="doc.partner_id.city"></span>
+                            </t>
+                            <t t-if="doc.partner_id.phone">
+                                <br/>
+                                Tel: <span t-field="doc.partner_id.phone"></span>
+                            </t>
+                         </div>
+                </div>
+                <div class="first-page">
+                    <div class="row mt-2 mb-2" id="informations">
+                        <div class="col-auto col-3 mw-100 mb-2"></div>
+                        <div t-if="doc.interlocuteur" class="col-auto col-3 mw-100 mb-2">
+
+                        <strong> A l'attention de <span t-field="doc.interlocuteur.title"/>.  <span t-field="doc.interlocuteur.name"/></strong>
+                        <p class="m-0">Proposition valable jusqu'au : <span t-field="doc.validity_date"/></p>
+
+                            </div>
+                        </div>
+                </div>
+        </div>
+
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ad_aero_report.report_aero_devis_commande">
+                    <div class="page">
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <div class="oe_structure"/>
+                        <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()"/>
+                        <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
+                        <table class="table table-sm table-border-color mt-4">
+                            <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                            <thead style="display: table-row-group">
+                                <tr>
+                                    <th name="th_ligne" class="text-start">Ligne</th>
+                                    <th name="th_description" class="text-start">Description</th>
+                                    <th name="th_quantity" class="text-end">Quantité</th>
+                                    <th name="th_priceunit" class="text-end">Prix unitaire</th>
+                                    <th name="th_discount" t-if="display_discount" class="text-end">
+                                        <span>Disc.%</span>
+                                    </th>
+                                    <th name="th_frais" class="text-end">Frais</th>
+                                    <th name="td_montant_frais" class="text-end">Montant Frais HT</th>
+                                    <th name="th_taxes" class="text-end">Taxes</th>
+                                    <th name="th_subtotal" class="text-end">
+                                        <span groups="account.group_show_line_subtotals_tax_excluded">Montant HT</span>
+                                        <span groups="account.group_show_line_subtotals_tax_included">Montant TTC</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-set="current_subtotal" t-value="0"/>
+                                <t t-foreach="lines_to_report" t-as="line">
+                                    <t t-if="line.sequence_order > 0">
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                    <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                        <t t-if="not line.display_type">
+                                            <td name="td_ligne"><span t-field="line.sequence_order"/></td>
+                                            <td name="td_name"><span t-field="line.name"/><br/>
+                                                N° poste client : <span t-field="line.n_poste_client"/><br/>
+                                                N° Dossier : <span t-field="line.n_poste_client"/><br/>
+                                                N° OF client : <span t-field="line.n_contrat"/></td>
+                                            <td name="td_quantity" class="text-end">
+                                                <span t-field="line.product_uom_qty"/>
+                                                <span t-field="line.product_uom"/>
+                                            </td>
+                                            <td name="td_priceunit" class="text-end">
+                                                <span t-field="line.price_unit"/>
+                                            </td>
+                                            <td t-if="display_discount" class="text-end">
+                                                <span t-field="line.discount"/>
+                                            </td>
+                                            <td name="td_frais" class="text-end">
+<!--                                                <span t-out="', '.join(map(lambda x: (x.description or x.name), filter(lambda x: x.frais, line.tax_id)))"/>-->
+                                                <t t-foreach="line.tax_id.filtered(lambda x: x.frais)" t-as="frais">
+                                                    <div t-out="frais.description or frais.name"/>
+<!--                                                    :-->
+<!--                                                    <span t-out="line.get_frais_amount()"/>-->
+                                                </t>
+                                            </td>
+                                            <td name="td_montant_frais" class="text-end">
+<!--                                                <span t-out="', '.join(map(lambda x: (x.description or x.name), filter(lambda x: x.frais, line.tax_id)))"/>-->
+                                                <t t-foreach="line.get_frais_details()" t-as="frais">
+<!--                                                    <div t-out="frais.description or frais.name"/>-->
+<!--                                                    :-->
+                                                    <div t-out="frais['amount']"/>
+                                                </t>
+                                            </td>
+                                            <td name="td_taxes" class="text-end">
+<!--                                                <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>-->
+                                                <span t-out="', '.join(map(lambda x: (x.description or x.name), filter(lambda x: not x.frais, line.tax_id)))"/>
+                                            </td>
+                                            <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
+                                                <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                            </td>
+                                        </t>
+                                        <t t-elif="line.display_type == 'line_section'">
+                                            <td name="td_section_line" colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </t>
+                                        <t t-elif="line.display_type == 'line_note'">
+                                            <td name="td_note_line" colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <t t-if="line.product_template_id.bom_ids">
+                                        <td colspan="99">
+                                            <span t-field="line.product_template_id.bom_ids.code"/><br/>
+                                            <strong>Opérations : </strong>
+                                            <ol>
+                                                <t t-foreach="line.product_template_id.bom_ids" t-as="bom">
+                                                    <t t-foreach="bom.operation_ids" t-as="bom_op">
+
+                                                        <li style="font-size: 13px;font-style: italic" t-if="not bom_op.type_operation == 'prestation'">
+<!--                                                        <span t-field="bom_op.code_operation"/> - <span t-field="bom_op.type_operation"/> <span t-field="bom_op.nature_operation"/> -->
+                                                            <span t-field="bom_op.name"/> <span t-field="bom_op.norme_interne"/> (<span t-field="bom_op.norme_interne.indice"/>)<br/>
+                                                        </li>
+                                                    </t>
+                                                </t>
+                                            </ol>
+                                        </td>
+                                    </t>
+                                    <t t-else=""></t>
+                                    <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">
+                                        <tr class="is-subtotal text-end">
+                                            <td name="td_section_subtotal" colspan="99">
+                                                <strong class="mr16">Subtotal</strong>
+                                                <span
+                                                    t-out="current_subtotal"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'
+                                                />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix" name="so_total_summary">
+                            <div id="total" class="row" name="total">
+                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                    <table class="table table-sm table-borderless">
+                                        <!-- Tax totals -->
+                                        <t t-set="tax_totals" t-value="doc.tax_totals"/>
+<!--                                        <t t-call="account.document_tax_totals"/>-->
+                                        <t t-call="ad_aero_report.document_tax_totalss"/>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-if="doc.poids_carbone_unit" class="mt-4 ml64 mr4" name="poids_carbone">
+                            <div class="offset-6">
+                                <span style="color: red;">Poids Carbone associé minimum <span t-field="o.poids_carbone_total"/> kgCO2</span><br/>
+                                <span style="color: green;">Objectif de réduction des émissions de CO2 de 45 %</span><br/>
+                                <span style="color: green;">sur les SCOPE 1+2 et de 25 % sur le SCOPE 3 en 2030.</span>
+
+                            </div>
+                        </div>
+
+                        <div t-if="doc.signature" class="mt-4 ml64 mr4" name="signature">
+                            <div class="offset-8">
+                                <strong>Signature</strong>
+                            </div>
+                            <div class="offset-8">
+                                <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                            </div>
+                            <div class="offset-8 text-center">
+                                <p t-field="doc.signed_by"/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p t-field="doc.note" name="order_note"/>
+
+<!--                            <p t-if="doc.fiscal_position_id and not is_html_empty(doc.fiscal_position_id.sudo().note)"-->
+<!--                                id="fiscal_position_remark">-->
+<!--                                <strong>Remarque Fiscal Position:</strong>-->
+<!--                                <span t-field="doc.fiscal_position_id.sudo().note"/>-->
+<!--                            </p>-->
+                        </div>
+                    </div>
+                </t>
+        </t>
+            <div t-attf-class="footer o_boxed_footer o_company_#{o.company_id.id}_layout ">
+            <div class="row">
+                <div class="col-1" style="margin-bottom: 20px;margin-top: 1px;">
+<!--                        <img t-att-src="'/ad_aero_report/static/src/img/afaq.png'"-->
+<!--                             style="float:right;height:120px ;padding-right:5%;width:120px !important;"/>-->
+                    <img t-if="o.company_id.afaq and o.company_id.utiliser_afaq" t-att-src="image_data_uri(o.company_id.afaq)" alt="Logo"
+                             style="float:right;height:120px ;padding-right:5%;width:120px !important;"/>
+                    </div>
+                <div class="col-2" style="margin-bottom: 20px;margin-top: 1px;;margin-left: 120px;">
+<!--                        <img t-att-src="'/ad_aero_report/static/src/img/afaq.png'"-->
+<!--                             style="float:right;height:120px ;padding-right:5%;width:120px !important;"/>-->
+                    <img t-if="o.company_id.nadscap and o.company_id.utiliser_nadscap" t-att-src="image_data_uri(o.company_id.nadscap)" alt="Logo"
+                             style="float:right;height:120px ;padding-right:5%;width:320px !important;"/>
+                    </div>
+                <div t-if="report_type == 'pdf'" class="text-end col-7" style="font-size: 24px;">
+                   Commande client n° <span t-field="o.name"/> - Page: <span class="page"/> / <span class="topage"/><br/>
+                    IBAN : <span t-field="o.company_id.partner_id.bank_ids.acc_number"/>
+                </div>
+
+                <div t-field="o.company_id.report_footer" class="text-center"/>
+            </div>
+        </div>
+        </t>
+        </xpath>
+        </template>
+    <template id="document_tax_totalss">
+
+
+        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+            <tr class="border-black o_subtotal">
+                <td>
+                    <strong t-esc="subtotal['name']"/>
+                </td>
+
+                <td class="text-end">
+                    <span
+                            t-att-class="oe_subtotal_footer_separator"
+                            t-esc="subtotal['formatted_amount']"
+                    />
+                </td>
+            </tr>
+
+            <t t-set="subtotal_to_show" t-value="subtotal['name']"/>
+            <t t-call="account.tax_groups_totals"/>
+        </t>
+
+        <t t-if="'formatted_rounding_amount' in tax_totals and tax_totals['rounding_amount'] != 0">
+            <tr>
+            <td>Rounding</td>
+            <td class="text-end">
+                <span t-esc="tax_totals['formatted_rounding_amount']"/>
+            </td>
+            </tr>
+        </t>
+        <t t-if="'cont_env_amount_formatted' in tax_totals and tax_totals['cont_env_amount'] != 0">
+            <tr>
+            <td>Contribution environnementale</td>
+            <td class="text-end">
+                <span t-esc="tax_totals['cont_env_amount_formatted']"/>
+            </td>
+            </tr>
+        </t>
+        <t t-if="'energie_percentage_amount_formatted' in tax_totals and tax_totals['energie_amount'] != 0">
+            <tr>
+            <td><span>Contribution énergétique</span></td>
+            <td class="text-end">
+                <span t-esc="tax_totals['energie_percentage_amount_formatted']"/>
+            </td>
+            </tr>
+        </t>
+    <!--Total amount with all taxes-->
+        <tr class="border-black o_total">
+            <td>
+                <strong>Montant TTC</strong>
+            </td>
+            <td class="text-end">
+                <span t-esc="tax_totals['formatted_amount_total_rounded']"
+                      t-if="'formatted_amount_total_rounded' in tax_totals"/>
+                <span t-esc="tax_totals['custom']" t-else=""/>
+            </td>
+            
+        </tr>
+    </template>
+
+    <template id="document_tax_totals_inherit" inherit_id="account.document_tax_totals">
+        <xpath expr="//tr[hasclass('o_subtotal')]" position="attributes">
+            <attribute name="class" remove="border-black"/>
+
+        </xpath>
+    </template>
+</odoo>

@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-from odoo import models, fields
+from odoo import models, fields, api, _
 
 
 class SaleOrderLine(models.Model):
@@ -30,3 +30,17 @@ class SaleOrderLine(models.Model):
                                      related="product_id.image_1920")
     contact_email = fields.Char(related="order_partner_id.email")
     contact_phone = fields.Char(related="order_partner_id.phone")
+    produce_delay = fields.Float(string="Durée du cycle")
+    days_to_prepare_mo = fields.Float(string="Jours pour préparer l'ordre de fabrication")
+    sale_delay = fields.Float(string="Durée du cycle négocié avec le client")
+
+    @api.onchange('product_template_id')
+    def _onchange_product_template_id(self):
+        if self.product_template_id:
+            self.produce_delay = self.product_template_id.produce_delay
+            self.days_to_prepare_mo = self.product_template_id.days_to_prepare_mo
+            self.sale_delay = self.product_template_id.sale_delay
+
+
+
+
