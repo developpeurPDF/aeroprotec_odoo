@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_so_refuse_manager,sh.so.refuse.manager,model_sh_so_refuse_reason,base.group_user,1,1,1,1
+ad_sale_order_double_approval.access_refuse_reason_wizard,access_refuse_reason_wizard,ad_sale_order_double_approval.model_refuse_reason_wizard,base.group_user,1,1,1,1

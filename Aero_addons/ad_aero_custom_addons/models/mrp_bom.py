@@ -42,8 +42,24 @@ class MrpBom(models.Model):
     def _onchange_mrp_bom_temp_id(self):
         if self.mrp_bom_temp_id:
             self.produce_delay = self.mrp_bom_temp_id.produce_delay
+            self.famille_matiere = self.mrp_bom_temp_id.famille_matiere
+            self.famille_matiere_name = self.mrp_bom_temp_id.famille_matiere_name
+            self.matiere = self.mrp_bom_temp_id.matiere
+            self.matiere_abreviation = self.mrp_bom_temp_id.matiere_abreviation
+            self.matiere_name = self.mrp_bom_temp_id.matiere_name
+            self.ref_matiere = self.mrp_bom_temp_id.ref_matiere
+            self.ref_matiere_name = self.mrp_bom_temp_id.ref_matiere_name
+            self.resistance_matiere = self.mrp_bom_temp_id.resistance_matiere
         else:
             self.produce_delay = 0.0
+            self.famille_matiere = ""
+            self.famille_matiere_name = ""
+            self.matiere = ""
+            self.matiere_abreviation = ""
+            self.matiere_name = ""
+            self.ref_matiere = ""
+            self.ref_matiere_name = ""
+            self.resistance_matiere = ""
 
 
     state = fields.Selection(
@@ -227,3 +243,15 @@ class MrpBom(models.Model):
             'res_id': new_bom.id,
             'type': 'ir.actions.act_window',
         }
+
+    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", tracking=True, domain="['|',('company_id','=',False),('company_id','=',company_id)]")
+    # matiere = fields.Many2one('matiere.parameter', string="Famille matière")
+    famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
+    matiere = fields.Many2one('matiere.parameter.value', string="Matière",
+                           domain="[('parameter_name','=', famille_matiere_name)]", tracking=True)
+    matiere_abreviation = fields.Char(string="Abréviation matière", related="matiere.name_abreviation", readonly=True, store=True)
+    matiere_name = fields.Char(string="Nom matière", related="matiere.name", readonly=True, store=True)
+    ref_matiere = fields.Many2one('matiere.parameter.ref', string="Nature matière",
+                           domain="[('parameter_name','=', matiere_name)]", tracking=True)
+    ref_matiere_name = fields.Char(string="Nom matière", related="ref_matiere.name", readonly=True, store=True)
+    resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance", tracking=True)

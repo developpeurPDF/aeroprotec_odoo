@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ <template id="report_saleorder_cgv">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="sale.report_saleorder" t-lang="doc.partner_id.lang">
+                        <t t-set="has_ccv" t-value="True"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+
+      <!--Sous operations-->
+  <record model="ir.ui.view" id="param_frais_tree">
+      <field name="name">Frais</field>
+      <field name="model">frais</field>
+      <field name="arch" type="xml">
+        <tree>
+
+          <field name="name"/>
+          <field name="type_frais"/>
+          <field name="priorite"/>
+          <field name="amount"/>
+
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="param_frais_form">
+      <field name="name">Frais</field>
+      <field name="model">frais</field>
+      <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="frais_article"/>
+                        <field name="frais_client"/>
+                        <field name="frais_facturation"/>
+                        <field name="a_la_commande" attrs="{'invisible': [('frais_facturation', '=', False)]}"/>
+<!--                        <field name="a_la_commande_amount" attrs="{'invisible': [('a_la_commande', '=', False)]}"/>-->
+                        <field name="seuil_a_la_ligne" attrs="{'invisible': [('frais_facturation', '=', False)]}"/>
+<!--                        <field name="seuil_a_la_ligne_amount" attrs="{'invisible': [('seuil_a_la_ligne', '=', False)]}"/>-->
+                        <field name="minimum_mensuel" attrs="{'invisible': [('frais_facturation', '=', False)]}"/>
+<!--                        <field name="minimum_mensuel_amount" attrs="{'invisible': [('minimum_mensuel', '=', False)]}"/>-->
+                    </group>
+                    <group>
+
+                      <field name="type_frais"/>
+                      <field name="priorite"/>
+                      <field name="amount"/>
+                      <field name="company_id"/>
+                    </group>
+
+                </group>
+            </sheet>
+        </form>
+      </field>
+    </record>
+        <record id="frais_view_search" model="ir.ui.view">
+            <field name="name">Frais.search</field>
+            <field name="model">frais</field>
+            <field name="arch" type="xml">
+                <search string="Nature d'opération">
+                    <field name="company_id" string="Company"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="param_action_window_frais">
+      <field name="name">Frais</field>
+      <field name="res_model">frais</field>
+      <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="frais_view_search"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
+<!--        <field name="context">{'search_default_company_id': allowed_company_ids[0]}</field>-->
+        <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new record</p>
+        </field>
+    </record>
+    <menuitem id="menu_frais" name="Frais" parent="contacts.res_partner_menu_config" sequence="94"/>
+    <menuitem id="param_menu_frais" name="Frais" action="param_action_window_frais" parent="menu_frais" sequence="95"/>
+
+
+    <record id="view_move_inherited" model="ir.ui.view">
+        <field name="name">account.move.form.inherited</field>
+        <field name="model">account.move</field>
+
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
+                <field name="frais"/>
+
+            </xpath>
+        </field>
+    </record>
+</data>
+</odoo>

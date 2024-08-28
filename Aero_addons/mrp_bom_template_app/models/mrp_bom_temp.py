@@ -131,7 +131,19 @@ class MrpBomTemplate(models.Model):
                 line.bom_product_template_attribute_value_ids = False
 
 
-
+    famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", tracking=True,
+                                      domain="['|',('company_id','=',False),('company_id','=',company_id)]")
+    # matiere = fields.Many2one('matiere.parameter', string="Famille matière")
+    famille_matiere_name = fields.Char("Nom famille matière", related="famille_matiere.name", readonly=True, store=True)
+    matiere = fields.Many2one('matiere.parameter.value', string="Matière",
+                              domain="[('parameter_name','=', famille_matiere_name)]", tracking=True)
+    matiere_abreviation = fields.Char(string="Abréviation matière", related="matiere.name_abreviation", readonly=True,
+                                      store=True)
+    matiere_name = fields.Char(string="Nom matière", related="matiere.name", readonly=True, store=True)
+    ref_matiere = fields.Many2one('matiere.parameter.ref', string="Nature matière",
+                                  domain="[('parameter_name','=', matiere_name)]", tracking=True)
+    ref_matiere_name = fields.Char(string="Nom matière", related="ref_matiere.name", readonly=True, store=True)
+    resistance_matiere = fields.Char(string="Résistance matière", related="ref_matiere.name_resistance", tracking=True)
 
 
 

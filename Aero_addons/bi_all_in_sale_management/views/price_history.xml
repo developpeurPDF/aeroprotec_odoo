@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+		<record id="sale_price_order_form" model="ir.ui.view">
+            <field name="name">new.sale.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//notebook" position="inside">
+                    <page string="History">
+                        <field name="sale_history_ids" nolabel="1">
+	                        <tree editable="bottom" string="Price History">
+		                       <field name="product_id"/>
+		                       <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+		                       <field name="product_qty" />
+		                       <field name="product_uom" groups="uom.group_uom" />
+		                       <field name="price_unit_old" string="Old Price"/>
+		                       <field name="price_unit" string="New Price"/>
+	                           <field name="line_id" invisible="1"/>
+	                            <field name="order_id" invisible="1"/>
+	                        </tree>
+                        </field>
+                    </page>
+                </xpath>	
+				<xpath expr="//field[@name='payment_term_id']" position="after">
+					<field name="effective_date"/>
+                </xpath>				
+			
+			</field>
+		</record>
+
+     
+    </data>
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="ad_sale_order_double_approval_form_inherit" model="ir.ui.view">
+			<field name="name">sale.order.double.approval.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+	 			<xpath expr="//header" position="replace">
+                     <header>
+                    <field name="authorized_transaction_ids" invisible="1"/>
+                    <field name="hide_approve_btn" invisible="1"/>
+
+
+                    <button name="demande_approuve" string="Demander Approbation" type="object" states="draft" groups="!ad_sale_order_double_approval.sh_group_sale_order_double_approval"/>
+										<button name="action_create_versions" type="object" string="Create Version"/>
+<!--						 <button name="payment_action_capture" type="object" data-hotkey="shift+g"-->
+<!--							string="Capture Transaction" class="oe_highlight"-->
+<!--							attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>-->
+<!--						<button name="payment_action_void" type="object"-->
+<!--								string="Void Transaction" data-hotkey="shift+v"-->
+<!--								confirm="Are you sure you want to void the authorized transaction? This action can't be undone."-->
+<!--								attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>-->
+<!--						<button id="create_invoice" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"-->
+<!--							type="action" class="btn-primary" data-hotkey="q"-->
+<!--							attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>-->
+<!--						<button id="create_invoice_percentage" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"-->
+<!--							type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="q"-->
+<!--							attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>-->
+
+						 <button id="create_invoice" name="294" string="Create Invoice" type="action" class="btn-primary" data-hotkey="q" attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
+                <button id="create_invoice_percentage" name="294" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="q" attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>
+                    <button name="payment_action_capture" type="object" string="Capture Transaction" class="oe_highlight" attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>
+                    <button name="payment_action_void" type="object" string="Void Transaction" confirm="Are you sure you want to void the authorized transaction? This action can't be undone." attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>
+<!--                    <button name="291" string="Create Invoice" type="action" class="btn-primary" attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>-->
+
+<!--                    <button name="291" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>-->
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="draft,approve2" class="btn-primary" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval"/>
+                    <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval" class="btn-primary" attrs="{'invisible': ['|', ('state', 'not in', ['draft','approve2']), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['sent'])]}" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval" />
+                    <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible': [('state', 'not in', ['draft','approve2'])]}" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval"/>
+                    <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval" attrs="{'invisible': ['|', ('state', 'in', ['draft','approve2']), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale" groups="ad_sale_order_double_approval.sh_group_sale_order_double_approval"/>
+                    
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="approve2" class="btn-primary" groups="!ad_sale_order_double_approval.sh_group_sale_order_double_approval"/>
+                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['approve2'])]}" groups="!ad_sale_order_double_approval.sh_group_sale_order_double_approval" />
+                    <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="!ad_sale_order_double_approval.sh_group_sale_order_double_approval" attrs="{'invisible': ['|', ('state', '!=', 'approve2'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+
+
+                     <button name="action_approve" type="object" string="Approuver" attrs="{'invisible': [('hide_approve_btn','=',True) ]}"/>
+                     <button name="action_refuse" type="object" string="Refuser" attrs="{'invisible': [('hide_approve_btn','=',True) ]}"/>
+                    <button name="action_cancel" states="draft,sent,approve,refuse,sale" type="object" string="Cancel"/>
+
+                    <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+                </header>
+ 	 			</xpath>
+	 			
+				<xpath expr="//notebook" position="inside">
+					<page string="Details de l'Approbation " name="approve_details">
+                    	<group>
+                    		<group string="Information de l'approbation" name="approve_info">
+	                            <field name="sh_approve_by" string="Approuvé par"/>
+	                            <field name="sh_approve_time" string="Date"/>
+	                        </group>
+	                        <group string="information du refus" name="refuse_info">
+	                            <field name="sh_refuse_by" string="Réfusé par "/>
+	                            <field name="sh_refuse_time" string="Date"/>
+	                            <field name="sh_refuse_reason" string="Raison"/>
+	                        </group>
+                    	</group>						
+					</page>
+				</xpath>
+			</field>
+		</record>
+		
+		<record id="ad_sale_order_double_approval_search_inherit" model="ir.ui.view">
+			<field name="name">sale.order.double.approval.search</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+			<field name="arch" type="xml">
+	 			<xpath expr="//filter[@name='my_quotation']" position="after">
+                    <filter string="Refusé" name="refuse" domain="[('state','in',['refuse'])]"/>
+ 	 			</xpath>
+ 	 		</field>
+ 	 	</record>
+	</data>	
+</odoo>

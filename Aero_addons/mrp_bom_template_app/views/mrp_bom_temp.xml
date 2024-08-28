@@ -61,7 +61,15 @@
                                 </li>
                             </ul>
                             </p>
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="famille_matiere"/>
+                            <field name="famille_matiere_name" invisible="1"/>
+                            <field name="matiere"/>
+                            <field name="matiere_abreviation"/>
+                            <field name="matiere_name" invisible="1"/>
+                            <field name="ref_matiere"/>
+                            <field name="ref_matiere_name" invisible="1"/>
+                            <field name="resistance_matiere"/>
+                            <field name="company_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                     </group>
                     <notebook>
@@ -147,6 +155,11 @@
                     <searchpanel>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </searchpanel>
+                    <group expand="0" string="Group By">
+                        <filter name="famille_matiere" string="Famille matière" domain="[]" context="{'group_by': 'famille_matiere'}"/>
+                        <filter name="matiere" string="Matière" domain="[]" context="{'group_by': 'matiere'}"/>
+                        <filter name="ref_matiere" string="Nature matière" domain="[]" context="{'group_by': 'ref_matiere'}"/>
+                    </group>
                 </search>
             </field>
         </record>

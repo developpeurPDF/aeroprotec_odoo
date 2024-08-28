@@ -129,10 +129,10 @@
         <field name="view_mode">tree,form</field>
     </record>
     
-    <menuitem id="menu_bom_change_version" name="Engineering Change Orders" parent="mrp.menu_mrp_root" sequence="12"/>
+<!--    <menuitem id="menu_bom_change_version" name="Engineering Change Orders" parent="mrp.menu_mrp_root" sequence="12"/>-->
 
-    <menuitem id="menu_item_bom_change_version" name="Bom Change Orders" parent="menu_bom_change_version"
-              action="bom_change_action"/>
+<!--    <menuitem id="menu_item_bom_change_version" name="Bom Change Orders" parent="menu_bom_change_version"
+              action="bom_change_action"/>-->
     
     </data>
 </openerp>

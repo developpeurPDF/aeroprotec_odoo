@@ -55,14 +55,13 @@
                         <group>
                         <group string="Description">
                         <field name="forme" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        <field name="hauteur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        <field name="largeur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="hauteur" attrs="{'readonly':[('is_locked', '=', True)],'invisible': [('forme','=','cylindre')]}"/>
+                        <field name="largeur" attrs="{'readonly':[('is_locked', '=', True)],'invisible': [('forme','=','cylindre')]}"/>
                         <field name="longueur" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        <field name="diametre" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+                        <field name="diametre" attrs="{'readonly':[('is_locked', '=', True)],'invisible': [('forme','!=','cylindre')]}"/>
                         <field name="surface" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         <field name="surface_traiter" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        <field name="type_montage" attrs="{'readonly':[('is_locked', '=', True)]}"/>
-                        <field name="nb_piece_barre" attrs="{'readonly':[('is_locked', '=', True)]}"/>
+
                         <field name="famille_matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
                         <field name="famille_matiere_name" invisible="1"/>
                         <field name="matiere" attrs="{'readonly':[('is_locked', '=', True)]}"/>
@@ -103,6 +102,11 @@
                         </group>
 
                     </page>
+<!--                    <page string="Frais">-->
+<!--                        <group string="Frais">-->
+<!--                            <field name="frais" widget="many2many_tags"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
                 </notebook>
 
             </field>

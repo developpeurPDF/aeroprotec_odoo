@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="product_template_aero_view_form" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='list_price']" position="before">-->
+<!--                    -->
+<!--                </xpath>-->
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Frais">
+                        <group string="Frais">
+                            <field name="frais" widget="many2many_tags"/>
+
+
+                        </group>
+                        <group>
+                                <group>
+                                <field name="montant_seuil_a_la_commande"/>
+
+                                </group>
+                                    <group>
+                                        <span><field name="currency_id"/></span>
+                                    </group>
+                                </group>
+                    </page>
+                    <page string="FAI">
+                        <group>
+                                <group>
+                        <field name="last_order_date"/>
+                                </group>
+                            <group>
+                        <field name="days_since_last_order"/>
+                                </group>
+
+                        <field name="order_line_ids"/>
+
+                    </group>
+
+
+                    </page>
+                    <page string="Dossier client">
+                        <group>
+                            <field name="client"/>
+                            <field name="n_poste_client"/>
+                            <field name="n_dossier"/>
+                            <field name="n_contrat"/>
+                            <field name="qte_previsionnelle_marche"/>
+                            <field name="cycle_production_estimatif"/>
+                            <field name="taux_previsionnel_reussite"/>
+                        </group>
+                    </page>
+
+                </xpath>
+
+            </field>
+    </record>
+        <record id="ir_cron_update_sale_warnings" model="ir.cron">
+            <field name="name">Update Sale Warnings Cron</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="code">model._cron_update_sale_warnings()</field>
+            <field name="interval_number">3</field> <!-- Run Every 3 Days -->
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field> <!-- Run indefinitely -->
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="True"/>
+
+        </record>
+
+
+    </data>
+</odoo>

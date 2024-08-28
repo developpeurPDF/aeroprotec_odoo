@@ -153,6 +153,8 @@
                     <field name="abreviation_operation"/>
                     <field name="type_operation"/>
                     <field name="operation_ts"/>
+                    <field name="type_montage"/>
+                    <field name="nb_piece_barre"/>
                     <field name="norme_interne" options='{"no_create": True}'/>
                     <field name="norme_externe" options='{"no_create": True}'/>
                     <field name="ref_prog_automate"/>

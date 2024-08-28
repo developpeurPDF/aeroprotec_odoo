@@ -37,12 +37,7 @@ class ProductTemplate(models.Model):
     diametre = fields.Float("Diamètre", tracking=True)
     surface = fields.Float("Surface", compute='_compute_air')
     surface_traiter = fields.Char("Surface à traiter", tracking=True)
-    type_montage = fields.Selection(selection=[
-            ('CADRE_SIMPLE','CADRE SIMPLE'),
-            ('CADRE_DOUBLE','CADRE DOUBLE'),
-            ('MONTAGE_TOURNANT','MONTAGE TOURNANT'),
-    ],
-        string='Type de montage', tracking=True)
+
     type_article = fields.Selection(selection=[
             ('Production','Production'),
             ('Eprouvette','Eprouvette'),
@@ -70,7 +65,7 @@ class ProductTemplate(models.Model):
     norme_douaniere = fields.Char(string="Norme douanière", tracking=True)
 
     indice = fields.Char(string="Indice", tracking=True)
-    nb_piece_barre = fields.Integer(string="Nombre de pièces par barre", tracking=True)
+
     type_indice = fields.Selection(selection=[
         ('piece', 'Indice pièce'),
         ('plan', 'Indice plan'),
@@ -128,6 +123,5 @@ class ProductTemplate(models.Model):
             else:
                 rec.surface = 0
 
-
-
-
+    # frais = fields.Many2many('frais',
+    #                          string="Frais", readonly=False)

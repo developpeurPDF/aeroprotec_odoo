@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Wizard for sale order -->
+         <record id="action_mass_sale_order" model="ir.actions.act_window">
+            <field name="name">Mass Sale Order Email Send</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wiz.mass.sale.order</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order" />
+            <field name="binding_view_types">list</field>
+        </record>
+<!--        <act_window-->
+<!--            id="action_mass_sale_order"-->
+<!--            name="Mass Sale Order Email Send"-->
+<!--            res_model="wiz.mass.sale.order"-->
+<!--            binding_model="sale.order"-->
+<!--            binding_views="list,form"-->
+<!--            view_mode="form"-->
+<!--            target="new"-->
+<!--        />-->
+
+        <record id="view_wizard_mass_sale_order_email_send_form" model="ir.ui.view">
+            <field name="name">wiz.mass.sale.order.form</field>
+            <field name="model">wiz.mass.sale.order</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Mass Sale Oeder Email Send">
+                
+                		<b>Do You want to send Sale Order to customer by email?</b>
+                    <footer>
+                        <button string="Send" type="object" name="mass_sale_order_email_send"/>
+                         Or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="bi_mass_sale_order_inherit_form" model="ir.ui.view">
+            <field name="name">bi.mass.sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+				<field name='payment_term_id' position="after">
+					<field name="is_sale_order_sent" invisible="1" />
+				</field>
+
+            </field>
+        </record>
+                
+    <record id="bi_mass_sale_order_filter" model="ir.ui.view">
+            <field name="name">bi.sale.order.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+				<xpath expr="//search" position="inside">
+				<separator/>
+                    <filter name="sale_order_sent" string="Order Sent" domain="[('is_sale_order_sent','=',True)]"/>
+                    <filter name="sale_order_not_sent" string="Not Sent" domain="[('is_sale_order_sent','=',False)]"/>
+				</xpath>
+            </field>
+        </record>
+                
+    </data>
+</odoo>

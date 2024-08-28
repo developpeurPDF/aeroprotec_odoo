@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Moduon Team
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/div[1]" position="after">
+
+                <div class="alert alert-danger text-center" role="alert" attrs="{'invisible': [('seuil_a_la_ligne','=',0)]}">
+                    <div>
+                        <strong>Le client a un montant de seuil à la ligne de <field name="seuil_a_la_ligne"/> <field name="currency_id"/></strong>
+                    </div>
+                </div>
+
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="frais_client"/>
+                <field name="appliquer_seuil_a_la_ligne"/>
+                <field name="seuil_a_la_ligne" invisible="1"/>
+
+<!--                <field name="frais_sale_order" widget="many2many_tags"/>-->
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="frais" widget="many2many_tags"/>
+                <field name="frais_amount"/>
+
+            </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="n_poste_client"/>
+                <field name="n_dossier"/>
+                <field name="n_contrat"/>
+                <field name="qte_previsionnelle_marche"/>
+                <field name="cycle_production_estimatif"/>
+                <field name="taux_previsionnel_reussite"/>
+                <field name="date_previsionnelle_reussite"/>
+                <field name="statut_ligne"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -6,8 +6,9 @@ class Mrpbom(models.Model):
     _inherit = 'mrp.bom'
 
 
-    mrp_bom_temp_id = fields.Many2one('mrp.bom.template',
-        check_company=True, string="Modèle de nomenclature")
+    mrp_bom_temp_id = fields.Many2one('mrp.bom.template', string="Modèle de nomenclature",  domain="['|',('famille_matiere','=',False),('famille_matiere','=',produit_famille_matiere),'|',('company_id','=',False),('company_id','=',company_id)]")
+    produit_famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", related="product_tmpl_id.famille_matiere")
+    # bom_tmpl_famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", related="mrp_bom_temp_id.famille_matiere")
 
     @api.onchange('mrp_bom_temp_id')
     def _onchange_bom_temp_id(self):
@@ -57,6 +58,7 @@ class Mrpbom(models.Model):
                 'abreviation_operation': line.abreviation_operation,
                 'norme_interne': line.norme_interne.id,
                 'norme_externe': line.norme_externe.id,
+                'time_cycle_manual': line.time_cycle,
                 'bom_id': self.id or self._origin.id,
                 # 'phase': [(6, 0, [phase.id for phase in line.phase.id])] if line.phase.id else False
             }
@@ -64,7 +66,7 @@ class Mrpbom(models.Model):
             phases = []
             for phase_id in line.phase.ids:
                 phase = self.env['phase.operation'].browse(phase_id)
-                print("yesss")
+                #print("yesss")
                 phase_vals = {
                     'ordre': phase.ordre,
                     'name': phase.name,

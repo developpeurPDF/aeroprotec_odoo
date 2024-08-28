@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="action_merge_sale_order" model="ir.actions.act_window">
+            <field name="name">Fusionner les bon de commandes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.merge</field>
+            <field name="view_mode">form</field>
+            <field name='target'>new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+        </record>
+
+
+        <record id="action_merge_sale_order_lines" model="ir.actions.act_window">
+            <field name="name">Fusionner les lignes de commande</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.orderline.merge.wizard</field>
+            <field name="view_mode">form</field>
+            <field name='target'>new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* reports_combination
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-22 16:27+0000\n"
+"PO-Revision-Date: 2022-12-22 17:29+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: fr\n"
+"X-Generator: Poedit 3.0\n"
+
+#. module: reports_combination
+#: model:ir.actions.report,print_report_name:reports_combination.report_sale_order_cgv
+msgid "'%s - with CGV' % (object.name)"
+msgstr "'%s - avec CGV' % (object.name)"
+
+#. module: reports_combination
+#: model:ir.model.fields,field_description:reports_combination.field_sale_order__file_terms
+#: model:ir.model.fields,field_description:reports_combination.field_sale_order_template__file_terms
+#: model_terms:ir.ui.view,arch_db:reports_combination.view_sale_order_template_form_inherit
+msgid "File CGV"
+msgstr "Fichier CGV"
+
+#. module: reports_combination
+#: model:ir.actions.report,name:reports_combination.report_sale_order_cgv
+msgid "Quotation / Order with CGV"
+msgstr "Devis / Commande avec CGV"
+
+#. module: reports_combination
+#: model:ir.model,name:reports_combination.model_sale_order_template
+msgid "Quotation Template"
+msgstr "Modèle de devis"
+
+#. module: reports_combination
+#: model:ir.model,name:reports_combination.model_ir_actions_report
+msgid "Report Action"
+msgstr "Signaler l'action"
+
+#. module: reports_combination
+#: model:ir.model,name:reports_combination.model_sale_order
+msgid "Sales Order"
+msgstr "Bon de commande"

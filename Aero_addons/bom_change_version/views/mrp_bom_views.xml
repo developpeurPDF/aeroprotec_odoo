@@ -16,13 +16,13 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet" position="before">
                     <header>
-                        <button string="Create Change Order" type="object" name="action_view_bom_changer_order" confirm="Are you sure you want to process?" class="oe_highlight">
+                        <button string="Create Change Order" type="object" name="action_view_bom_changer_order" confirm="Are you sure you want to process?" class="oe_highlight"  invisible="1">
                         </button>
                     </header>
                 </xpath>
                 <xpath expr="//field[@name='product_id']" position="after">
-                    <field name='custom_version'/>
-                    <field name='original_bom_id'/>
+                    <field name='custom_version' invisible="1"/>
+                    <field name='original_bom_id' invisible="1"/>
                     <field name='bom_change_ids' invisible="1"/>
                 </xpath>
                 <xpath expr="//div[@name='button_box']" position="inside">

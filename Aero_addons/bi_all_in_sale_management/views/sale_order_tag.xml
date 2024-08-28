@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="crm_tree_view_tag_field">
+        <field name="name">crm.tree.view.tag.field</field>
+        <field name="model">crm.tag</field>
+        <field name="inherit_id" ref="sales_team.sales_team_crm_tag_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color']" position="after">
+                <field name='compute_tag' invisible='1'/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="sale_quotation_tag_kanban_view">
+        <field name="name">sale.quotation.tag.kanban.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_record_top')]" position="after">
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" groups="bi_all_in_sale_management.make_invisible"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_quotation_tag_filter" model="ir.ui.view">
+        <field name="name">sale.quotation.tag.filter</field>
+        <field name="model">sale.order</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='sales']" position="after">
+                <separator/>
+                <field name="tag_ids" filter_domain="[('tag_ids', 'ilike', self)]" string="Tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_tag_filter" model="ir.ui.view">
+        <field name="name">sale.order.tag.filter</field>
+        <field name="model">sale.order</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='upselling']" position="after">
+                <separator/>
+                <field name="tag_ids" filter_domain="[('tag_ids', 'ilike', self)]" string="Tags"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

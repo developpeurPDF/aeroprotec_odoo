@@ -30,6 +30,7 @@ class matiereParameterref(models.Model):
 
     name = fields.Char("Nature de la matière", readonly=False, required=False)
     name_resistance = fields.Char("Résistance", readonly=False, required=False)
+    abreviation = fields.Char("Abréviation", readonly=False, required=False)
     active = fields.Boolean("Active", default=True, required=True)
     company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company.id)
     parameter_name = fields.Char("Nom Matière", related="parameter_id.name", readonly=True, store=True)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="prospect"/>
+                <field name="code_abreviation"/>
+                <field name="edi"/>
+                <field name="client_factor"/>
+                <field name="client_franco"/>
+                <field name="frais" widget="many2many_tags"/>
+                <field name="appliquer_seuil_a_la_ligne"/>
+                <field name="seuil_a_la_ligne"/>
+            </xpath>
+            <xpath expr="//form/sheet" position="before">
+
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="normal,warning,block"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>

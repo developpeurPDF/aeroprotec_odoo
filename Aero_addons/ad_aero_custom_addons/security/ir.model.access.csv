@@ -11,4 +11,6 @@ ad_aero_custom_addons.access_donneur_ordre_code,access_donneur_ordre_code,ad_aer
 ad_aero_custom_addons.access_phase_operation,access_phase_operation,ad_aero_custom_addons.model_phase_operation,base.group_user,1,1,1,1
 ad_aero_custom_addons.access_nature_operation,access_nature_operation,ad_aero_custom_addons.model_nature_operation,base.group_user,1,1,1,1
 ad_aero_custom_addons.access_norme,access_norme,ad_aero_custom_addons.model_norme,base.group_user,1,1,1,1
+ad_aero_custom_addons.access_norme,access_norme,ad_aero_custom_addons.model_norme,base.group_user,1,1,1,1
+
 

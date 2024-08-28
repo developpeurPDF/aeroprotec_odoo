@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ad_aero_sale.access_frais,access_frais,ad_aero_sale.model_frais,base.group_user,1,1,1,1
+

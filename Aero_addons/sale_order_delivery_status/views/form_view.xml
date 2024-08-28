@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_sale_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                 <field name="invoice_status" position="after">
+                     <field name="delivery_state" invisible="1"/>
+                     <field name="compute_delivery_state" decoration-danger="compute_delivery_state and 'Overdue' in compute_delivery_state"
+                            decoration-success="compute_delivery_state == 'Fully Delivered'"
+                            decoration-warning="compute_delivery_state == 'Fully Ready'"
+                            decoration-muted="compute_delivery_state == 'Waiting'"
+                            decoration-primary="compute_delivery_state == 'Partial Delivered' or compute_delivery_state == 'Partial Ready'"
+                            decoration-info="compute_delivery_state == 'Pick Stock' or compute_delivery_state == 'Pack Stock'"
+                            widget="badge" optional="show"/>
+                 </field>
+            </field>
+        </record>
+
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[@name='button_box']" position="after">
+                    <field name="ribbon_delivery_state" invisible="1"/>
+                    <widget name="web_ribbon" title="Waiting" bg_color="bg-warning" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'waiting')]}"/>
+                    <widget name="web_ribbon" title="Fully Ready" bg_color="bg-warning" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'fully_ready')]}"/>
+                    <widget name="web_ribbon" title="Partial Delivered" bg_color="bg-primary" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'partial_delivery')]}"/>
+                    <widget name="web_ribbon" title="Partial Ready" bg_color="bg-primary" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'partial_ready')]}"/>
+                    <widget name="web_ribbon" title="Pick Stock" bg_color="bg-info" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'pick_stock')]}"/>
+                    <widget name="web_ribbon" title="Pack Stock" bg_color="bg-info" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'pack_stock')]}"/>
+                    <widget name="web_ribbon" title="Overdue" bg_color="bg-danger" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'overdue')]}"/>
+                    <widget name="web_ribbon" title="Fully Delivered" bg_color="bg-success" attrs="{'invisible': [('ribbon_delivery_state', '!=', 'fully_delivery')]}"/>
+                </xpath>
+
+                 <field name="payment_term_id" position="after">
+                     <field name="compute_delivery_state"
+                            decoration-danger="'Overdue' in compute_delivery_state"
+                            decoration-success="compute_delivery_state == 'Fully Delivered'"
+                            decoration-primary="compute_delivery_state == 'Partial Delivered' or compute_delivery_state == 'Partial Ready'"
+                            decoration-info="compute_delivery_state == 'Pick Stock' or compute_delivery_state == 'Pack Stock'"
+                            decoration-warning="compute_delivery_state == 'Waiting' or compute_delivery_state == 'Fully Ready'"
+                            widget="badge" attrs="{'invisible': [('state', 'not in', ['sale', 'done'])]}"/>
+
+
+                     <field name="compute_field" invisible="1"/>
+                     <label for="delivery_state" string="Update Delivery Status" attrs="{'readonly': [('compute_field', '=', False)], 'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+                     <div name="delivery_state_div" class="o_row">
+                         <field name="delivery_state" attrs="{'readonly': [('compute_field', '=', False)], 'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+                     </div>
+
+                 </field>
+            </field>
+        </record>
+
+        <record id="sale_order_view_filter_delivery_state" model="ir.ui.view">
+            <field name="name">sale.order.select.inherit.sale</field>
+            <field name="model">sale.order</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='order_date']" position="after">
+                    <separator/>
+                        <filter string="Waiting" name="waiting" domain="[('delivery_state','=','waiting')]" />
+                        <filter string="Overdue" name="overdue" domain="[('delivery_state','=','overdue')]" />
+<!--                        <filter string="Pick Stock" name="pick_stock" domain="[('delivery_state','=','pick_stock')]" />-->
+<!--                        <filter string="Pack Stock" name="pack_stock" domain="[('delivery_state','=','pack_stock')]" />-->
+                        <filter string="Partial Delivered" name="partial_delivery" domain="[('delivery_state','=','partial_delivery')]" />
+                        <filter string="Partial Ready" name="partial_delivery" domain="[('delivery_state','=','partial_ready')]" />
+                        <filter string="Fully Ready" name="partial_delivery" domain="[('delivery_state','=','fully_ready')]" />
+                        <filter string="Fully Delivered" name="fully_delivery" domain="[('delivery_state','=','fully_delivery')]" />
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

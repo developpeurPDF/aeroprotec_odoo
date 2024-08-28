@@ -24,6 +24,13 @@ class MrpRoutingWorkcenter(models.Model):
     _inherit = ['mrp.routing.workcenter', 'mail.thread', 'mail.activity.mixin']
 
     standard_operations = fields.Boolean(string="Operation Standard", default=False)
+    nb_piece_barre = fields.Integer(string="Nombre de pièces par barre", tracking=True)
+    type_montage = fields.Selection(selection=[
+        ('CADRE_SIMPLE', 'CADRE SIMPLE'),
+        ('CADRE_DOUBLE', 'CADRE DOUBLE'),
+        ('MONTAGE_TOURNANT', 'MONTAGE TOURNANT'),
+    ],
+        string='Type de montage', tracking=True)
 
 
     def copy_to_bom(self):

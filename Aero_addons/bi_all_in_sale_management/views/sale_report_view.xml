@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="sale_report_uniq_id" model="ir.actions.report">
+            <field name="name">QUOTATION COST DOWN</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bi_all_in_sale_management.report_salehistory</field>
+            <field name="report_file">bi_all_in_sale_management.report_salehistory</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+     </data>
+</odoo>

@@ -1,9 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    "name": "ad_aero_custom_addons",
+    "name": "Custom addons MRP Aeroprotech",
     "version": "16.0.0.0",
-    'description':  """ Custom addons for Aeroprotech
+    'description':  """ Custom addons MRP Aeroprotech
      """,
     "category": "",
     "website": "",
@@ -12,7 +12,7 @@
     'images': [''],
     "license": "LGPL-3",
     "author": "action-digitale",
-    "depends": ["base","stock","sale","bom_change_version","mrp","hr","maintenance","hr_maintenance","mail"],
+    "depends": ["base","stock","sale","bom_change_version","mrp","hr","maintenance","hr_maintenance","mail","hr"],
     "data": [
         "security/ir.model.access.csv",
         "views/parameters_matiere.xml",
@@ -24,8 +24,6 @@
         "views/phase.xml",
         "views/machine.xml",
         "views/norme.xml",
-        # "report/print.xml",
-        # "report/account_move.xml",
     ],
     "application": True,
 }

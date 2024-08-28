@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<odoo>
+        <!-- <record id="base.user_admin" model="res.users">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record>
+
+        <record id="base.user_root" model="res.users">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record> -->
+
+        <record model="res.groups" id="group_system_custom_saleorder_field">
+            <field name="name">Custom Sale Order Field</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>
+        </record>
+
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Access To All Multi Tags</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record model="ir.ui.menu" id="bi_all_in_sale_management.sale_tag_config">
+            <field name="name">Sale Tag View</field>
+            <field name="groups_id" eval="[(5,ref('bi_all_in_sale_management.make_invisible'))]"/>
+        </record>
+
+</odoo>

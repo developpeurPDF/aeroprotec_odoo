@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sale order template For SAPA-->
+        <record id="sale_template_cur_ter_sapa" model="sale.order.template">
+            <field name="name">Traitement curatif anti-termites</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+
+        </record>
+        <record id="sale_template_pre_ter_sapa" model="sale.order.template">
+            <field name="name">Traitement préventif anti-termites</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+        </record>
+        <record id="sale_template_cur_ialx_sapa" model="sale.order.template">
+            <field name="name">Traitement curatif contre les insectes à larves xylophages</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+        </record>
+        <record id="sale_template_pre_ialx_sapa" model="sale.order.template">
+            <field name="name">Traitement préventif contre les insectes à larves xylophages</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+        </record>
+        <record id="sale_template_cur_cha_sapa" model="sale.order.template">
+            <field name="name">Traitement curatif contre les champignons</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+        </record>
+        <record id="sale_template_pre_cha_sapa" model="sale.order.template">
+            <field name="name">Traitement préventif contre les champignons</field>
+            <field name="company_id">1</field>
+             <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV CHIMIQUE + CHAMPIGNONS.pdf"/>
+
+        </record>
+        <record id="sale_template_vmc_vmi_sapa" model="sale.order.template">
+            <field name="name">VMC VMI</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV HUMIDITÉ.pdf"/>
+
+        </record>
+        <record id="sale_template_hum_sapa" model="sale.order.template">
+            <field name="name">Traitement contre les remontées capilaires</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV HUMIDITÉ.pdf"/>
+        </record>
+        <record id="sale_template_3d_cont_sapa" model="sale.order.template">
+            <field name="name">Traitement 3D contrat</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV 3D.pdf"/>
+
+        </record>
+        <record id="sale_template_3d_ponc_sapa" model="sale.order.template">
+            <field name="name">Traitement 3D ponctuel</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV 3D.pdf"/>
+
+        </record>
+        <record id="sale_template_terr_sapa" model="sale.order.template">
+            <field name="name">Entretien de terrasse</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV NETTOYAGE DE SURFACE.pdf"/>
+        </record>
+        <record id="sale_template_toit_sapa" model="sale.order.template">
+            <field name="name">Entretien des toitures</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV NETTOYAGE DE SURFACE.pdf"/>
+        </record>
+        <record id="sale_template_bard_sapa" model="sale.order.template">
+            <field name="name">Entretien des bardages</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV NETTOYAGE DE SURFACE.pdf"/>
+        </record>
+        <record id="sale_template_pie_1_sapa" model="sale.order.template">
+            <field name="name">Pièges phase 1</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV PIEGES.pdf"/>
+        </record>
+        <record id="sale_template_pie_2_sapa" model="sale.order.template">
+            <field name="name">Pièges phase 2</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV PIEGES.pdf"/>
+        </record>
+        <record id="sale_template_pie_3_sapa" model="sale.order.template">
+            <field name="name">Pièges phase 3</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV PIEGES.pdf"/>
+        </record>
+        <record id="sale_template_sol_tv_sapa" model="sale.order.template">
+            <field name="name">Traitement anti-termites : Technivert</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_flex_sapa" model="sale.order.template">
+            <field name="name">Termifilm flex</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_tri_sapa" model="sale.order.template">
+            <field name="name">Trithor</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_per_sapa" model="sale.order.template">
+            <field name="name">Perifilm</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_nov_sapa" model="sale.order.template">
+            <field name="name">Novithor</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_grid_sapa" model="sale.order.template">
+            <field name="name">Termigrid</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_termi_sapa" model="sale.order.template">
+            <field name="name">Termiprotect film</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+        <record id="sale_template_sol_rad_sapa" model="sale.order.template">
+            <field name="name">Films anti-radon</field>
+            <field name="company_id">1</field>
+            <field name="file_terms" type="base64" file="reports_combination/static/src/img/CGV SOL - SAPA.pdf"/>
+        </record>
+
+        <!-- Sale order template For PARAXILOCENTRE-->
+        <record id="sale_template_cur_ter_para" model="sale.order.template">
+            <field name="name">Traitement curatif anti-termites</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pre_ter_para" model="sale.order.template">
+            <field name="name">Traitement préventif anti-termites</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_cur_ialx_para" model="sale.order.template">
+            <field name="name">Traitement curatif contre les insectes à larves xylophages</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pre_ialx_para" model="sale.order.template">
+            <field name="name">Traitement préventif contre les insectes à larves xylophages</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_cur_cha_para" model="sale.order.template">
+            <field name="name">Traitement curatif contre les champignons</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pre_cha_para" model="sale.order.template">
+            <field name="name">Traitement préventif contre les champignons</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_vmc_vmi_para" model="sale.order.template">
+            <field name="name">VMC VMI</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_hum_para" model="sale.order.template">
+            <field name="name">Traitement contre les remontées capilaires</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_3d_cont_para" model="sale.order.template">
+            <field name="name">Traitement 3D contrat</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_3d_ponc_para" model="sale.order.template">
+            <field name="name">Traitement 3D ponctuel</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_terr_para" model="sale.order.template">
+            <field name="name">Entretien de terrasse</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_toit_para" model="sale.order.template">
+            <field name="name">Entretien des toitures</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_bard_para" model="sale.order.template">
+            <field name="name">Entretien des bardages</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pie_1_para" model="sale.order.template">
+            <field name="name">Pièges phase 1</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pie_2_para" model="sale.order.template">
+            <field name="name">Pièges phase 2</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_pie_3_para" model="sale.order.template">
+            <field name="name">Pièges phase 3</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_tv_para" model="sale.order.template">
+            <field name="name">Traitement anti-termites : Technivert</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_flex_para" model="sale.order.template">
+            <field name="name">Termifilm flex</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_tri_para" model="sale.order.template">
+            <field name="name">Trithor</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_per_para" model="sale.order.template">
+            <field name="name">Perifilm</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_nov_para" model="sale.order.template">
+            <field name="name">Novithor</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_grid_para" model="sale.order.template">
+            <field name="name">Termigrid</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_termi_para" model="sale.order.template">
+            <field name="name">Termiprotect film</field>
+            <field name="company_id">2</field>
+        </record>
+        <record id="sale_template_sol_rad_para" model="sale.order.template">
+            <field name="name">Films anti-radon</field>
+            <field name="company_id">2</field>
+        </record>
+
+    </data>
+</odoo>
