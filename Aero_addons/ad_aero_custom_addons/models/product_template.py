@@ -123,5 +123,7 @@ class ProductTemplate(models.Model):
             else:
                 rec.surface = 0
 
+
+
     # frais = fields.Many2many('frais',
     #                          string="Frais", readonly=False)

@@ -19,7 +19,6 @@ class MrpBom(models.Model):
                     raise ValidationError(
                         _('A BOM already exists for this product template and only one BOM is allowed.'))
 
-
     name = fields.Char(string="Libellé de nomenclature", tracking=True)
     operation_ids = fields.One2many('mrp.routing.workcenter', 'bom_id', 'Operations', copy=True, ondelete="cascade")
     code = fields.Char('Reference',compute='_compute_code' )
@@ -127,6 +126,55 @@ class MrpBom(models.Model):
             # Assignation de la référence au champ 'code'
             rec.code = reference
 
+    code_opr = fields.Char("Code opération", compute="_compute_code_opr")
+    @api.depends('product_tmpl_id.indice', 'codes.name', 'norme.indice')
+    def _compute_code_opr(self):
+        for rec in self:
+            lines = []
+            # Adding a header for the table
+            header = f"{'Code opération':<20} {'Norme interne':<30} {'Norme externe':<30}"
+            lines.append(header)
+            lines.append('-' * 80)  # Separator line
+
+            # Creating table rows
+            for op in rec.operation_ids:
+                operation_code = op.code_operation if op.code_operation else ""
+                norme_interne = f"{op.norme_interne.name} indice {op.norme_interne.indice}" if op.norme_interne else ""
+                norme_externe = f"{op.norme_externe.name} indice {op.norme_externe.indice}" if op.norme_externe else ""
+                # Formatting each line with fixed-width columns
+                line = f"{operation_code:<20} {norme_interne:<30} {norme_externe:<30}"
+                lines.append(line)
+
+            # Joining all lines with newline for display
+            reference = "\n".join(lines)
+            rec.code_opr = reference
+
+    norme_interne = fields.Char("Norme Interne", compute="_compute_norme_interne")
+
+    @api.depends('operation_ids.norme_interne')
+    def _compute_norme_interne(self):
+        for rec in self:
+            norme_internes = ' / '.join(
+                f"{op.norme_interne.name} : {op.norme_interne.indice}"
+                for op in rec.operation_ids
+                if op.norme_interne
+            )
+            rec.norme_interne = norme_internes
+
+    norme_externe = fields.Char("Norme Interne", compute="_compute_norme_externe")
+
+
+
+    @api.depends('operation_ids.norme_externe')
+    def _compute_norme_externe(self):
+        for rec in self:
+            norme_externes = ' / '.join(
+                f"{op.norme_externe.name} indice {op.norme_externe.indice}"
+                for op in rec.operation_ids
+                if op.norme_externe
+            )
+            rec.norme_externe = norme_externes
+
 
     evolution = fields.Boolean(string="Evolution Effectué", default=False, readonly=True)
     reference_premier_document = fields.Many2one('mrp.bom', string="Référence du premier document", copy=False,
@@ -153,7 +201,7 @@ class MrpBom(models.Model):
             'longueur': bom_original.product_tmpl_id.longueur,
             'diametre': bom_original.product_tmpl_id.diametre,
             'surface_traiter': bom_original.product_tmpl_id.surface_traiter,
-            #'type_montage': bom_original.product_tmpl_id.type_montage,
+            # 'type_montage': bom_original.product_tmpl_id.type_montage,
             'type_article': bom_original.product_tmpl_id.type_article,
             'famille_matiere': bom_original.product_tmpl_id.famille_matiere,
             'matiere': bom_original.product_tmpl_id.matiere,
@@ -166,10 +214,10 @@ class MrpBom(models.Model):
             'masque_impression': bom_original.product_tmpl_id.masque_impression,
             'info_marquer': bom_original.product_tmpl_id.info_marquer,
             'n_ft': bom_original.product_tmpl_id.n_ft,
-            #'piece_jointe_ft': bom_original.product_tmpl_id.piece_jointe_ft,
+            'piece_jointe_ft': bom_original.product_tmpl_id.piece_jointe_ft,
             'norme_douaniere': bom_original.product_tmpl_id.norme_douaniere,
             'indice': bom_original.product_tmpl_id.indice,
-            'nb_piece_barre': bom_original.product_tmpl_id.nb_piece_barre,
+            # 'nb_piece_barre': bom_original.product_tmpl_id.nb_piece_barre,
             'type_indice': bom_original.product_tmpl_id.type_indice,
             'donneur_order': bom_original.product_tmpl_id.donneur_order,
             'client': bom_original.product_tmpl_id.client,

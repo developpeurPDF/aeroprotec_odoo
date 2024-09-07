@@ -4,6 +4,15 @@ from math import pi
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
+    sale_order_ids = fields.Many2one('sale.order', string="Bons de commande", compute='_compute_sale_order_ids')
+
+    @api.depends('procurement_group_id')
+    def _compute_sale_order_ids(self):
+        for production in self:
+            sale_orders = self.env['sale.order'].search(
+                [('name', '=', production.origin)])
+            production.sale_order_ids = sale_orders
+
     donneur_order = fields.Many2one('donneur.order', string="Donneur d'ordre", tracking=True)
     nom_donneur_order = fields.Char(string="Nom du Donneur d'ordre", related='donneur_order.name.name', readonly=True)
     codes = fields.Many2one('donneur.ordre.code', string="Code traitement" , domain="[('name_donneur_order', '=', nom_donneur_order)]", tracking=True)

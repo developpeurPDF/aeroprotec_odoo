@@ -10,7 +10,11 @@
                     <field name="donneur_order"/>
                     <field name="nom_donneur_order" invisible="1"/>
                     <field name="codes"/>
+                    <field name="sale_order_ids" invisible="1"/>
                 </xpath>
+<!--                <xpath expr="//field[@name='origin']" position="after">-->
+<!--                    <field name="sale_order_ids"/>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='bom_id']" position="attributes">
                 <attribute name="domain">[('state', '=', 'active')]</attribute>
             </xpath>

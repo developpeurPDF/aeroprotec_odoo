@@ -6,7 +6,7 @@ class Mrpbom(models.Model):
     _inherit = 'mrp.bom'
 
 
-    mrp_bom_temp_id = fields.Many2one('mrp.bom.template', string="Modèle de nomenclature",  domain="['|',('famille_matiere','=',False),('famille_matiere','=',produit_famille_matiere),'|',('company_id','=',False),('company_id','=',company_id)]")
+    mrp_bom_temp_id = fields.Many2one('mrp.bom.template', string="Modèle de nomenclature",  domain="[('famille_matiere','=',produit_famille_matiere),'|',('company_id','=',False),('company_id','=',company_id)]")
     produit_famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", related="product_tmpl_id.famille_matiere")
     # bom_tmpl_famille_matiere = fields.Many2one('matiere.parameter', string="Famille matière", related="mrp_bom_temp_id.famille_matiere")
 

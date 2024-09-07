@@ -156,7 +156,9 @@
                     <field name="type_montage"/>
                     <field name="nb_piece_barre"/>
                     <field name="norme_interne" options='{"no_create": True}'/>
+                    <field name="indice_norme_interne" invisible="1"/>
                     <field name="norme_externe" options='{"no_create": True}'/>
+                    <field name="indice_norme_externe" invisible="1"/>
                     <field name="ref_prog_automate"/>
 
                 </xpath>

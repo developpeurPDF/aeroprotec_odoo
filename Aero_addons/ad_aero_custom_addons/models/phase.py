@@ -107,10 +107,12 @@ class MrpRoutingWorkcenter(models.Model):
                                     domain=[('type_norme', '=', 'interne'),
                                             ('state', 'in', ['conforme', 'derogation'])],
                                     tracking=True)
+    indice_norme_interne = fields.Char(string="indice norme interne", related="norme_interne.indice")
     norme_externe = fields.Many2one('norme', string="Norme Externe",
                                     domain=[('type_norme', '=', 'externe'),
                                             ('state', 'in', ['conforme', 'derogation'])],
                                     tracking=True)
+    indice_norme_externe = fields.Char(string="indice norme externe", related="norme_externe.indice")
     bom_id = fields.Many2one(
         'mrp.bom', 'Bill of Material',
         index=True, ondelete='cascade', required=False, check_company=True)

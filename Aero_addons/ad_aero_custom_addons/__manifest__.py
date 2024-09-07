@@ -24,6 +24,7 @@
         "views/phase.xml",
         "views/machine.xml",
         "views/norme.xml",
+
     ],
     "application": True,
 }

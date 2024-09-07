@@ -44,6 +44,8 @@
                     <field name="type_gamme"/>
                 </xpath>
                 <xpath expr="//field[@name='type']" position="after">
+                    <field name="code_opr" invisible="1"/>
+                    <field name="norme_interne" invisible="1"/>
                     <field name="redacteur" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
                     <field name="date_redaction" attrs="{'required':[('state', '=', 'redige')], 'readonly':[('is_locked', '=', True)]}"/>
                     <field name="verificateur" attrs="{'invisible': [('state', '=', 'brouillon')], 'required':[('state', '=', 'verifie')],'readonly':[('is_locked', '=', True)]}"/>
