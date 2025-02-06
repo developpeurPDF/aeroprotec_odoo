@@ -5,3 +5,7 @@ access_quality_teams,access.quality.team,model_quality_team,,1,1,1,1
 access_quality_alert,access.quality.alert,model_quality_alert,,1,1,1,1
 access_quality_alert_stage,access.quality.alert.stage,model_quality_alert_stage,,1,1,1,1
 access_quality_tags,access.quality.tags,model_quality_tags,,1,1,1,1
+access_cause_occurrence_user,cause.occurrence user,model_cause_occurrence,base.group_user,1,1,1,1
+access_cause_occurrence_manager,cause.occurrence manager,model_cause_occurrence,base.group_system,1,1,1,1
+access_cause_non_detection_user,cause.non.detection user,model_cause_non_detection,base.group_user,1,1,1,1
+access_cause_non_detection_manager,cause.non.detection manager,model_cause_non_detection,base.group_system,1,1,1,1

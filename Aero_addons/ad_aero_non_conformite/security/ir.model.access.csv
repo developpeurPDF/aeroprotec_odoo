@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_non_conformite_user,access.non.conformite.user,model_non_conformite,base.group_user,1,1,1,1
+access_non_conformite_manager,access.non.conformite.manager,model_non_conformite,base.group_system,1,1,1,1
+access_type_defaut_manager,type.defaut manager,model_type_defaut,base.group_user,1,1,1,1
+access_type_defaut_user,type.defaut user,model_type_defaut,base.group_user,1,1,1,1
+access_cause_non_conformite_user,cause.non.conformite user,model_cause_non_conformite,base.group_user,1,1,1,1
+ad_aero_non_conformite.access_quality_point_equipement,access_quality_point_equipement,ad_aero_non_conformite.model_quality_point_equipement,base.group_user,1,1,1,1

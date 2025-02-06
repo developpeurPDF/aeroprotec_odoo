@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_mrp_production_popup_form" model="ir.ui.view">
+        <field name="name">mrp.production.popup.form</field>
+        <field name="model">mrp.production</field>
+        <field name="arch" type="xml">
+            <form string="Attention!">
+                <sheet>
+                    
+                        
+                            <p> Une ou plusieurs étapes des ordres de travail sont encore en état 'ToDo'. Vous ne pouvez pas imprimer le rapport.</p>
+                        
+                  
+                </sheet>
+                <footer>
+                    <div></div>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

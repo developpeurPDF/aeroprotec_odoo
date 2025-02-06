@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="maintenance_request_view_search_inherit_hr" model="ir.ui.view">
+            <field name="name">maintenance.request.view.search.inherit.hr</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="inside">
+                    <notebook>
+                        <page string="Contrôle">
+                            <group>
+                                <group>
+                                    <group>
+                                        <button name="validate_quality_check"
+                                            string="Validé"
+                                            type="object"
+                                            class="btn-primary"
+                                            attrs="{'invisible': [('state', '!=', 'do')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="state" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="note"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="test_type"/>
+                                    <field name="conformite" attrs="{'invisible' : [('test_type','=',['measure','suivi_bain'])]}"/>
+                                    <field name="picture" attrs="{'invisible' : [('test_type','!=','picture')]}" widget="image"/>
+                                    <field name="quality_point_id"/>
+                                    <field name="measure" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+
+                                    <field name="norm" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                                    <field name="min_quality" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                                    <field name="max_quality" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Suivi des installations bains" attrs="{'invisible': [('test_type','!=', 'suivi_bain')]}">
+                            <group>
+                                <field name="ph_eaux"/>
+                                <field name="conformite_ph_eaux"/>
+                                <field name="conductivite_eaux_rincage"/>
+                                <field name="conformite_conductivite_eaux_rincage"/>
+                                <field name="aspect_bains"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -11,7 +11,7 @@
                 <field name="view_mode">tree,form</field>
             </record>
 
-            <menuitem id="menu_subcontracting_orders" name="Subcontracting Orders" parent="mrp.menu_mrp_manufacturing" action="action_contracting_orders" groups="purchase_mrp_subcontract_app.group_subcontracting"/>
+            <menuitem id="menu_subcontracting_orders" name="Cmde Sous-Traitant" parent="mrp.menu_mrp_manufacturing" action="action_contracting_orders" groups="purchase_mrp_subcontract_app.group_subcontracting"/>
 
     </data>
 </odoo>

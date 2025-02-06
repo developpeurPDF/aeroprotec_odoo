@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+
+    <record id="view_openbee_connector_tree" model="ir.ui.view">
+        <field name="name">openbee.connector.tree</field>
+        <field name="model">openbee.connector</field>
+        <field name="arch" type="xml">
+            <tree string="OpenBee Documents">
+                <field name="document_id"/>
+                <field name="name"/>
+                <field name="client_name"/>
+                <field name="document_type"/>
+                <field name="amount_ht"/>
+                <field name="amount_tva"/>
+                <field name="total_ttc"/>
+                <field name="currency"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_openbee_connector_form" model="ir.ui.view">
+        <field name="name">openbee.connector.form</field>
+        <field name="model">openbee.connector</field>
+        <field name="arch" type="xml">
+            <form string="OpenBee Connector">
+                <header>
+                    <button name="fetch_openbee_data" type="object" string="Fetch Data" class="btn-primary"/>
+                    <button name="post_document_to_openbee" type="object" string="Post to OpenBee" class="btn-primary" invisible="1"/>
+                    <button name="download_and_send_document" type="object" string="Download and send document to openbee" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="document_url"/>
+                        <field name="document_id"/>
+                        <field name="name"/>
+                        <field name="client_name"/>
+                        <field name="document_type"/>
+                        <field name="amount_ht"/>
+                        <field name="amount_tva"/>
+                        <field name="total_ttc"/>
+                        <field name="currency"/>
+                        <field name="status"/>
+                        <field name="document_path"/>
+                        <field name="file_uri"/>
+                        <field name="document_pdf" filename="document_name" invisible="1"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_openbee_connector" model="ir.actions.act_window">
+        <field name="name">OpenBee Documents</field>
+        <field name="res_model">openbee.connector</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+        <menuitem name="OpenBee Connector" action="action_openbee_connector" id="menu_openbee_root" web_icon="ad_openbee_api,static/description/ad_icon.png"/>
+
+
+</odoo>

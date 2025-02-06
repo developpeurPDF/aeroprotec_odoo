@@ -10,6 +10,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='amount_total']" position="before">
                     <field name="poids_carbone_total" sum="Poids carbone"/>
+                    <field name="current_user_id_int" invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -20,14 +21,21 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_quotation_send']" position="attributes">
+
+                    <attribute name="class" separator=" " remove="btn-primary"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="attributes">
+
+                    <attribute name="class" separator=" " remove="btn-primary"/>
+            </xpath>
         <xpath expr="//header" position="inside">
-            <button name="action_devis_validee" type="object" string="Devis Validée" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['devis_validee', 'sale', 'done', 'cancel'])]}"/>
-            <button name="action_commande_non_traite" type="object" string="CNT" class="oe_highlight" attrs="{'invisible': [('state', 'in', ['commande_non_traite', 'sale', 'done', 'cancel'])]}"/>
-            <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" attrs="{'invisible': [('state', 'in', ['sent','draft','approve2','sale','done','cancel','refuse'])]}"/>
+            <button name="action_devis_validee" type="object" string="Devis Validée" attrs="{'invisible': [('state', 'in', ['devis_validee','commande_recue', 'sale', 'done', 'cancel'])]}"/>
+            <button name="action_confirm" id="action_confirm" string="Confirm" type="object" attrs="{'invisible': [('state', 'in', ['sent','draft','approve2','sale','done','cancel','refuse'])]}"/>
         </xpath>
         <xpath expr="//field[@name='state']" position="attributes">
             <attribute name="widget">statusbar</attribute>
-            <attribute name="statusbar_visible">draft,sent,devis_validee,commande_non_traite,sale</attribute>
+            <attribute name="statusbar_visible">draft,sent,devis_validee,sale</attribute>
         </xpath>
 
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
@@ -39,10 +47,14 @@
 
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="interlocuteur"/>
+                <field name="contact_supply"/>
+                <field name="current_user_id" invisible="0"/>
+                <field name="current_user_id_int" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='payment_term_id']" position="before">
                 <field name="date_reponse"/>
                 <field name="modes_reglement" options="{'no_create': True}"/>
+                <field name="commande" invisible="1"/>
 <!--                <field name="poids_carbone_unit"/>-->
 <!--                <field name="poids_carbone_total"/>-->
             </xpath>
@@ -53,57 +65,73 @@
 <!--                <field name="partner_invoice"/>-->
             </xpath>
 
-            <xpath expr="//form/div[1]" position="after">
-                <div class="alert alert-danger text-center" role="alert" attrs="{'invisible': [('seuil_a_la_ligne','=',0)]}">
-                    <div>
-                        <strong>Le client a un montant de seuil à la ligne de <field name="seuil_a_la_ligne"/> <field name="currency_id"/></strong>
-                    </div>
-                </div>
-            </xpath>
+<!--            <xpath expr="//form/div[1]" position="after">-->
+<!--                <div class="alert alert-danger text-center" role="alert" attrs="{'invisible': [('seuil_a_la_ligne','=',0)]}">-->
+<!--                    <div>-->
+<!--                        <strong>Le client a un montant de seuil à la ligne de <field name="seuil_a_la_ligne"/> <field name="currency_id"/></strong>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </xpath>-->
             <xpath expr="//group[@name='sale_header']" position="after">
                 <group>
                 <group>
                 </group>
                 <group>
                     <field name="appliquer_seuil_a_la_ligne" invisible="1"/>
-                    <field name="seuil_a_la_ligne" invisible="1"/>
+<!--                    <field name="seuil_a_la_ligne" invisible="1"/>-->
                 </group>
                 </group>
             </xpath>
 
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[1]" position="before">
-                <field name="is_threshold_line" optional="hide"/>
-                <field name="sequence_order" string="n°" optional="hide"/>
+                <field name="bon_reception" optional="show" width="2cm" height="3"/>
+                <field name="is_threshold_line" optional="hide" width="1.5cm" height="3"/>
+                <field name="sequence_order" string="n°" optional="hide" width="1.5cm" height="3"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[last()]" position="after">
                 <field name="price_total"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[1]" position="before">
 
-                <field name="appliquer_seuil_a_la_ligne" optional="hide"/>
-                <field name="seuil" optional="hide"/>
+                <field name="appliquer_seuil_a_la_ligne" optional="hide" width="1.5cm"/>
+                <field name="seuil" optional="hide" width="2.5cm" height="3"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='name']" position="after">
-                <field name="type_ligne" string="Type" optional="hide"/>
+                <field name="type_ligne" string="Type" optional="hide" width="4.5cm" height="3"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
 
-                <field name="n_poste_client" string="n° poste" optional="hide"/>
-                <field name="n_dossier" string="n° dossier" optional="hide"/>
-                <field name="n_contrat" optional="hide"/>
-                <field name="qte_previsionnelle_marche" optional="hide"/>
-                <field name="cycle_production_estimatif" optional="hide"/>
-                <field name="taux_previsionnel_reussite" string="Taux réussite" optional="hide"/>
-                <field name="date_previsionnelle_reussite" string="Date prév." optional="hide"/>
-                <field name="statut_ligne" optional="hide"/>
+                <field name="date_livraison" string="D. liv."  optional="show" width="3.5cm" height="3"/>
+                <field name="date_recale" string="D. Recl"  optional="show" width="3.5cm" height="3"/>
+                <field name="n_poste_client" string="N° poste" optional="show" width="3cm" height="3"/>
+                <field name="n_dossier" string="N° dossier" optional="show" width="3cm" height="3"/>
+                <field name="n_contrat" string="N° contrat" optional="show" width="3cm" height="3"/>
+                <field name="n_of_interne" string="N° OF I" optional="show" width="3.5cm" height="3"/>
+                <field name="id_bl" string="ID BL" optional="show" width="3.5cm"/>
+                <field name="last_work_operation" string="OP EC" optional="show" width="3.5cm"/>
+                <field name="workcenter_id" string="POS EC" optional="show" width="3.5cm"/>
+                <field name="operation_progress" string="Op R/Op T" optional="show" width="2.5cm"/>
+                <field name="state_commande" string="Etat cmd" optional="show" width="3.5cm"/>
+                <field name="liv_restant" string="% restant" optional="show" width="2.5cm"/>
+                <field name="commentaire" string="Commentaire" optional="show" width="3.5cm"/>
+                <field name="qte_previsionnelle_marche" optional="show" width="2.5cm"/>
+                <field name="cycle_production_estimatif" optional="show" width="2.5cm"/>
+                <field name="taux_previsionnel_reussite" string="Taux réussite" optional="show" width="2.5cm"/>
+                <field name="date_previsionnelle_reussite" string="Date prév." optional="show" width="3.5cm"/>
+                <field name="statut_ligne" string="Etat OF" optional="show" width="3.5cm"/>
+                <field name="ref_gamme" string="Réf Gamme" optional="show" width="3.5cm"/>
+                <field name="ref_plan" string="Réf plan" optional="show" width="3.5cm"/>
+                <field name="fai" string="Fai" optional="show" width="1.5cm"/>
+                <field name="last_mo_date" string="D. dernière OF" optional="show" width="4.5cm"/>
             </xpath>
             <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
                     <attribute name="string">Taxes et Frais</attribute>
-                </xpath>
+                    <attribute name="width">5cm</attribute>
+            </xpath>
             <xpath expr="//notebook/page[1]" position="after">
             <page name="sale_order_line2" string="Compléments">
                 <field name="custom_order_line_ids" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}">
-                    <tree editable="bottom" create="1" delete="1">
+                    <tree editable="bottom" create="1" delete="1" style="font-size: 5px;">
                         <field name="id" optional="hide"/>
                         <field name="order_id_display" optional="hide"/>
                         <field name="order_id" optional="hide"/>
@@ -121,7 +149,8 @@
                         <field name="qty_invoiced" optional="hide"/>
                         <field name="qty_to_invoice" optional="hide"/>
                         <field name="price_unit"/>
-                        <field name="tax_id" string="Taxes et Frais" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+
+                        <field name="tax_id" string="Tx et Frs" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                         <field name="discount"/>
                         <field name="type_ligne" string="Type"/>
                         <field name="n_poste_client" string="n° poste"/>
@@ -138,8 +167,76 @@
                 </field>
             </page>
         </xpath>
+           <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="after">
+                <field name="frais_id" string="Frais" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id),('frais', '=', True)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"  width="2.5cm"/>
+                <field name="tx_id" string="Taxe" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'), ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id),('frais', '=', False)]" readonly="1"/>
+           </xpath>
+           <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                   <attribute name="string">Tx et Frs</attribute>
+                   <attribute name="invisible">1</attribute>
+               </xpath>
+
+<!--            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">-->
+<!--                <field name="produce_delay" string="Cycle"/>-->
+<!--                <field name="days_to_prepare_mo" string="J avt OF"/>-->
+<!--                <field name="sale_delay"/>-->
+<!--            </xpath>-->
+
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
+                    <attribute name="width">4cm</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='name']" position="attributes">
+                    <attribute name="width">4cm</attribute>
+                </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="string">Qte</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
+                    <attribute name="string">Liv.</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='qty_invoiced']" position="attributes">
+                    <attribute name="string">Fact.</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="string">Prix U.</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                    <attribute name="string">Mont. Ht</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+
+
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_packaging_qty']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+
+            <xpath expr="//notebook/page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_packaging_id']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                    <attribute name="width">2.5cm</attribute>
+                </xpath>
+
     </field>
     </record>
+
+    <record id="sale_order_view_search_inherit_contact_supply" model="ir.ui.view">
+    <field name="name">sale.order.search.inherit.contact.supply</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+    <field name="arch" type="xml">
+        <xpath expr="//search/filter[@name='my_sale_orders_filter']" position="before">
+            <field name="current_user_id_int"/>
+            <filter string="Contact Supply" name="current_user_id_int"
+                    domain="[('current_user_id', '=', uid)]"/>
+        </xpath>
+    </field>
+</record>
+
     <record id="email_template_reminder" model="mail.template">
         <field name="name">Order Validity Reminder</field>
         <field name="email_from">${object.company_id.email or ''}</field>
@@ -164,6 +261,41 @@
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
         <field name="numbercall">-1</field>
+    </record>
+
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="name">Sales Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+        <field name="context">{'default_commande': True}</field>
+        <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+            </p><p>
+                Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="domain">[('state', 'in', ('draft', 'sent', 'cancel', 'devis_validee'))]</field>
+        <field name="context">{'search_default_my_quotation': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new quotation, the first step of a new sale!
+            </p><p>
+            Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
     </record>
 
 

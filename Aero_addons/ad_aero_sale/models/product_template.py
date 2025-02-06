@@ -13,6 +13,27 @@ import re
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    first_bom_operation_ids = fields.One2many(
+        'mrp.routing.workcenter',
+        string="Opérations",
+        compute='_compute_first_bom_operations'
+    )
+    durcisseur = fields.Boolean("Durcisseur")
+    diluant = fields.Boolean("Diluant")
+    base = fields.Boolean("Base")
+
+    @api.depends('bom_ids')
+    def _compute_first_bom_operations(self):
+        for product in self:
+            # Trouver la première nomenclature (mrp.bom) liée au produit
+            bom = self.env['mrp.bom'].search([('product_tmpl_id', '=', product.id)], limit=1)
+
+            if bom:
+                # Si une nomenclature est trouvée, récupérer les `operation_ids` de cette nomenclature
+                product.first_bom_operation_ids = bom.operation_ids
+            else:
+                product.first_bom_operation_ids = False
+
 
     frais = fields.Many2many('account.tax',
                              string="Frais", readonly=False, domain= "[('frais', '=', True)]",)
@@ -133,7 +154,7 @@ class ProductTemplate(models.Model):
         # if self.days_since_last_order > 1:
         #     print("yes")
         products_to_update = self.search([('days_since_last_order', '>', 180)])
-        print("products_to_update",products_to_update)
+        # print("products_to_update",products_to_update)
         for product in products_to_update:
             product.sale_line_warn = 'block'
             product.sale_line_warn_msg = "La vente de ce produit est bloquée car le nombre de jours depuis la dernière commande dépasse 180 jours."
@@ -142,16 +163,16 @@ class ProductTemplate(models.Model):
     def apply_client_fees(self):
         product_id_number = 0
         product = self.id
-        print("order", product)
+        # print("order", product)
 
         match = re.search(r'NewId_(\d+)', str(product))
-        print("match", match)
+        # print("match", match)
 
         if match:
             product_id_number = int(match.group(1))
-            print("product ID Number:", product_id_number)
+            # print("product ID Number:", product_id_number)
         else:
-            print("product ID format is incorrect.")
+            # print("product ID format is incorrect.")
             product_id_number = product  # Utiliser l'ID tel quel si le format est incorrect
 
         if self.client:

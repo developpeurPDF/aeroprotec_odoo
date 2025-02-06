@@ -19,7 +19,7 @@ class AccountTax(models.Model):
     type_frais = fields.Selection([('client', 'Client'),
                                    ('article', 'Article'),
                                    ('vente', 'Vente'),
-                                   ('seuil', 'Seuil à la ligne'),
+                                   #('seuil', 'Seuil à la ligne'),
                                    # ('aog', 'AOG'),
                                    # ('code_rouge', 'CODE ROUGE'),
                                    # ('fil_rouge', 'FIL ROUGE'),

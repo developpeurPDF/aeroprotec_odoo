@@ -8,23 +8,23 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="requisition_confirm" type="object" string="Confirm" states="draft" class="btn-primary" groups="base.group_user"/>
-                        <button name="manager_approve" type="object" string="Department Approve" states="dept_confirm" class="btn-primary" groups="material_purchase_requisitions.group_purchase_requisition_department"/>
-                        <button name="user_approve" type="object" string="Approve" states="ir_approve" class="btn-primary" groups="material_purchase_requisitions.group_purchase_requisition_user"/>
+                        <button name="requisition_confirm" type="object" string="Confirmer" states="draft" class="btn-primary" groups="base.group_user"/>
+                        <button name="manager_approve" type="object" string="Approbation du département" states="dept_confirm" class="btn-primary" groups="material_purchase_requisitions.group_purchase_requisition_department"/>
+                        <button name="user_approve" type="object" string="Approuver" states="ir_approve" class="btn-primary" groups="material_purchase_requisitions.group_purchase_requisition_user"/>
                         <button name="request_stock" type="object" string="Create Picking and PO" states="approve" class="btn-primary" groups="material_purchase_requisitions.group_purchase_requisition_user"/>
-                        <button name="action_received" type="object" string="Received" states="stock" class="btn-primary"/>
-                        <button name="requisition_reject" type="object" string="Reject" groups="material_purchase_requisitions.group_purchase_requisition_department,material_purchase_requisitions.group_purchase_requisition_user" states="dept_confirm,approve,ir_approve" />
-                        <button name="action_cancel" type="object" states="draft" string="Cancel" groups="base.group_user"/>
-                        <button name="reset_draft" type="object" string="Reset to Draft" states="cancel,reject,receive" class="btn-primary"/>
-                        <field name="state" widget="statusbar" string="confirm"  
+                        <button name="action_received" type="object" string="Reçu" states="stock" class="btn-primary"/>
+                        <button name="requisition_reject" type="object" string="Rejeter" groups="material_purchase_requisitions.group_purchase_requisition_department,material_purchase_requisitions.group_purchase_requisition_user" states="dept_confirm,approve,ir_approve" />
+                        <button name="action_cancel" type="object" states="draft" string="Rejeter" groups="base.group_user"/>
+                        <button name="reset_draft" type="object" string="Remettre au brouillon" states="cancel,reject,receive" class="btn-primary"/>
+                        <field name="state" widget="statusbar" string="confirmer"  
                                         statusbar_visible="draft,dept_confirm,ir_approve,approve,stock,receive"/>
                     </header>
                     <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" icon="fa-truck"
-                                name="show_picking" string="Internal Picking" groups="base.group_user"/>
+                                name="show_picking" string="Sélection interne" groups="base.group_user"/>
                         <button class="oe_stat_button" type="object" icon="fa-book"
-                                name="action_show_po" string="Purchase Order"/>
+                                name="action_show_po" string="Bon de commande"/>
                     </div>
                     <div class="oe_title">
                         <div class="oe_title">
@@ -141,22 +141,22 @@
                     <field name="delivery_picking_id"/>
                     <field name="reason"/>
                     <field name="state"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
-                        <filter string="Reqisition Date" name="request_date" context="{'group_by':'request_date'}"/>
-                        <filter string="Company" name="company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
-                        <filter string="Reqisition Dedline" name="date_end" context="{'group_by':'date_end'}"/>
-                        <filter string="Department" name="department" context="{'group_by':'department_id'}"/>
-                        <filter string="Department Manager" name="department_manager" context="{'group_by':'approve_manager_id'}"/>
-                        <filter string="Approve By" name="approve_by" context="{'group_by':'approve_employee_id'}"/>
-                        <filter string="Location" name="location" context="{'group_by':'location_id'}"/>
-                        <filter string="Manager Approve Date" name="managerapp_date" context="{'group_by':'managerapp_date'}"/>
-                        <filter string="User Approve Date" name="userapp_date" context="{'group_by':'userrapp_date'}"/>
-                        <filter string="Destination Location" name="dest_location_id" context="{'group_by':'dest_location_id'}"/>
-                        <filter string="Delivery Picking" name="delivery_picking_id" context="{'group_by':'delivery_picking_id'}"/>
-                        <filter string="Reason" name="reason" context="{'group_by':'reason'}"/>
-                        <filter string="Date Done" name="date_done" context="{'group_by':'date_done'}"/>
-                        <filter string="State" name="state" context="{'group_by':'state'}"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Employé" name="employee_id" context="{'group_by':'employee_id'}"/>
+                        <filter string="Date de la demande" name="request_date" context="{'group_by':'request_date'}"/>
+                        <filter string="Société" name="company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                        <filter string="Date fin de demande" name="date_end" context="{'group_by':'date_end'}"/>
+                        <filter string="Département" name="department" context="{'group_by':'department_id'}"/>
+                        <filter string="Responsable du département" name="department_manager" context="{'group_by':'approve_manager_id'}"/>
+                        <filter string="Approuver par" name="approve_by" context="{'group_by':'approve_employee_id'}"/>
+                        <filter string="Emplacement" name="location" context="{'group_by':'location_id'}"/>
+                        <filter string="Date d'approbation du gestionnaire" name="managerapp_date" context="{'group_by':'managerapp_date'}"/>
+                        <filter string="Date d'approbation de l'utilisateur" name="userapp_date" context="{'group_by':'userrapp_date'}"/>
+                        <filter string="Emplacement de destination" name="dest_location_id" context="{'group_by':'dest_location_id'}"/>
+                        <filter string="Préparation de la livraison" name="delivery_picking_id" context="{'group_by':'delivery_picking_id'}"/>
+                        <filter string="Raison" name="reason" context="{'group_by':'reason'}"/>
+                        <filter string="Date effectuée" name="date_done" context="{'group_by':'date_done'}"/>
+                        <filter string="Statut" name="state" context="{'group_by':'state'}"/>
                     </group>
                 </search>
             </field>
@@ -169,9 +169,9 @@
             <field name="view_mode">tree,form</field>
         </record>
         
-        <menuitem id="menu_purchase_requisition" name="Requisitions" groups="base.group_user"  web_icon="material_purchase_requisitions,static/description/icon.png"/>
-        <menuitem id="menu_item_purchase_requisition" name="Purchase Requisition" parent="menu_purchase_requisition"/>
-        <menuitem id="menu_action_purchase_requisition" name="Purchase Requisitions" parent="menu_item_purchase_requisition" action="action_material_purchase_requisition"/>
+        <menuitem id="menu_purchase_requisition" name="Demandes" groups="base.group_user"  web_icon="material_purchase_requisitions,static/description/icon.png"/>
+        <menuitem id="menu_item_purchase_requisition" name="Demande d'achat" parent="menu_purchase_requisition"/>
+        <menuitem id="menu_action_purchase_requisition" name="Demandes d'achat" parent="menu_item_purchase_requisition" action="action_material_purchase_requisition"/>
         
     </data>
 </odoo>

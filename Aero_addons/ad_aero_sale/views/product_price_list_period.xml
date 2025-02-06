@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<odoo>
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[1]" position="after">
+                <page string="Liste de Prix spécifique">
+                    <field name="pricelist_period_ids" widget="one2many_list">
+                        <tree string="Liste de Prix spécifique" editable="bottom" class="text-start">
+
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="prix"/>
+                        </tree>
+
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="marge_price_from_cost"/>
+                <field name="price_from_cost"/>
+            </xpath>
+
+
+
+
+        </field>
+    </record>
+<!--    <record id="view_partner_form" model="ir.ui.view">-->
+<!--        <field name="name">res.partner.form</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_form" />-->
+<!--        <field name="arch" type="xml">-->
+
+<!--            <xpath expr="//field[@name='vat']" position="after">-->
+
+<!--                 <field name="validite_prix_vente"/>-->
+
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_form_inherit_openbee" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.openbee</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <button name="button_confirm" position="after">
+                <button name="send_to_openbee"
+                        string="Envoyer commande vers OpenBee"
+                        type="object"
+                        class="oe_highlight"/>
+            </button>
+            <xpath expr="//field[@name='date_order']" position="after">
+                <field name="openbee_document_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mo_order_split_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header/button[@name='action_confirm']" position="after">
+                    <field name="is_split_mo" invisible="1"/>
+                    <button name="%(split_mrp_order_app.action_split_mrp)d" string="Split MO Order" type="action" class="oe_highlight" groups="split_mrp_order_app.group_mrp_split" attrs="{'invisible':['|',('is_split_mo','=',True),('state','=','done')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

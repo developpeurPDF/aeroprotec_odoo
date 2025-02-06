@@ -8,14 +8,33 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+            
 <!--                <xpath expr="//field[@name='list_price']" position="before">-->
 <!--                    -->
 <!--                </xpath>-->
-                <xpath expr="//field[@name='property_stock_inventory']" position="after">
+                <xpath expr="//group[@name='stock_property']" position="after">
+                    <group string="Mélange peinture">
+                    <field name="durcisseur" attrs="{'invisible': ['|', ('diluant', '=', True), ('base', '=', True)]}"/>
+                    <field name="diluant" attrs="{'invisible': ['|', ('durcisseur', '=', True), ('base', '=', True)]}"/>
+                    <field name="base" attrs="{'invisible': ['|', ('durcisseur', '=', True), ('diluant', '=', True)]}"/>
+                     </group>
+                    <group string="Reception Produit">
                     <field name="produit_recu_client"/>
                     <field name="emplacement_produit_recu_client"/>
                     <field name="emplacement_produit_recu_client_qy"/>
                     <field name="emplacement_produit_recu_client_stock" invisible="1"/>
+                    <field name="first_bom_operation_ids" invisible="1">
+                            <tree string="Opérations">
+                                <field name="code_operation"/>
+                                <field name="name"/>
+                                <field name="norme_interne"/>
+                                <field name="indice_norme_interne"/>
+                                <field name="norme_externe"/>
+                                <field name="indice_norme_externe"/>
+                            </tree>
+                    </field>
+                    </group>
+
                 </xpath>
                 <xpath expr="//notebook/page[last()]" position="after">
                     <page string="Frais">

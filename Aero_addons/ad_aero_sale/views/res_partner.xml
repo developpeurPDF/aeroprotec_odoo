@@ -30,7 +30,17 @@
                 <field name="code_abreviation"/>
                 <field name="edi"/>
                 <field name="client_factor"/>
-<!--                <field name="partner_invoice_id"/>-->
+                <field name="contact_supply"/>
+                <field name="bl_to_fact"/>
+                <field name="xfact_to_bl"/>
+<!--                <field name="validite_prix_vente"/>-->
+
+
+                <label for="validite_prix_vente"/>
+                <div class="o_row" name="validite_prix_vente">
+                    <field name="validite_prix_vente" string="Validité prix vente" class="oe_inline"/>
+                    <span>(mois)</span>
+                </div>
 <!--                <field name="groupe_societe"/>-->
 <!--                <field name="frais" widget="many2many_tags"/>-->
 <!--                <field name="appliquer_seuil_a_la_ligne"/>-->
@@ -99,6 +109,16 @@
             </xpath>
 
 
+        </field>
+    </record>
+    <record id="res_partner_view_purchase_buttons_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.purchase.buttons.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="purchase.res_partner_view_purchase_buttons" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']/group[2]/group/separator[1]" position="attributes">
+                <attribute name="string">Avertissement sur le bon de commande d'achat</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

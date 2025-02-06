@@ -11,4 +11,4 @@ from . import account_move
 from . import poids_carbone
 from . import stock_picking
 from . import controle_qualite
-
+from . import product_price_list_period

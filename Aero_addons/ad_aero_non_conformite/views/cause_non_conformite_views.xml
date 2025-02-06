@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Vue Tree -->
+        <record id="view_tree_cause_non_conformite" model="ir.ui.view">
+            <field name="name">cause.non.conformite.tree</field>
+            <field name="model">cause.non.conformite</field>
+            <field name="arch" type="xml">
+                <tree string="Causes de non-conformité">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Form -->
+        <record id="view_form_cause_non_conformite" model="ir.ui.view">
+            <field name="name">cause.non.conformite.form</field>
+            <field name="model">cause.non.conformite</field>
+            <field name="arch" type="xml">
+                <form string="Cause de non-conformité">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_cause_non_conformite" model="ir.actions.act_window">
+            <field name="name">Causes de non-conformité</field>
+            <field name="res_model">cause.non.conformite</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_cause_non_conformite"
+                  name="Cause de non-conformité"
+                  parent="menu_label_non_conformite"
+                  action="action_cause_non_conformite"
+                  />
+        <menuitem id="menu_cause_non_conformite_stock"
+                  name="Cause de non-conformité"
+                  parent="menu_label_non_conformite_stock"
+                  action="action_cause_non_conformite"
+                  />
+    </data>
+</odoo>

@@ -4,16 +4,16 @@
 
 
 
-        <record id="report_sale_order_sheet" model="ir.actions.report">
-            <field name="name">Feuille de chantier</field>
-            <field name="model">sale.order</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">sapa_reports.report_saleorder_sheet</field>
-            <field name="report_file">sapa_reports.report_saleorder_sheet</field>
-            <field name="print_report_name">'%s - Feuille de chantier' % (object.name)</field>
-            <field name="binding_model_id" ref="sale.model_sale_order"/>
-            <field name="binding_type">report</field>
-        </record>
+<!--        <record id="report_sale_order_sheet" model="ir.actions.report">-->
+<!--            <field name="name">Feuille de chantier</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">sapa_reports.report_saleorder_sheet</field>-->
+<!--            <field name="report_file">sapa_reports.report_saleorder_sheet</field>-->
+<!--            <field name="print_report_name">'%s - Feuille de chantier' % (object.name)</field>-->
+<!--            <field name="binding_model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--        </record>-->
 <!--        <template id="suivi_filtre_info_template_modifie" inherit_id="account_followup.followup_filter_info_template">-->
 <!--            <xpath expr="//div[@class='row fallback_header']" position="replace">-->
 <!--                <div class="col-5 offset-7">-->

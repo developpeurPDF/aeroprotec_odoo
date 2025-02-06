@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[last()]" position="after">
+                <page string="Dossier classement Openbee" name="dossier_classement_openbee">
+
+                    <group string="Les Dossiers Openbee">
+                        <field name="openbee_folder_invoice_id"/>
+                        <field name="openbee_folder_sale_id"/>
+                        <field name="openbee_folder_purchase_id"/>
+<!--                        <field name="seuil_a_la_ligne"/>-->
+
+                    </group>
+
+                </page>
+
+            </xpath>
+
+
+        </field>
+    </record>
+<!--    <record id="res_partner_view_purchase_buttons_inherit" model="ir.ui.view">-->
+<!--        <field name="name">res.partner.view.purchase.buttons.inherit</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="purchase.res_partner_view_purchase_buttons" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//page[@name='internal_notes']/group[2]/group/separator[1]" position="attributes">-->
+<!--                <attribute name="string">Avertissement sur le bon de commande d'achat</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

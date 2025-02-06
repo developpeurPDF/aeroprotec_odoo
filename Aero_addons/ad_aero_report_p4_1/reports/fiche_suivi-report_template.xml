@@ -1,0 +1,300 @@
+<odoo>
+    <template id="fiche_suivi_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <xpath expr="//div[@class='header']" position="replace">
+                        <t t-call="ad_aero_report_p4_1.fiche_suivi_header"/>
+                    </xpath>
+
+                    <div class="page">
+                        <style>
+                            .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 12pt;
+                            color: #000 !important;
+                            text-align: justify;
+
+                            }
+
+
+                            h2 {
+                            font-size: 12pt;
+                            text-align: center;
+                            color: #000 !important;
+                            }
+
+                            .header-table, .content-table, .border-table {
+                            width: 100%;
+                            border-collapse: collapse;
+
+                            border: 1px solid #000 !important;
+                            }
+
+                            .header-table td, .content-table td, .border-table td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            font-size: 12pt;
+                            }
+
+                            .highlight-red {
+                            background-color: #ff0000 !important;
+                            color: #000;
+                            text-align: center;
+                            font-weight: bold;
+                            }
+
+                            .highlight-pink {
+                            background-color: #ff00ff;
+                            color: #000;
+                            text-align: center;
+                            font-weight: bold;
+                            }
+
+                            .bold {
+                            font-weight: bold;
+                            }
+                            .appro-table {
+                            background-color: #f0f0f0 !important;
+                            font-style: italic;
+                            color: #666666 !important;
+                            text-align: center;
+                            padding: 5px;
+                            border: 1px solid #000;
+                            }
+                        </style>
+
+
+                        <div class="main-content">
+                            <table class="content-table">
+                                <tr>
+                                    <td style="background-color: white;">
+                                        <strong>Cde : AR24009191</strong>
+                                        Date création:
+                                        <span t-field="o.date_planned_start"/>
+                                        Délai Aeropr. :
+                                        <span t-field="o.delivery_date"/>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+                            <table class="content-table">
+                                <tr>
+                                    <td rowspan="2" style="background-color: white;">
+                                        <strong>Réf article:
+                                            <span t-field="o.product_id.default_code"/>
+                                            <br/>
+                                            Dés : <span t-field="o.product_id.description"/>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                            Qté : <span t-field="o.product_qty"/>
+                                            <br/>
+                                            Matiére:
+                                            <span t-field="o.product_id.matiere"/> 
+                                        </strong>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                            <table class="content-table">
+                                <tr>
+                                    <td style="background-color: white;">
+                                        <strong>Résistance:
+                                            <span t-field="o.product_id.resistance_matiere"/>
+                                        </strong> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<strong>
+                                        Surface :
+                                        <span t-field="o.product_id.surface"/>
+                                    </strong>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                        <strong>Numéro FT : <span t-field="o.product_id.product_tmpl_id.n_ft"/></strong>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                            <table class="content-table">
+                                <tr>
+                                    <td class="appro-table">
+                                        <strong>Appro. Peinture : NON</strong>
+                                    </td>
+                                    <td class="appro-table">
+                                        <t t-if="o.product_id.product_tmpl_id.type_article == 'Eprouvette'">
+                <strong>Eprouvettes : OUI</strong>
+            </t>
+            <t t-else="">
+                <strong>Eprouvettes : NON</strong>
+            </t>
+                                    </td>
+                                    <td class="appro-table">
+                                        <strong>Moyens spécifiques : NON</strong>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                            <table class="content-table">
+                                <tr>
+                                    <td style="background-color: white;">
+                                        <strong>Type d'emballage :</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: white;">OF123751 POSTE 1</td>
+                                </tr>
+                            </table>
+
+
+                            <t t-foreach="enumerate(o.workorder_ids)" t-as="operation_info">
+                                <t t-set="index" t-value="operation_info[0]"/>
+                                <t t-set="operation" t-value="operation_info[1]"/>
+                                <table style="width: 100%; border-collapse: collapse; margin-top: 50px; text-align: center; color: #000;">
+                                    <tr style="height: 20px;">
+                                        <td style="border: 1px solid black; text-align: center; width: 4%; color: #000 !important; padding: 5px !important;">
+                                            <t t-esc="index + 1"/>
+                                        </td>
+                                        <td style="border: 1px solid black; width: 31%; color: #000 !important; padding: 5px !important;">
+                                            <span t-field="operation.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: center; width: 5%; color: #000 !important; padding: 5px !important;">
+                                            -
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: center; width: 30%; color: #000 !important; padding: 5px !important;"
+                                            colspan="2">09 CND (Y COMPRIS CONTROLES DIVERS)
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: right; padding-right: 5px; width: 5%; color: #000 !important;">
+                                            Qte : 8
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: center; background-color: white; width: 5%; color: #000 !important; padding: 5px !important;">
+                                            29/08/24
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="width: 100%; border-collapse: collapse; color: #000 !important;">
+                                    <thead>
+                                        <tr style="height: 20px;">
+                                            <th style="width: 5%;"></th>
+                                            <th style="border: 1px solid black; width: 35%; color: #000 !important; padding: 5px !important;"
+                                                colspan="3">Norme interne :&#160;&#160;&#160; <span
+                                                    t-field="operation.norme_interne"/>&#160;&#160;&#160;&#160;&#160;&#160;
+                                                indice :
+                                                <span t-field="operation.indice_ni"/>
+                                                <br/>
+                                                Norme externe :&#160;&#160;&#160; <span
+                                                        t-field="operation.norme_externe"/>&#160;&#160;&#160;&#160;&#160;&#160;
+                                                indice :
+                                                <span t-field="operation.indice_ne"/>
+                                            </th>
+                                            <th style="border: 1px solid black; text-align: center; width: 10%;"></th>
+                                            <th style="border: 1px solid black; text-align: center; width: 10%; color: #000 !important; padding: 5px !important;">
+                                                Conformes
+                                            </th>
+                                            <th style="border: 1px solid black; text-align: center; width: 10%; color: #000 !important; padding: 5px !important;">
+                                                Non conf.
+                                            </th>
+                                            <th style="border: 1px solid black; text-align: center; width: 10%; color: #000 !important; padding: 5px !important;">
+                                                Date
+                                            </th>
+                                            <th style="border: 1px solid black; text-align: center; width: 10%; color: #000 !important; padding: 5px !important;">
+                                                Opérateur
+                                            </th>
+                                            <th style="border: 1px solid black; text-align: center; background-color: white; width: 10%; color: #000 !important; padding: 5px !important;">
+                                                Visa
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid black; background-color: white; width: 5%;"></td>
+                                            <td style="border: 1px solid black; background-color: white; width: 45%;"
+                                                colspan="4">
+
+                                                <p style="color: #000 !important;">Contrôle après usinage de finition
+                                                </p>
+                                                <p style="color: #000 !important;">1 AFA</p>
+
+                                                <t t-foreach="operation.operation_id.phase" t-as="phase">
+
+                                                    <p style="color: #000 !important;">
+                                                        <span t-field="phase.name"/>
+                                                    </p>
+
+                                                </t>
+                                                <!--<p style="color: #000 !important;">s-op 1.1: par Niveau II : plans,
+                                                    critères d’acceptation,
+                                                    <br/>
+                                                    réalisation des opérations dans la séquence validée
+                                                </p>
+                                                <p style="color: #000 !important;">s-op 1.2: Si nécessaire, FT validé
+                                                    par niveau III
+                                                </p>-->
+                                            </td>
+                                            <td style="border: 1px solid black; background-color: white; width: 10%;">
+                                            
+                                            <t t-foreach="operation.check_ids" t-as="check">
+                                            <t t-if="check.state == 'pass'">
+                                             Séquence: <span t-field="check.name"/><br/>
+                                             Nom controle: <span t-field="check.nom_controle"/>
+                                             <hr style="border: 1px solid black"/>
+                                             </t>
+                                             <t t-else="">
+                                             <p></p>
+                                             </t>
+                                            </t>
+
+                                           
+                                             </td>
+                                            <td style="border: 1px solid black; background-color: white; width: 10%;">
+                                            <t t-foreach="operation.check_ids" t-as="check">
+                                            <t t-if="check.state == 'fail'">
+                                             Séquence: <span t-field="check.name"/><br/>
+                                             Nom controle: <span t-field="check.nom_controle"/>
+                                             </t>
+                                             <t t-else="">
+                                             <p></p>
+                                             </t>
+                                            </t>
+                                            </td>
+                                            <td style="border: 1px solid black; background-color: white; width: 10%;">
+                                            <t t-foreach="operation.check_ids" t-as="check">
+                                             <span t-field="check.date"/>
+                                            </t>
+                                            </td>
+                                            <td style="border: 1px solid black; background-color: white; width: 10%;">
+                                            
+                                            <span t-field="operation.check_ids.workorder_id.nom_operateur"/>
+                                            
+                                            </td>
+                                            <td style="border: 1px solid black; background-color: white; width: 10%;"></td>
+
+
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
+                            </t>
+                            <p style="margin-top: 20px !important;">Référence des précédents NCT/NCI :</p>
+                            <p>NI23000516 - 13-06-2023 - - 1 pièce tombée à l'emballage. OF457791. FARELLA RC273_23</p>
+                        </div>
+
+                        <footer>
+                                <div class="footer" style="text-align: center; border-top: 1px solid #000;">
+                                    <p class="footer-text">Particularité :
+                                <span t-field="o.name"/>
+                            </p>
+                            <p style="margin-top: -5px !important;">Page
+                                <span class="page"/>
+                                sur
+                                <span class="topage"/>
+                            </p>
+                                </div>
+                            </footer>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

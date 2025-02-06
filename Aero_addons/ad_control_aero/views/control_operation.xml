@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="view_operation_quality_control_form" model="ir.ui.view">
+            <field name="name">operation.quality.control.form</field>
+            <field name="model">operation.quality.control</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" style="font-weight: bold; text-align: center; font-size: 20px;"/>
+                        </group>
+                        <group>
+
+                            <field name="description"/>
+<!--                            <field name="production_id"/>-->
+<!--                            <field name="workorder_id"/>-->
+                            <field name="type_valeur"/>
+                            <field name="type_outil"/>
+                            <field name="niveau_criticite"/>
+                        </group>
+                        <notebook>
+                            <page string="Cible" name="Cible">
+<!--                                <group>-->
+                                    <group>
+                                        <group>
+                                            <field name="declenche_non_conformite"/>
+                                        </group>
+                                        <group>
+                                            <field name="affiche_cible"/>
+                                        </group>
+                                    </group>
+                                <br/><br/>
+                                    <group>
+                                        <group>
+                                            <field name="taille_echant"/>
+                                        </group>
+                                        <group>
+                                            <field name="uom_id"/>
+                                        </group>
+                                    </group>
+                                    <group string="Cible">
+                                        <group>
+                                            <field name="critere_cible"/>
+                                        </group>
+                                        <group>
+                                             <field name="valeur_cible"/>
+
+                                        </group>
+                                    </group>
+
+                                    <group string="Limite de surveillance inférieure">
+                                        <group>
+                                            <field name="attribut_surveillance_inferieure"/>
+                                        </group>
+                                        <group>
+                                             <field name="critere_surveillance_inferieure"/>
+
+                                        </group>
+                                        <group>
+                                             <field name="valeur_surveillance_inferieure"/>
+
+                                        </group>
+                                    </group>
+
+                                    <group string="Limite de surveillance supérieure">
+                                        <group>
+                                            <field name="attribut_surveillance_superieure"/>
+                                        </group>
+                                        <group>
+                                             <field name="critere_surveillance_superieure"/>
+
+                                        </group>
+                                        <group>
+                                             <field name="valeur_surveillance_superieure"/>
+
+                                        </group>
+                                    </group>
+
+                                    <group string="Limite de controle inférieure">
+                                        <group>
+                                            <field name="attribut_controle_inferieure"/>
+                                        </group>
+                                        <group>
+                                             <field name="critere_controle_inferieure"/>
+
+                                        </group>
+                                        <group>
+                                             <field name="valeur_controle_inferieure"/>
+
+                                        </group>
+                                    </group>
+
+                                    <group string="Limite de controle supérieure">
+                                        <group>
+                                            <field name="attribut_controle_superieure"/>
+                                        </group>
+                                        <group>
+                                             <field name="critere_controle_superieure"/>
+
+                                        </group>
+                                        <group>
+                                             <field name="valeur_controle_superieure"/>
+
+                                        </group>
+                                    </group>
+<!--                                </group>-->
+                            </page>
+                            <page string="Conditions d'exécution" name="conditions_execution">
+                                <field name="conditions_execution" mode="tree">
+                                    <tree editable="bottom">
+                                        <field name="critere"/>
+                                        <field name="information"/>
+                                        <field name="operateur"/>
+                                        <field name="valeur"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Documentation" name="Documentation">
+                                <field name="worksheet_ids">
+
+                                    <tree string="Work Sheets">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="code"/>
+<!--                                        <field name="validation"/>-->
+
+                                    </tree>
+                                    <form string="Work Sheets">
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="type"/>
+                                            <field name="code"/>
+<!--                                            <field name="validation"/>-->
+                                            <field name="worksheet" help="Upload your PDF file." widget="pdf_viewer"/>
+                                            <field name="worksheet_google_slide" placeholder="Google Slide Link" widget="embed_viewer"/>
+                                            <field name="note"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Gammes" name="Gammes">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+
+
+
+            </field>
+        </record>
+
+<!--        <record id="view_operation_quality_control_search" model="ir.ui.view">-->
+<!--            <field name="name">operation.quality.control.search</field>-->
+<!--            <field name="model">operation.quality.control</field>-->
+<!--            <field name="arch" type="xml">-->
+
+
+<!--            </field>-->
+<!--        </record>-->
+
+
+        <!-- Vue Liste Personnalisée pour le menu -->
+        <record id="view_operation_quality_control_tree" model="ir.ui.view">
+            <field name="name">operation.quality.control.tree</field>
+            <field name="model">operation.quality.control</field>
+
+            <field name="arch" type="xml">
+                <tree string="Référentiel">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="type_valeur"/>
+                    <field name="type_outil"/>
+
+
+
+<!--                    <field name="state_delai" string="S. Délai" optional="show"-->
+<!--                                decoration-danger="state_delai == 'non'"-->
+<!--                                decoration-success="state_delai == 'oui'"-->
+<!--                                decoration-warning="state_delai == 'litige'"-->
+<!--                                widget="badge"/>-->
+
+                    <!-- Ajoutez ici les champs supplémentaires que vous souhaitez afficher -->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_operation_quality_control" model="ir.actions.act_window">
+            <field name="name">Référentiel</field>
+            <field name="res_model">operation.quality.control</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="view_ids" eval="[(5, 0, 0),-->
+<!--            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_operation_quality_control_form')}),-->
+<!--            (0, 0, {'view_mode': 'form', 'view_id': ref('view_operation_quality_control_tree')})]"/>-->
+            
+<!--            <field name="domain">[('fiche_control_reception', '=', True)]</field>-->
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                            'allowed_company_ids': allowed_company_ids,}</field>
+
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_operation_quality_control"
+                  name="Référentiel"
+                  parent="mrp_quality_control_app.menu_quality_point_mrp"
+                  action="action_operation_quality_control"
+                  sequence="100"/>
+
+
+<!--        <record id="view_mrp_workorder_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">mrp.workorder.form.inherit.quality.control</field>-->
+<!--            <field name="model">mrp.workorder</field>-->
+<!--            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[1]" position="after">-->
+<!--                    <button name="action_create_quality_control"-->
+<!--                            type="object"-->
+<!--                            string="Créer Contrôle"-->
+<!--                            class="btn-primary"/>-->
+<!--                    <field name="quality_control_id" string="Contrôle Qualité"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        <record id="seq_operation_quality_control" model="ir.sequence">-->
+<!--            <field name="name">Séquence Contrôle Qualité</field>-->
+<!--            <field name="code">operation.quality.control</field>-->
+<!--            <field name="prefix">QC/OP</field>-->
+<!--            <field name="padding">5</field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

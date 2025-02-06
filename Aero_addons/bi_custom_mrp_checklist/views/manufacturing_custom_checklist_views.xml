@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="view_manufacturing_custom_checklist_tree" model="ir.ui.view">
+        <field name="name">view.manufacturing.custom.checklist.tree</field>
+        <field name="model">manufacturing.checklist</field>
+        <field name="arch" type="xml">
+            <tree string="MRP Checklist" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_manufacturing_custom_checklist_form" model="ir.ui.view">
+        <field name="name">view.manufacturing.custom.checklist.form</field>
+        <field name="model">manufacturing.checklist</field>
+        <field name="arch" type="xml">
+            <form string="MRP Checklist">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_manufacturing_checklist_views" model="ir.actions.act_window">
+        <field name="name">MRP Checklist</field>
+        <field name="res_model">manufacturing.checklist</field>
+        <field name="view_mode">tree,form</field>
+        <field name="type">ir.actions.act_window</field>
+    </record>
+
+
+    <record id="view_manufacturing_custom_checklist_template_tree" model="ir.ui.view">
+        <field name="name">view.manufacturing.custom.checklist.template.tree</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <tree string="MRP Checklist Template" multi_edit="1">
+                <field name="sequence" widget="handle"/>
+                <field name="template_name"/>
+                <field name="checklist_ids" widget="many2many_tags" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_manufacturing_custom_checklist_template_form" model="ir.ui.view">
+        <field name="name">view.manufacturing.custom.checklist.template.form</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <form string="MRP Checklist Template">
+                <sheet>
+                    <group col="4">
+                        <field name="template_name"/>
+                        <field name="checklist_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_manufacturing_checklist_template_views" model="ir.actions.act_window">
+        <field name="name">MRP Checklist Template</field>
+        <field name="res_model">manufacturing.checklist.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="type">ir.actions.act_window</field>
+    </record>
+
+
+    <record id="mrp_view_search_inherit" model="ir.ui.view">
+        <field name="name">mrp.view.search.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="checklist_progress" string="MRP Checklist Completed"
+                        domain="[('checklist_progress' , '=' , '100')]"/>
+                <filter name="checklist_progress" string="MRP Checklist Uncompleted"
+                        domain="[('checklist_progress' , '!=' , '100')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="mrp_production_tree_views_inehrit" model="ir.ui.view">
+        <field name="name">mrp.production.tree.views.inehrit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+
+            <field name="product_id" position="before">
+                <field name="checklist_progress" widget="progressbar" optional="show"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="mrp_production_kanban_inehrit" model="ir.ui.view">
+        <field name="name">mrp.production.inherited.kanban.inehrit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_kanban_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+
+                <field name="checklist_progress" widget="percentpie" string="Checklist Progress"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="mrp_production_view_checklist_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.view.list.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[2]" position="after">
+                <page string="Checklist" name="custom_checklist">
+                    <div>
+                        <field name="checklist_progress" widget="percentpie" string="Checklist Progress"/>
+                    </div>
+                    <div>
+                        <label for="checklist_template"/>
+                        <field name="checklist_template" widget="many2many_tags" readonly="False"/>
+                    </div>
+                    <div>
+                        <field name="checklist_line_ids">
+                            <tree string="checklist" editable="bottom" decoration-success="state == 'complete'"
+                                  decoration-danger="state == 'cancel'">
+                                <field name="checklist_id"/>
+                                <field name="description"/>
+                                <field name="date" readonly="1"/>
+                                <field name="state" readonly="1"/>
+                                <button name="action_complete" icon="fa-check" type="object" string="Complete"/>
+                                <button name="action_cancel" string="Cancel" icon="fa-times" type="object"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="manufacturing_checklist_search_view" model="ir.ui.view">
+        <field name="name">manufacturing.checklist.search</field>
+        <field name="model">manufacturing.checklist</field>
+        <field name="arch" type="xml">
+            <search string="Description">
+
+                <field name="name" string="Name" filter_domain="[('name','ilike', self)]"/>
+                <field name="description" string="Description" filter_domain="[('description','ilike', self)]"/>
+
+            </search>
+
+        </field>
+    </record>
+
+
+    <record id="manufacturing_checklist_template_search_view" model="ir.ui.view">
+        <field name="name">manufacturing.checklist.template.search</field>
+        <field name="model">manufacturing.checklist.template</field>
+        <field name="arch" type="xml">
+            <search string="Checklist">
+                <field name="template_name" string="Name" filter_domain="[('template_name','ilike', self)]"/>
+                <field name="checklist_ids" string="Check list" filter_domain="[('checklist_ids','ilike', self)]"/>
+
+                <group string="Group By">
+                    <filter string="MRP Checklist Template" name="template_name"
+                            context="{'group_by':'template_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="custom_manufacturing_checklist_menu" name="MRP Checklist"
+              parent="mrp.menu_mrp_configuration" action="action_manufacturing_checklist_views"
+              groups="bi_custom_mrp_checklist.custom_mrp_checklist" sequence="10"/>
+
+
+    <menuitem id="custom_manufacturing_checklist_template_menu" name="MRP Checklist Template"
+              parent="mrp.menu_mrp_configuration" action="action_manufacturing_checklist_template_views"
+              groups="bi_custom_mrp_checklist.custom_mrp_checklist" sequence="11"/>
+
+</odoo>

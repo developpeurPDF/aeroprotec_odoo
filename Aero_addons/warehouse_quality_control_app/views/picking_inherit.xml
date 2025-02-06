@@ -6,6 +6,15 @@
 			<field name="inherit_id" ref="stock.view_picking_form"/>
 
 			<field name="arch" type="xml">
+				<header>
+					<button type="object"
+                        name="open_quality_alert"
+                        class="btn-primary"
+                        string="Créer non-conformité"
+                        >
+
+                    </button>
+				</header>
 				<xpath expr="//field[@name='backorder_id']" position="after">
 					<field name="quality_checks" invisible="1"/>
 				</xpath>
@@ -15,7 +24,7 @@
 					<button type="object"
                         name="action_check_wizard_picking"
                         
-                        string="Quality Checks"
+                        string="Contrôles de qualité"
                         class="btn-primary" 
                         attrs="{'invisible' : ['|',('quality_checks','!=',True),('state','!=','assigned')]}"
                         >
@@ -26,7 +35,7 @@
                     <button type="object"
                         name="create_quality_alert"
                         
-                        string="Quality Alert"
+                        string="Non conformités"
                         class="btn-primary" 
                         attrs="{'invisible' : ['|',('quality_checks','=',True),('state','!=','assigned')]}"
                         >
@@ -40,7 +49,7 @@
                         name="action_open_checkes"
                         class="oe_stat_button"
                         icon="fa-check"
-                        string="Quality Checks"
+                        string="Contrôles de qualité"
                         >
                         
                     </button>
@@ -49,7 +58,7 @@
                         name="open_quality_alert"
                         class="oe_stat_button"
                         icon="fa-exclamation-triangle"
-                        string="Quality Alerts"
+                        string="Non conformités"
                         >
                         
                     </button>

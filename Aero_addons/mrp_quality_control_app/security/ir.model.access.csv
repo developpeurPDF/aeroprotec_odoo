@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+mrp_quality_control_app.access_quality_checks_line,access_quality_checks_line,mrp_quality_control_app.model_quality_checks_line,base.group_user,1,1,1,1
+mrp_quality_control_app.access_mrp_workorder_popup,access_mrp_workorder_popup,mrp_quality_control_app.model_mrp_workorder_popup,base.group_user,1,1,1,1

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="openbee_api_url" model="ir.config_parameter">
+            <field name="key">openbee.api_url</field>
+            <field name="value">https://actiondigitale.openbeedemo.com/</field>
+        </record>
+        <record id="openbee_username" model="ir.config_parameter">
+            <field name="key">openbee.username</field>
+            <field name="value">florence@actiondigitale.net</field>
+        </record>
+        <record id="openbee_password" model="ir.config_parameter">
+            <field name="key">openbee.password</field>
+            <field name="value">0penBee*2024</field>
+        </record>
+        <record id="openbee_invoice_folder_id" model="ir.config_parameter">
+            <field name="key">openbee.invoice_folder_id</field>
+            <field name="value">55</field>
+        </record>
+    </data>
+</odoo>

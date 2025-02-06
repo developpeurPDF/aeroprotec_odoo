@@ -162,11 +162,14 @@ Manufacturing QC control qc Control team Manufacturing qc management QC control 
     "license" : "OPL-1",
     'depends': ['base','sale_management','stock','purchase','account','mrp','warehouse_quality_control_app'],
     'data': [
+            'security/ir.model.access.csv',
             'views/check_wizard.xml',
             'views/mrp_menu.xml',
             'views/inherit_quality_point.xml',
-            'views/workorder.xml'
-            
+            'views/workorder.xml',
+            'views/mrp_menu.xml',
+            'views/mrp_workorder_popup.xml',
+
             ],
     'installable': True,
     'auto_install': False,

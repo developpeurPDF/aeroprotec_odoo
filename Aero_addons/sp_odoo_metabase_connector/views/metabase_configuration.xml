@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--  Form view -->
+        <record id="form_view_metabase_configuration" model="ir.ui.view">
+            <field name="name">Form view metabase configuration</field>
+            <field name="model">metabase.configuration</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="check_metabase_connection" type="object" class="btn-primary"
+                                string="Check Connection"/>
+                        <button name="fetch_metabase_dashboard" type="object" class="btn-primary"
+                                string="Fetch Dashboard"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name">Name</label>
+                            <h1>
+                                <field class="text-break" name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="ip" string="Metabase URL"/>
+                            </group>
+                            <group>
+                                <field name="api_key" string="Metabase Api key"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Metabase Dashboards" name="dashboards">
+                                <field name="dashboard_line" readonly="1"
+                                       options='{"no_open": True, "no_create": True}'>
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="origin_id" invisible="1"/>
+                                        <field name="public_uuid"/>
+                                        <button name="action_open_dashboard_form_view" string="Add/View Menu"
+                                                class="btn-primary" type="object"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--  Tree view -->
+        <record id="tree_view_metabase_configuration" model="ir.ui.view">
+            <field name="name">tree view metabase configuration</field>
+            <field name="model">metabase.configuration</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="ip"/>
+                    <field name="api_key"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--  Action -->
+        <record id="action_metabase_configuration" model="ir.actions.act_window">
+            <field name="name">Metabase configuration</field>
+            <field name="res_model">metabase.configuration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

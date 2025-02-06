@@ -1,0 +1,42 @@
+<odoo>
+    <!-- Form View for Cause Non-Detection -->
+    <record id="view_form_cause_non_detection" model="ir.ui.view">
+        <field name="name">cause.non.detection.form</field>
+        <field name="model">cause.non.detection</field>
+        <field name="arch" type="xml">
+            <form string="Cause de Non-Détection">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Cause Non-Detection -->
+    <record id="view_tree_cause_non_detection" model="ir.ui.view">
+        <field name="name">cause.non.detection.tree</field>
+        <field name="model">cause.non.detection</field>
+        <field name="arch" type="xml">
+            <tree string="Causes de Non-Détection">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Cause Non-Detection -->
+    <record id="action_cause_non_detection" model="ir.actions.act_window">
+        <field name="name">Causes de Non-Détection</field>
+        <field name="res_model">cause.non.detection</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu for Cause Non-Detection -->
+
+    <menuitem id="menu_cause_non_detection" name="Causes de Non-Détection"
+              parent="ad_aero_non_conformite.menu_label_non_conformite_stock" action="action_cause_non_detection"/>
+    <menuitem id="menu_cause_non_detection_mrp" name="Causes de Non-Détection"
+              parent="ad_aero_non_conformite.menu_label_non_conformite" action="action_cause_non_detection"/>
+              
+</odoo>

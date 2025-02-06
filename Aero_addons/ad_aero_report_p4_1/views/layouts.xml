@@ -1,0 +1,16 @@
+<odoo>
+
+
+     <template id="certificat_footer">
+
+        <footer style="width: 100%; text-align: center; border-top: 1px solid #000; padding-top: 10px; font-size: 10px; margin-bottom: 15mm !important;">
+
+
+            <p style="margin-top: -5px !important;">Page
+                <span class="page"/>
+                sur
+                <span class="topage"/>
+            </p>
+        </footer>
+    </template>
+</odoo>

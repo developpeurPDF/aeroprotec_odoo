@@ -7,22 +7,449 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//sheet/div[1]" position="after">
+                        <div class="alert alert-danger" attrs="{'invisible': ['|', ('controle_reception_effectuer','=',False),('conforme_controle_reception','!=','non_conforme')]}">
+                            <strong>Attention!</strong> Le produit reçu est marqué comme non conforme à la reception.
+                        </div>
+                    <div class="alert alert-warning" attrs="{'invisible': ['|', ('controle_supply_effectuer','=',False),('conforme_controle_supply','!=','non_conforme')]}">
+                            <strong>Attention!</strong> Le produit reçu est marqué comme non conforme au contrôle de la supply.
+                        </div>
+                    <div class="alert alert-warning" attrs="{'invisible': ['|', ('controle_methode_effectuer','=',False),('conforme_controle_methode','!=','non_conforme')]}">
+                            <strong>Attention!</strong> Le produit reçu est marqué comme non conforme au contrôle Méthode Qualité.
+                        </div>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="sale_id"/>
+                    <field name="produit_a_fabrique" attrs="{'invisible': [('fiche_control_reception','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="fiche_control_reception" attrs="{'invisible': [('fiche_control_reception','=',False)]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm']" position="attributes">
+
+                    <attribute name="attrs">{'invisible': ['|',('show_mark_as_todo', '=', False), ('block', '=', True)]}</attribute>
+                </xpath>
                 <xpath expr="//page[@name='operations']/field[@name='move_ids_without_package']/tree/field[1]" position="before">
-<!--                    <button name="action_show_control_table" type="object" string="Contrôle"-->
-<!--                            class="btn-primary"/>-->
-<!--                            attrs="{'invisible': ['|', ('sale_id', '=', False), ('picking_type_code', '!=', 'incoming')]}"/>-->
+
                     <field name="is_conforme" decoration-danger="is_conforme == 'non_conforme'"
                                 decoration-success="is_conforme == 'conforme'"
-                                widget="badge"/>
+                                widget="badge" invisible="1"/>
                     <field name="quality_control_done" invisible="1"/>
-                     <button name="%(ad_aero_sale.view_control_table_wizard_form_wizard)s" string="Contrôle"
+                     <button name="%(ad_aero_sale.view_control_table_wizard_form_wizard)s" string="Contrôle" invisible="1"
                         class="fa fa-check oe_highlight"
                         type="action" context="{'default_move_id': id}"
                         attrs="{'invisible': [('quality_control_done', '=', True)]}"/>
                     <field name="quality_control_id" invisible="1"/>
-                    <button name="action_open_quality_control" string="Voir Contrôle" type="object"/>
+                    <button name="action_open_quality_control" string="Voir Contrôle" type="object" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="bl_to_fact" invisible="1"/>
+                    <field name="xfact_to_bl" invisible="1"/>
+<!--                    <field name="supply_chain" invisible="0"/>-->
+
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Contrôle à la réception" attrs="{'invisible': [('fiche_control_reception','!=', True)]}">
+
+                        <group>
+                            <field name="controle_reception_effectuer" invisible="1"/>
+                            <field name="block" invisible="1"/>
+<!--                            <field name="fiche_control_reception" invisible="1"/>-->
+
+                        </group>
+
+                            <button name="action_confirm_reception"
+                                    type="object"
+                                    string="Enregistrer le Contrôle Réception"
+                                    class="btn-success"/>
+                            <br/><br/>
+                            <button name="action_unlock"
+                                    type="object"
+                                    string="Débloquer la Réception"
+                                    class="btn-success"
+                                    groups="stock.group_stock_manager"/>
+                        <br/><br/>
+                        <group>
+                            <group>
+                                <field name="date_deblocage"/>
+                            </group>
+                            <group>
+                                <field name="debloqe_par"/>
+                            </group>
+                        </group>
+
+
+                    <group>
+                        <field name="n_commande_client" attrs="{'required': [('fiche_control_reception', '=', True)]}"/>
+                    </group>
+                    <group>
+
+                    <group>
+                        <group>
+                            <field name="quantite"/>
+                        </group>
+                        <group>
+                            <field name="value_quantite"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_quantite"/>
+                        </group>
+                    </group>
+                    <group>
+                    <group>
+                        <group>
+                            <field name="etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="value_etat_piece"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_etat_piece"/>
+                        </group>
+                        <group>
+                            <field name="photo_etat_piece"/>
+                         </group>
+                    </group>
+
+                    <group>
+                    <group>
+                            <field name="remarque_controle_reception"/>
+                    </group>
+
+                    <group>
+                            <field name="conforme_controle_reception" decoration-danger="conforme_controle_reception == 'non_conforme'"
+                                decoration-success="conforme_controle_reception == 'conforme'"
+                                widget="badge"/>
+                    </group>
+                    </group>
+                        <group>
+                        <group>
+                            <field name="picking_type_code" invisible="0"/>
+                        </group>
+                            <group>
+
+                            </group>
+                        </group>
+
+                    </page>
+                    <page string="Contrôle de la supply" attrs="{'invisible': [('fiche_control_reception','!=',True)]}">
+                        <group>
+                            <field name="controle_supply_effectuer" invisible="1"/>
+
+
+                    </group>
+                        <button name="action_confirm_cq_supply"
+                                    type="object"
+                                    string="Enregistrer le Contrôle de la supply"
+                                    class="btn-success"/>
+                    <br/><br/><br/>
+                        <group>
+                            <group>
+                                <field name="date_controle_supply"/>
+                            </group>
+                            <group>
+                                <field name="controle_supply_traite_par"/>
+                            </group>
+                        </group>
+
+                        <group>
+                    <group>
+                        <group>
+                            <field name="prix"/>
+                        </group>
+                        <group>
+                            <field name="value_prix"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_prix"/>
+                        </group>
+                    </group>
+                        <group>
+                    <group>
+                        <group>
+                            <field name="delai"/>
+                        </group>
+                        <group>
+                            <field name="n_of"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_delai"/>
+                        </group>
+                    </group>
+                        <group>
+                    <group>
+                        <group>
+                            <field name="date_livraison_aero"/>
+                        </group>
+                        <group>
+                            <field name="date_livraison_client"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_date_livraison_client"/>
+                        </group>
+                            <group>
+                            <field name="date_recale"/>
+                        </group>
+                    </group>
+                        <group>
+                        <group>
+                            <field name="remarque_controle_supply"/>
+                        </group>
+                        <group>
+                            <field name="conforme_controle_supply" decoration-danger="conforme_controle_supply == 'non_conforme'"
+                                decoration-success="conforme_controle_supply == 'conforme'"
+                                widget="badge"/>
+                    </group>
+                        </group>
+
+
+                    </page>
+
+                    <page string="Contrôle Méthode Qualité" attrs="{'invisible': [('fiche_control_reception','!=',True)]}">
+
+
+
+
+                        <group>
+
+                            <field name="controle_methode_effectuer" invisible="1"/>
+                        </group>
+                        <button name="action_confirm_cq_methode"
+                            type="object"
+                            string="Enregistrer le Contrôle Méthode"
+                            class="btn-success"/>
+                    <br/><br/><br/>
+
+
+                        <group>
+                            <group>
+                                <field name="date_controle_methode"/>
+                            </group>
+                            <group>
+                                <field name="controle_methode_traite_par"/>
+                            </group>
+                        </group>
+
+<!--                        <group>-->
+
+<!--                        <field name="ref_methode"/>-->
+<!--                    </group>-->
+                        <group>
+                    <group>
+                        <group>
+                            <field name="changement_indice"/>
+                        </group>
+                        <group>
+                            <field name="value_changement_indice"/>
+                         </group>
+                    </group>
+                        <group>
+                            <field name="state_changement_indice"/>
+                        </group>
+                    </group>
+
+                        <group string="Traitement Gamme">
+
+                        <group>
+                            <field name="changement_traitement"/>
+                        </group>
+
+<!--                        <group>-->
+<!--                            <field name="code_opr"/>-->
+<!--                        </group>-->
+
+<!--                        <group>-->
+<!--                            <field name="norme_indice_interne"/>-->
+<!--                        </group>-->
+
+
+<!--                        <group>-->
+<!--                            <field name="norme_indice_externe"/>-->
+<!--                        </group>-->
+
+
+
+                        <group>
+                            <group>
+                                <field name="ecart"/>
+                            </group>
+                            <group>
+                                <field name="state_ecart"/>
+                            </group>
+
+                        </group>
+
+
+                    <group>
+                            <field name="remarque_controle_methode"/>
+                    </group>
+                    <group>
+                            <field name="conforme_controle_methode" decoration-danger="conforme_controle_methode == 'non_conforme'"
+                                decoration-success="conforme_controle_methode == 'conforme'"
+                                widget="badge"/>
+                    </group>
+
+                            <field name="first_bom_operation_ids" invisible="0">
+                            <tree string="Opérations">
+                                <field name="code_operation"/>
+                                <field name="name"/>
+                                <field name="norme_interne"/>
+                                <field name="indice_norme_interne"/>
+                                <field name="norme_externe"/>
+                                <field name="indice_norme_externe"/>
+                            </tree>
+                    </field>
+
+
+
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>
+        <record id="view_picking_internal_search_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <filter name="cancel" position="after">
+                    <separator/>
+                    <filter name="bl_to_fact" string="1 BL = 1 Facture" domain="[('bl_to_fact', '=', True)]"/>
+                    <filter name="xfact_to_bl" string="X BL = 1 Facture" domain="[('xfact_to_bl', '=', True)]"/>
+                    <separator/>
+                </filter>
+            </field>
+        </record>
+
+
+        <!-- Vue Liste Personnalisée pour le menu -->
+        <record id="view_stock_picking_control_reception_tree" model="ir.ui.view">
+            <field name="name">stock.picking.control.reception.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree string="Contrôle">
+                    <field name="name"/>
+                    <field name="partner_id" string="Client"/>
+                    <field name="scheduled_date" string="D. prévue"/>
+                    <field name="sale_id" string="Cmd"/>
+                    <field name="n_commande_client" string="Réf.Clt"/>
+
+<!--                    <field name="controle_reception_effectuer" string="C. Recp"/>-->
+                    <field name="date_controle_reception" string="D. Recp"/>
+                    <field name="conforme_controle_reception" string="S. Recp" 
+                                decoration-danger="conforme_controle_reception == 'non_conforme'"
+                                decoration-success="conforme_controle_reception == 'conforme'" 
+                                widget="badge"/>
+                    <field name="quantite" string="Qté" optional="show"/>
+                    <field name="state_quantite" string="S. Qté"
+                                decoration-danger="state_quantite == 'non'"
+                                decoration-success="state_quantite == 'oui'"
+                                widget="badge"/>
+
+                    <field name="value_etat_piece" string="Etat"
+                                decoration-danger="value_etat_piece == 'mauvais'"
+                                decoration-success="value_etat_piece == 'bon'"
+                                widget="badge"/>
+                    <field name="remarque_controle_reception" string="N. Recp" optional="show"/>
+
+
+<!--                    <field name="controle_supply_effectuer" string="C. Supp"/>-->
+                    <field name="date_controle_supply" string="D. Supp" optional="show"/>
+                    <field name="conforme_controle_supply" string="S. Supp" optional="show"
+                                decoration-danger="conforme_controle_supply == 'non_conforme'"
+                                decoration-success="conforme_controle_supply == 'conforme'"
+                                widget="badge"/>
+                    <field name="prix" string="Prix" optional="show"/>
+                    <field name="state_prix" string="S.Prix" optional="show"
+                                decoration-danger="state_prix == 'non'"
+                                decoration-success="state_prix == 'oui'"
+                                widget="badge"/>
+                    <field name="delai" string="Délai" optional="show"/>
+
+                    <field name="state_delai" string="S. Délai" optional="show"
+                                decoration-danger="state_delai == 'non'"
+                                decoration-success="state_delai == 'oui'"
+                                decoration-warning="state_delai == 'litige'"
+                                widget="badge"/>
+                    <field name="date_livraison_client" string="D.Liv." optional="show"/>
+                    <field name="state_date_livraison_client" string="S.D.Liv." optional="show"
+                                decoration-danger="state_date_livraison_client == 'non'"
+                                decoration-success="state_date_livraison_client == 'oui'"
+                                widget="badge"/>
+
+                    <field name="remarque_controle_supply" string="N.Supp" optional="show"/>
+
+<!--                    <field name="controle_methode_effectuer" string="C. Méth"/>-->
+                    <field name="date_controle_methode" string="D. Méth" optional="show"/>
+                    <field name="conforme_controle_methode" string="S. Méth" optional="show"
+                                decoration-danger="conforme_controle_methode == 'non_conforme'"
+                                decoration-success="conforme_controle_methode == 'conforme'"
+                                widget="badge"/>
+<!--                    <field name="ref_methode" string="Réf Méth."/>-->
+                    <field name="changement_indice" string="Indice" optional="show"/>
+                    <field name="state_changement_indice" string="S.Indice" optional="show"
+                                decoration-danger="state_changement_indice == 'non'"
+                                decoration-success="state_changement_indice == 'oui'"
+                                widget="badge"/>
+                    <field name="changement_traitement" string="Traitmt" optional="show"
+                                decoration-danger="changement_traitement == 'non'"
+                                decoration-success="changement_traitement == 'oui'"
+                                widget="badge"/>
+
+                   
+
+                    <field name="norme_indice_interne" string="N.Int." optional="show"/>
+
+                    <field name="norme_indice_externe" string="N.Ext." optional="show"/>
+
+
+                    <field name="state_ecart" string="Ecart" optional="show"
+                                decoration-danger="state_ecart == 'non'"
+                                decoration-success="state_ecart == 'oui'"
+                                decoration-warning="state_ecart == 'litige'"
+                                widget="badge"/>
+                    <field name="remarque_controle_methode" string="N. Méth" optional="show"/>
+
+                    <field name="state" widget="badge" decoration-danger="state=='cancel'" decoration-info="state== 'assigned'" decoration-muted="state == 'draft'" decoration-success="state == 'done'" decoration-warning="state not in ('draft','cancel','done','assigned')" optional="show"/>
+
+                    <!-- Ajoutez ici les champs supplémentaires que vous souhaitez afficher -->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_stock_picking_control_reception" model="ir.actions.act_window">
+            <field name="name">Contrôle</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_stock_picking_control_reception_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('stock.view_picking_form')})]"/>
+            
+            <field name="domain">[('fiche_control_reception', '=', True)]</field>
+            <field name="context">{'default_company_id': allowed_company_ids[0],
+                            'allowed_company_ids': allowed_company_ids,
+                            'search_default_control_reception': 1,
+                            "default_fiche_control_reception":True}</field>
+            <field name="help" type="html">
+                        <p class="oe_view_nocontent_create">Create new record</p>
+                </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_stock_picking_control_reception"
+                  name="Contrôle"
+                  parent="stock.menu_stock_root"
+                  action="action_stock_picking_control_reception"
+                  sequence="2"/>
+
+
     </data>
 </odoo>

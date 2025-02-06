@@ -1,0 +1,281 @@
+<odoo>
+    <template id="pv_cnd_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 12pt;
+                            color: #000;
+                            text-align: justify;
+                            }
+                            .header {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16pt;
+                            }
+                            .sub-header {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 12pt;
+                            }
+                            .report-table, .sub-table {
+                            width: 100%;
+                            border-collapse: collapse;
+
+                            }
+                            .report-table td, .sub-table td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            font-size: 12pt;
+                            text-align: left;
+                            }
+                            .black-bg {
+
+                            text-align: center;
+                            font-weight: bold;
+                            }
+
+                            .highlight {
+                            background-color: #00FF00 !important;
+                            color: black;
+                            font-weight: bold;
+                            text-align: center;
+                            }
+                        </style>
+
+
+                        <table class="report-table"
+                               style="height: 100px; background-color: white !important; color: #000 !important;">
+                            <tr>
+                                <td style="width: 30%; text-align: center; border: none;">
+                                    <img src="ad_aero_report_p4_1/static/src/img/aeroprotec_logo.jpg"
+                                         style="height: 70px; width: 80%;"/>
+                                </td>
+                                <td class="header" style="width: 40%; border: none;">
+                                    <p style="text-align: center; font-size: 16pt; color: #000;">
+                                        <strong>Procès-Verbal D'examen<br/>CND<span t-field="o.id"/>
+                                        </strong>
+                                    </p>
+                                </td>
+                                <td style="width: 30%; text-align: center; background-color: white !important;">
+                                    <p>Page<br/>1/1
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table"
+                               style="height: 70px; background-color: white !important; color: #000 !important;">
+                            <tr>
+                                <td>
+                                    <p style="text-align: center; color: #000;">
+                                        <strong>Client :</strong>
+                                        <br/>
+                                        <span t-field="o.sale_order_line_id.order_partner_id"/>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="text-align: center; color: #000;">
+                                        <strong>REFERENCE :</strong>
+                                        <br/><span t-field="o.product_id.default_code"/>
+                                    </p>
+                                </td>
+                                <td style="background-color: white !important;">
+                                    <p style="text-align: center;">
+                                        <strong>DESIGNATION :</strong>
+                                        <br/><span t-field="o.product_id.name"/>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table" style="height: 150px;">
+                            <tr>
+                                <td style="width: 50% !important;">
+                                    <p style="text-align: center; color: #000;">
+                                        <strong>N° OF :</strong>
+                                        <br/>
+                                        <span t-field="o.name"/>
+                                    </p>
+                                </td>
+
+                                <td style="width: 50% !important; background-color: white !important;">
+                                    <p style="text-align: center;">
+                                        <strong>N° Commande interne : </strong>
+                                            <span t-field="o.sale_order_line_id.order_id.name"/><br/>
+                                            <strong>N° Commande Client :</strong>
+                                            <span t-field="o.sale_order_line_id.order_id.client_order_ref"/>
+                                        <br/>
+                                        
+                                    </p>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="width: 50% !important;">
+                                    <p style="text-align: center; color: #000;">
+                                        <strong>Numéro DO :</strong><br/>
+                                        <span t-field="o.product_id.product_tmpl_id.donneur_order.name"/>
+                                    </p>
+                                </td>
+                                <td style="width: 50% !important; background-color: white !important;">
+                                    <p style="text-align: center;">
+                                        <strong>Numéro FT :</strong>
+                                        <br/><span t-field="o.product_id.product_tmpl_id.n_ft"/>
+                                    </p>
+                                </td>
+
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table" style="height: 100px;">
+                            <tr>
+                                <td colspan="4" style="background-color: white !important;">
+                                    <p style="text-align: center;">
+                                        <strong>Référence Client :</strong>
+                                    </p>
+                                    <br/>
+                                    <p><span t-field="o.sale_order_line_id.order_partner_id"/></p>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table" style="height: 30px; background-color: #000 !important;">
+                            <tr>
+                                <td style="border: none; width: 30% !important;">
+                                    <p style="color: white; text-align: center; margin-top: 10px;">Qte Contrôlée : <span t-field="o.qty_produced"/>
+                                    </p>
+                                    <p style="color: white; text-align: center;">Qte non Contrôlée : <span t-field="o.qty_producing"/>
+                                    </p>
+                                </td>
+                                <td style="border: none; width: 30% !important;">
+                                    <p style="color: white; text-align: center; margin-top: 10px;">PRELEVEMENT
+                                        RESSUAGE
+                                    </p>
+                                </td>
+                                <td style="border: none; background-color: #000 !important; width: 30% !important;">
+                                    <p style="color: white; text-align: center; margin-top: 10px;">Visa</p>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table" style="width: 100%; color: #000 !important;">
+                            <tr style=" height: 50px !important;">
+                                <td style="border: 1px solid black; width: 25% !important; margin-top: 10px !important; color: #000;">
+                                    Sensibilité S2 : X
+                                </td>
+
+                                <td style="border: 1px solid black; width: 25% !important; margin-top: 10px !important; color: #000;">
+                                    Sensibilité S3 :
+                                </td>
+
+                                <td style="border: 1px solid black; width: 25% !important; margin-top: 10px !important; color: #000;">
+                                    Sensibilité S4 :
+                                </td>
+                                <td style="border: none; background-color: white !important; width: 25% !important; margin-top: 10px !important;">
+                                    <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="report-table" style="border: 1px solid black;">
+                            <tr>
+                                <td style="border: 1px solid black; width: 75% !important; margin-top: 7px;">
+                                    <p style="color: #000;">Observations : <span t-field="o.observation"/> <!--N° de série : de 23SOD30453 à 23SOD30457--></p>
+                                </td>
+                                <td style="border: none; text-align: center; background-color: white !important; width: 25% !important;">
+
+                                    <table class="signature-table">
+                                <tr>
+                                    <td>
+                                        <p style="margin-top: 7px; color: #000; text-align: center;">
+                                            <strong>NOM</strong>
+                                            <br/>
+                                            <!--<span t-esc="user.name"/>-->
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="equipe.name"/>
+                                                    </p>
+
+                                                </t>
+                                        </p>
+                                    </td>
+                                    
+                                    <td>
+                                        <p style="margin-top: 7px; color: #000; text-align: center;">
+                                            <strong>VISA</strong>
+                                            <br/>
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+
+                                                   
+                                                    <img t-if="equipe.signature"
+                                 t-att-src="image_data_uri(equipe.signature)" style="width: 50px;height: 50px"/>
+                                                </t>
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="report-table"
+                               style="border-collapse: collapse; border: 0px solid white; height: 20px; margin-top: 2px;">
+                            <tr>
+
+                                <td style="border: none; width: 75% !important;"></td>
+                                <td class="highlight"
+                                    style="background-color: #00FF00 !important; width: 70% !important; border: 1px solid black;">
+                                    Résultat : CONFORME
+                                </td>
+                            </tr>
+                        </table>
+                         <footer>
+                            <div class="footer" style="text-align: center; border-top: 1px solid #000;">
+                                <table style="width: 100%; border-collapse: collapse; border: 0px solid #fff !important;">
+                                <tr>
+                                    <td style="border: none !important; width: 80%;">
+                                        <p style="color: #000; text-align: center;">AEROPROTEC - P.A. PAU PYRENEES - 4
+                                            et 6 Rue Vincent Auriol - 64 000 PAU.
+                                        </p>
+                                        <p style="color: #000; text-align: center;">Tél : 05.59.84.95.20 - Fax :
+                                            05.59.02.62.73 -
+                                        </p>
+                                        <p style="color: #000; text-align: center;">SAS au capital de 159740€ - SIRET
+                                            480 146 372 00010 - TVA FR 89480146374 - APE 2561Z
+                                        </p>
+                                    </td>
+                                    <td style="border: none !important; width: 20%;">
+
+                                        <img src="ad_aero_report_p4_1/static/src/img/afaq.png"
+                                             style="width: 100px !important; height: 100px !important; text-align: center; margin-top: 30px !important;"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p>Page
+                                <span class="page"/>
+                                /
+                                <span class="topage"/>
+                            </p>
+                            </div>
+                        </footer>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

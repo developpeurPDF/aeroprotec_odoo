@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+      <record id="mrp_productionn_view_formm" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="sale_order_line_id"/>
+                    <field name="type_ligne_commande"/>
+                    <field name="priorite_ligne_commande"/>
+                    <field name="priorite_date_livraison"/>
+                    <field name="bom_id"/>
+                    <field name="priorite_globale"/>
+                    <field name="priorite_categorie" />
+                </xpath>
+            </field>
+      </record>
+      <record id="mrp_production_tree_views_inehrit" model="ir.ui.view">
+        <field name="name">mrp.production.tree.views.inehrit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="priorite_categorie" optional="show" string="Cat Priorité"/>
+            </xpath>
+        </field>
+    </record>
+
+      <record id="mrp_production_workorder_tree_editable_view_inherit" model="ir.ui.view">
+			<field name="name">mrp.production.work.order.tree.editable.inherit</field>
+			<field name="model">mrp.workorder</field>
+			<field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+
+                    <field name="default_capacity"/>
+                    <field name="priorite_categorie" optional="show"/>
+                    <field name="ref_prog_automate" optional="hide" invisible="1"/>
+
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="matiere" optional="hide"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="priorite_globale" optional="show"/>
+                </xpath>
+            </field>
+      </record>
+
+      <record id="view_mrp_production_workorder_form_view_filter_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.work.order.select.inherit</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <filter string="Référence programme automate" name="ref_prog_automate" domain="[]" context="{'group_by': 'ref_prog_automate'}"/>
+                <filter string="Matière" name="matiere" domain="[]" context="{'group_by': 'matiere'}"/>
+            </xpath>
+
+        </field>
+      </record>
+
+  </data>
+</odoo>

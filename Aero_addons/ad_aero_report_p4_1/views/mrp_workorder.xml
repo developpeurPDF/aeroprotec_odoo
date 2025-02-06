@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+        <record id="view_mrp_workorder_form_inherit" model="ir.ui.view">
+            <field name="name">mrp.workorder.form.inherit</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+
+                        <field name="phase_id" widget="many2many_tags" options="{'no_create': False}"/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

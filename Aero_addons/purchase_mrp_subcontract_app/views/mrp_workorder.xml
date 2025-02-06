@@ -27,8 +27,7 @@
 	<!--            <field name="state" position="after">-->
 					<field name="purchase_id" readonly="1"/>
 				</xpath>
-
-
+				
 			</field>
 		</record>
 
@@ -58,7 +57,7 @@
 			<field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
 			<field name="arch" type="xml">
 				<xpath expr="//button[@name='action_open_wizard']" position="before">
-					<button name="generate_subcontracting_order" type="object" string="Subcontracting Order"  class="btn-info" groups="purchase_mrp_subcontract_app.group_subcontracting"/>
+					<button name="generate_subcontracting_order" type="object" string="Cmde Sous-Traitant"  class="btn-info" groups="purchase_mrp_subcontract_app.group_subcontracting"/>
 				</xpath>
 				<xpath expr="//field[@name='state']" position="before">
 					<field name="is_subcontract" invisible="1"/>

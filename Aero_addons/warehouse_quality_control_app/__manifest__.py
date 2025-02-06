@@ -71,7 +71,7 @@ Quality Inspection points
 Warehouse QC control qc Control team purchase qc management warehouse qc management picking qc management
     """,
     "license" : "OPL-1",
-    'depends': ['base','sale_management','stock','purchase','account'],
+    'depends': ['base','sale_management','stock','purchase','account','hr'],
     'data': [
             'security/ir.model.access.csv',
             'wizard/wizard_views.xml',
@@ -79,6 +79,8 @@ Warehouse QC control qc Control team purchase qc management warehouse qc managem
             'views/picking_inherit.xml',
             'views/quality_team_viewe.xml',
             'views/quality_alert_view.xml',
+            'views/cause_occurrence_views.xml',
+            'views/cause_non_detection_views.xml',
             'report/check_quality_reports.xml'
             ],
     'installable': True,

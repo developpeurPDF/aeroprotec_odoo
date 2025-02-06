@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Form view -->
+        <record id="form_view_metabase_dashboard" model="ir.ui.view">
+            <field name="name">Form view metabase dashboard</field>
+            <field name="model">metabase.dashboard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="origin_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="public_uuid" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="dashboard_menu" string="Menus">
+                                <field name="menu_line">
+                                    <tree editable="bottom">
+                                        <field name='is_add_dashboard' invisible="1"/>
+                                        <field name="name" attrs="{'readonly':[('is_add_dashboard','=',True)]}"/>
+                                        <field name="sequence" attrs="{'readonly':[('is_add_dashboard','=',True)]}"/>
+                                        <field name="parent_menu_id"
+                                               attrs="{'readonly':[('is_add_dashboard','=',True)]}"
+                                               options="{'no_create':True,'no_open':True}"/>
+                                        <field name="groups_id" force_save="1" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="tree_view_metabase_dashboard" model="ir.ui.view">
+            <field name="name">Tree view metabase dashboard</field>
+            <field name="model">metabase.dashboard</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="public_uuid"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_metabase_dashboard" model="ir.actions.act_window">
+            <field name="name">All Metabase Dashboards</field>
+            <field name="res_model">metabase.dashboard</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

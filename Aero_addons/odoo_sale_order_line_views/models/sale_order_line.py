@@ -42,5 +42,5 @@ class SaleOrderLine(models.Model):
             self.sale_delay = self.product_template_id.sale_delay
 
 
-
+    date_commande = fields.Datetime(string="Date de la commande", related="order_id.date_order")
 

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ad_aero_p4.access_peinture_melange,access_peinture_melange,ad_aero_p4.model_peinture_melange,base.group_user,1,1,1,1
+ad_aero_p4.access_application_peinture,access_application_peinture,ad_aero_p4.model_application_peinture,base.group_user,1,1,1,1
+access_mrp_workorder,access_mrp_workorder,model_mrp_workorder,base.group_user,1,1,1,1
+
+access_etuvage_manager,access_etuvage_manager,model_etuvage,base.group_user,1,1,1,1
+access_etuvage_user,access_etuvage_user,model_etuvage,base.group_user,1,1,1,1
+
+access_hr_employee_user,access_hr_employee_user,model_hr_employee,base.group_user,1,1,1,1
+access_hr_employee_manager,access_hr_employee_manager,model_hr_employee,hr.group_hr_manager,1,1,1,1

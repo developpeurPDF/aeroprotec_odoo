@@ -18,44 +18,44 @@ class MrpBomTemplate(models.Model):
         'mrp.bom', 'Modèle de nomenclatures',
         index=True, ondelete='cascade', required=False)
 
-    name = fields.Char('Name', copy=False, readonly=True, default=lambda x: _('New'))
+    name = fields.Char('Nom', copy=False, readonly=True, default=lambda x: _('New'))
     active = fields.Boolean(
-        'Active', default=True,
-        help="If the active field is set to False, it will allow you to hide the bills of material without removing it.")
+        'Actif', default=True,
+        help="Si le champ actif est défini sur Faux, cela vous permettra de masquer les nomenclatures sans les supprimer.")
     code = fields.Char('Reference', required=True)
     product_tmpl_id = fields.Many2one(
-        'product.template', 'Product',
+        'product.template', 'Produit',
         check_company=True, index=True,
         domain="[('type', 'in', ['product', 'consu'])]", required=True)
     product_id = fields.Many2one(
-        'product.product', 'Product Variant',
+        'product.product', 'Variante de produit',
         check_company=True, index=True,
         domain="['&', ('product_tmpl_id', '=', product_tmpl_id), ('type', 'in', ['product', 'consu'])]",
-        help="If a product variant is defined the BOM is available only for this product.")
+        help="Si une variante de produit est définie, la nomenclature est disponible uniquement pour ce produit.")
 
     product_uom_category_id = fields.Many2one(related='product_tmpl_id.uom_id.category_id')
-    sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of bills of material.")
+    sequence = fields.Integer('Sequence', help="Donne l'ordre de séquence lors de l'affichage d'une liste de nomenclatures.")
 
 
     product_uom_id = fields.Many2one(
-        'uom.uom', 'Unit of Measure',
+        'uom.uom', 'Unité de mesure',
         default=_get_default_product_uom_id, required=True,
-        help="Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control", domain="[('category_id', '=', product_uom_category_id)]")
+        help="L'unité de mesure est l'unité de mesure pour le contrôle des stocks", domain="[('category_id', '=', product_uom_category_id)]")
     company_id = fields.Many2one(
-        'res.company', 'Company', index=True,
+        'res.company', 'Société', index=True,
         default=lambda self: self.env.company)
 
     type = fields.Selection([
-        ('normal', 'Manufacture this product'),
-        ('phantom', 'Kit'),('subcontract', 'Sous-traitance')], 'BoM Type',
+        ('normal', 'Fabriquer ce produit'),
+        ('phantom', 'Kit'),('subcontract', 'Sous-traitance')], 'Type de nomenclature',
         default='normal', required=True)
 
     product_qty = fields.Float(
-        'Quantity', default=1.0,
+        'Quantité', default=1.0,
         digits='Unit of Measure', required=True)
     # route_id = fields.Many2one('bom.route.template', string="Modèle d'opération standard")
 
-    bom_temp_line_ids = fields.One2many('mrp.bom.temp.line', 'bom_temp_id', 'BoM Lines', copy=True)
+    bom_temp_line_ids = fields.One2many('mrp.bom.temp.line', 'bom_temp_id', 'Lignes de nomenclature', copy=True)
     # operation_ids = fields.One2many('mrp.routing.workcenter', 'bom_temp_id', 'Operations', copy=True)
     operation_ids = fields.Many2many('mrp.routing.workcenter', string="Operations", copy=True)
     byproduct_ids = fields.One2many('mrp.bom.temp.byproduct', 'bom_temp_id', 'By-products', copy=True)

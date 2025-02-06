@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_mrp_workorder_application_peinture_form" model="ir.ui.view">
+        <field name="name">mrp.workorder.application.peinture.form</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+        <field name="state" position="attributes">
+            <attribute name="widget">statusbar</attribute>
+            <attribute name="statusbar_visible">pending,waiting,nci_waiting,ready,progress,done,cancel</attribute>
+        </field>
+        <field name="state" widget="statusbar" statusbar_visible="nci_waiting,pending,waiting,ready,progress,done,cancel"/>
+            <xpath expr="//header" position="inside">
+                <button name="create_maintenance_request"
+                        type="object"
+                        string="Controle/Maintenance/Equipement"
+                        class="oe_highlight"
+                        />
+            </xpath>
+             <xpath expr="//field[@name='is_task_created']" position="after">
+                  <field name="aog" string="Type de ligne"/>
+                  <field name="priorite_globale"/>
+              </xpath>
+               <xpath expr="//page[@name='time_tracking']" position="after">
+                  <page string="Infos sup">
+                    <group>
+                    <group string="Informations OF">
+                    <field name="production_id"/>
+                    <field name="type_of"/>
+                    <field name="phase_precedente" readonly="1" />
+                    <field name="jours_sans_activite" readonly="1" />
+                    <field name="heures_sans_activite" readonly="1" />
+                    <field name="date_demarrage_theorique" />
+                    <field name="date_dernier_pointage" />    
+                    <field name="date_livraison_theorique" />
+                    <field name="temps_theorique" />
+                    <field name="total_fabricated_qty"/>
+                    <field name="qty_remaining"/>
+                    </group>
+                    <group string="Article">
+                        <field name="fai" />
+                        <field name="reference_piece" />
+                        <field name="designation_piece" />
+                        <field name="photo_piece" widget="image" />
+                        <field name="code_barre_phase" />
+                        <field name="longueur_piece" />
+                        <field name="abreviation_matiere" />
+                        <field name="ref_matiere" />
+                        <field name="resistance_matiere" />
+                    </group>
+                    <group string="Gamme">
+                    <field name="gamme_of"/>
+                    </group>
+                    
+                    </group>
+                    </page>
+                    <page string="Cde Clt">
+                    <group>
+                    <field name="client" />
+                    <field name="ref_commande_interne" />
+                    <field name="ref_commande_client" />
+                    <field name="aog"/>
+                    <field name="n_poste"/>
+                    </group>
+                    </page>
+                     <page string="Opération">
+                    <group>
+                    <group>
+
+                    <field name="code_operation"/>
+                    <field name="operation_id"/>
+                    <field name="matricule_operateur"/>
+                    <field name="sous_op" widget="many2many_tags"/>
+                    </group>
+                     <group>
+
+                    <field name="norme_interne"/>
+                    <field name="indice_ni"/>
+                    <field name="norme_externe"/>
+                    <field name="indice_ne"/>
+                    </group>
+                    </group>
+                    </page>
+                   <page string="App°Peinture">
+
+                        <field name="applications_ids">
+                            <tree>
+                                <field name="n_sequence"/>
+                                <field name="melange"/>
+                             <field name="quantite"/>
+                            <field name="termine"/>
+                            <field name="Temperature_application"/>
+                            <field name="hygrometrie_application"/>
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="remarque_application"/>
+                            </tree>
+                        </field>
+                    </page>
+                     <page string="Etuvage">
+
+                        <field name="etuvage_ids">
+                        <tree>
+                            <field name="n_etuvage"/>
+                            <field name="Temperature_etuvage"/>
+                            <field name="date_debut_etuvege"/>
+                            <field name="date_fin_etuvage"/>
+                            <field name="remarque_etuvage"/>
+                        </tree>
+                        </field>
+                    </page>
+               </xpath>
+              
+                
+
+        </field>
+    </record>
+    <record id="mrp_production_workorder_tree_view_new_new" model="ir.ui.view">
+			<field name="name">mrp.production.work.order.tree.view.new.new</field>
+			<field name="model">mrp.workorder</field>
+			<field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view"/>
+			<field name="arch" type="xml">
+
+				<xpath expr="//field[@name='production_id']" position="after">
+	                <field name="type_of" optional="show"/>
+                    <field name="fai" optional="show"/>
+                     <field name="aog" optional="show"/>
+					<field name="client" optional="show"/>
+                    <field name="ref_commande_interne" optional="show"/>
+                    <field name="ref_commande_client" optional="show"/>
+                        <field name="n_poste" optional="show"/>
+                        <field name="date_livraison_theorique" optional="show"/>
+                        
+
+                        <field name="reference_piece" string="Ref pièce" optional="show"/>
+                        <field name="designation_piece" optional="show"/>
+                        <field name="photo_piece" widget="image" optional="show"/>
+                        <!--<field name="longueur_piece" optional="show"/>
+                        <field name="abreviation_matiere" optional="show"/>
+                        <field name="ref_matiere" optional="show"/>
+                        <field name="resistance_matiere" optional="show"/>
+                        <field name="phase_precedente" readonly="1" optional="show"/>
+                        <field name="date_dernier_pointage" string="Dernier pointage" optional="show"/>
+                        <field name="matricule_operateur" string="Mat der pointage" optional="show"/>
+                        <field name="jours_sans_activite" readonly="1" optional="show"/>
+                        <field name="heures_sans_activite" readonly="1" optional="show"/>
+                        <field name="temps_theorique" optional="show"/>
+
+                        <field name="date_demarrage_theorique" optional="hide"/>   
+                        <field name="code_barre_phase" optional="hide"/>-->
+                        
+				</xpath>
+               
+                <xpath expr="//field[@name='production_id']" position="attributes">
+            <attribute name="string">OF</attribute>
+            </xpath>
+            <xpath expr="//field[@name='priorite_categorie']" position="attributes">
+            <attribute name="string">Cat Priorité</attribute>
+            </xpath>
+            <xpath expr="//field[@name='priorite_globale']" position="attributes">
+            <attribute name="string">Priorité Glbe</attribute>
+            </xpath>
+           <!-- <xpath expr="//field[@name='total_fabricated_qty']" position="attributes">
+            <attribute name="string">Qté Totale Fabriquée</attribute>
+            </xpath>
+            <xpath expr="//field[@name='qty_remaining']" position="attributes">
+            <attribute name="string">Qté</attribute>
+            </xpath>-->
+				<field name="name" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="norme_interne" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="norme_externe" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="indice_ni" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="indice_ne" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="matiere" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="total_fabricated_qty" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="qty_remaining" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="finished_lot_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="date_planned_start" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="date_start" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="date_planned_finished" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="date_finished" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="duration_expected" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="duration" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+
+                <field name="default_capacity" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+
+                <field name="photo_piece" widget="image" position="after">
+                <field name="name" optional="show" string="Opération"/>
+                   <field name="norme_interne" optional="show" string="Norme Int."/>
+                   <field name="indice_ni" optional="show"/>
+                   <field name="norme_externe" optional="show" string="Norme Ext."/>
+                   <field name="indice_ne" optional="show"/>
+                   <field name="longueur_piece" optional="show"/>
+                   <field name="matiere" optional="show"/>
+                        <field name="abreviation_matiere" optional="show"/>
+                        <field name="ref_matiere" optional="show"/>
+                        <field name="resistance_matiere" optional="show"/>
+                        <field name="ref_prog_automate" optional="show" string="Prog. Automate"/>
+                        <field name="total_fabricated_qty" optional="show" string="Qte"/>
+                        <field name="qty_remaining" optional="show"/>
+                
+                        <field name="phase_precedente" optional="show"/>
+                        <field name="date_dernier_pointage" string="Dernier pointage" optional="show"/>
+                        <field name="matricule_operateur" string="Mat der pointage" optional="show"/>
+                        <field name="jours_sans_activite" readonly="1" optional="show"/>
+                        <field name="heures_sans_activite" readonly="1" optional="show"/>
+                        <field name="date_planned_start" optional="show"/>
+                <field name="date_planned_finished" optional="show"/>
+                        <field name="temps_theorique" optional="show"/>
+                        <field name="date_start" optional="show"/>
+                <field name="date_finished" optional="show"/>
+                <field name="duration_expected" optional="show"/>
+                <field name="duration" optional="show"/>
+                <field name="finished_lot_id" optional="show"/>
+                </field>
+                <!--<field name="longueur_piece" position="after">
+                <field name="matiere" optional="show"/>
+                </field>
+                <field name="resistance_matiere" position="after">
+                <field name="ref_prog_automate" optional="show" string="Prog. Automate"/>
+                <field name="qty_remaining" optional="show"/>
+                <field name="total_fabricated_qty" optional="show" string="Qte produites"/>
+                </field>
+                <field name="heures_sans_activite" position="after">
+                <field name="date_planned_start" optional="show"/>
+                <field name="date_planned_finished" optional="show"/>
+                </field>
+                <field name="temps_theorique" position="after">
+                <field name="date_start" optional="show"/>
+                <field name="date_finished" optional="show"/>
+                <field name="duration_expected" optional="show"/>
+                <field name="duration" optional="show"/>
+                <field name="finished_lot_id" optional="show"/>
+                </field>-->
+                
+                
+                <field name="workcenter_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+                <field name="product_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+                
+                
+                <!--<field name="date_planned_start" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+                <field name="duration_expected" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+                <field name="duration" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>-->
+                <field name="purchase_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+                <field name="state" position="attributes">
+                <attribute name="optional">hide</attribute>
+                </field>
+
+
+
+			</field>
+		</record>
+
+</odoo>

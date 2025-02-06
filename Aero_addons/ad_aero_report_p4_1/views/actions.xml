@@ -1,0 +1,10 @@
+<odoo>
+    <record id="action_mrp_production_popup" model="ir.actions.act_window">
+    <field name="name">Popup Attention</field>
+    <field name="res_model">mrp.production</field>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="view_mrp_production_popup_form"/>
+    <field name="target">new</field>
+</record>
+
+</odoo>

@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <!-- Vue Tree -->
+        <record id="view_tree_type_defaut" model="ir.ui.view">
+            <field name="name">type.defaut.tree</field>
+            <field name="model">type.defaut</field>
+            <field name="arch" type="xml">
+                <tree string="Types de défaut">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Form -->
+        <record id="view_form_type_defaut" model="ir.ui.view">
+            <field name="name">type.defaut.form</field>
+            <field name="model">type.defaut</field>
+            <field name="arch" type="xml">
+                <form string="Type de Défaut">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_type_defaut" model="ir.actions.act_window">
+            <field name="name">Types de Défaut</field>
+            <field name="res_model">type.defaut</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_tree_type_defaut"/>
+        </record>
+
+        <!-- Menu Type de Défaut sous Configuration -->
+        <menuitem id="menu_label_non_conformite"
+              name="Outils d'analyse de non-conformité"
+              parent="mrp.menu_mrp_configuration"
+              sequence="250"/>
+
+        <menuitem id="menu_type_defaut_action"
+                  name="Type de Defaut"
+                  parent="menu_label_non_conformite"
+                  action="action_type_defaut"
+                  />
+        
+        <menuitem id="menu_label_non_conformite_stock"
+              name="Outils d'analyse de non-conformité"
+              parent="stock.menu_stock_config_settings"
+              sequence="250"/>
+        <menuitem id="menu_type_defaut_action_stock"
+                  name="Type de Defaut"
+                  parent="menu_label_non_conformite_stock"
+                  action="action_type_defaut"
+                  />
+    </data>
+</odoo>

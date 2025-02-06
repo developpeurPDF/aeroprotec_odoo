@@ -11,15 +11,140 @@
                     <field name="nom_donneur_order" invisible="1"/>
                     <field name="codes"/>
                     <field name="sale_order_ids" invisible="1"/>
+                    <field name="type_of"/>
+                   
+                </xpath>
+                <xpath expr="//field[@name='workordertask_automation']" position="after">
+                <field name="equipe_controle"/>
+                <field name="observation" widget="html" />
+                
                 </xpath>
 <!--                <xpath expr="//field[@name='origin']" position="after">-->
 <!--                    <field name="sale_order_ids"/>-->
 <!--                </xpath>-->
                 <xpath expr="//field[@name='bom_id']" position="attributes">
-                <attribute name="domain">[('state', '=', 'active')]</attribute>
-            </xpath>
+                    <attribute name="domain">[('state', '=', 'active')]</attribute>
+                </xpath>
             </field>
       </record>
+
+      <record id="view_mrp_production_tree_inherited" model="ir.ui.view">
+        <field name="name">mrp.production.tree.inherited</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="before">
+        <field name="client"/>
+        </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+            <field name="type_of"/>
+            <field name="type_cmd"/>
+            <field name="ref_commande_interne"/>
+            <field name="ref_commande_client"/>
+            <field name="n_of_interne"/>
+            <field name="reference_article"/>
+            <!--<field name="product_id"/>-->
+            <field name="designation_article"/>
+            <field name="gamme"/>
+         
+            <field name="date_deadline"/>
+            <!--<field name="delivery_date"/>-->
+            <field name="date_recale"/>
+            <field name="qty_commandee"/>
+            <field name="qty_lancee"/>
+            
+        </xpath>
+        
+
+        <xpath expr="//field[@name='date_planned_start']" position="replace"/>
+        <xpath expr="//field[@name='date_deadline']" position="before">
+            <field name="date_planned_start"/>
+        </xpath>
+        <xpath expr="//field[@name='product_id']" position="replace"/>
+        <xpath expr="//field[@name='reference_article']" position="after">
+            <field name="product_id"/>
+        </xpath>
+
+        <xpath expr="//field[@name='product_uom_id']" position="replace"/>
+        <xpath expr="//field[@name='product_qty']" position="replace"/>
+        <xpath expr="//field[@name='production_duration_expected']" position="replace"/>
+        <xpath expr="//field[@name='production_real_duration']" position="replace"/>
+        
+
+        <xpath expr="//field[@name='state']" position="replace"/>
+        <xpath expr="//field[@name='company_id']" position="replace"/>
+        <xpath expr="//field[@name='activity_ids']" position="replace"/>
+        <xpath expr="//field[@name='components_availability']" position="replace"/>
+        <xpath expr="//field[@name='reservation_state']" position="replace"/>
+        <xpath expr="//field[@name='user_id']" position="replace"/>
+        <xpath expr="//field[@name='origin']" position="replace"/>
+        <xpath expr="//field[@name='analytic_account_id']" position="replace"/>
+
+        <xpath expr="//field[@name='qty_lancee']" position="after">
+            <field name="product_qty"/>
+            <field name="product_uom_id"/>
+            <field name="production_duration_expected"/>
+            <field name="production_real_duration"/>
+
+            <field name="state"/>
+            <field name="company_id"/>
+            <field name="activity_ids"/>
+            <field name="components_availability"/>
+            <field name="reservation_state"/>
+            <field name="user_id"/>
+            <field name="origin"/>
+            <field name="analytic_account_id"/>
+        </xpath>
+
+       
+        <xpath expr="//field[@name='product_qty']" position="attributes">
+            <attribute name="string">Qté</attribute>
+        </xpath>
+
+      
+        <!--<xpath expr="//field[@name='activity_ids']" position="attributes">
+            <attribute name="optional">hide</attribute>
+        </xpath>-->
+            <!--<xpath expr="//field[@name='product_qty']" position="attributes">
+            <attribute name="string">Qté</attribute>
+            </xpath>-->
+            <xpath expr="//field[@name='name']" position="attributes">
+            <attribute name="string">Réf</attribute>
+            </xpath>
+            
+             <!--<xpath expr="//field[@name='priorite_categorie']" position="attributes">
+            <attribute name="string">Cat Priorité</attribute>
+            </xpath>-->
+           
+           <xpath expr="//field[3]" position="after">
+                <field name="priorite_globale" string="Priorité Glbe"/>
+            </xpath>
+
+            <field name="checklist_progress" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+
+
+            <!--<field name="activity_ids" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>-->
+                <field name="company_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+               
+                <!--<field name="product_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="production_duration_expected" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>
+                <field name="production_real_duration" position="attributes">
+                <attribute name="invisible">True</attribute>
+                </field>-->
+                
+            
+        </field>
+    </record>
 
   </data>
 </odoo>

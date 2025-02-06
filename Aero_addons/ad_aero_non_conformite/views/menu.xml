@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!-- Menu principal -->
+    <menuitem id="menu_non_conformites"
+              name="Non-Conformités"
+              sequence="1"
+              web_icon="ad_aero_non_conformite,static/description/ad_icon.png"/>
+
+    <!-- Sous-menu pour la configuration -->
+    <menuitem id="menu_configuration"
+              name="Configuration"
+              parent="menu_non_conformites"
+              sequence="2"/>
+
+    <!-- Action pour la configuration -->
+    <record id="action_configuration" model="ir.actions.act_window">
+        <field name="name">Configuration</field>
+        <field name="res_model">ir.config_parameter</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <!-- Action pour Non-Conformités -->
+    <record id="action_non_conformite" model="ir.actions.act_window">
+        <field name="name">Non-Conformités</field>
+        <field name="res_model">non.conformite</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu Non-Conformités -->
+    <menuitem id="menu_non_conformite_action"
+              name="Non-Conformité"
+              parent="menu_non_conformites"
+              action="action_non_conformite"
+              sequence="1"/>
+
+
+
+
+</odoo>

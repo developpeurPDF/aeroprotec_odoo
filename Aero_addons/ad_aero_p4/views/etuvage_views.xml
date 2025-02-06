@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_etuvage_tree" model="ir.ui.view">
+        <field name="name">etuvage.tree</field>
+        <field name="model">etuvage</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="n_etuvage"/>
+                <field name="Temperature_etuvage"/>
+                <field name="date_debut_etuvege"/>
+                <field name="date_fin_etuvage"/>
+                <field name="app_peinture"/>
+                <field name="workorder_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_etuvage_form" model="ir.ui.view">
+        <field name="name">etuvage.form</field>
+        <field name="model">etuvage</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="n_etuvage"/>
+                        <field name="Temperature_etuvage"/>
+                        <field name="date_debut_etuvege"/>
+                        <field name="date_fin_etuvage"/>
+                        <field name="app_peinture"/>
+                        <field name="workorder_id"/>
+                        <field name="remarque_etuvage"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    
+    <record id="action_etuvage" model="ir.actions.act_window">
+        <field name="name">Etuvage</field>
+        <field name="res_model">etuvage</field>
+        <field name="view_mode">tree,form</field>
+       
+    </record>
+    <menuitem id="menu_etuvage"
+              name="Etuvage"
+              parent="mrp.menu_mrp_manufacturing"
+              action="action_etuvage"
+              sequence="11"/>
+</odoo>

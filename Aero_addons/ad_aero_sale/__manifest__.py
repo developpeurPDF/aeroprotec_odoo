@@ -25,6 +25,8 @@
         "views/poids_carbone.xml",
         "wizards/controle_qualite_reception.xml",
         "views/stock_picking.xml",
+        "views/product_price_list_period.xml",
+        "report/control_recption.xml"
 
     ],
     "application": True,

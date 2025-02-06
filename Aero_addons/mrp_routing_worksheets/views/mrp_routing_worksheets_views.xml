@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mrp_routing_workcenter_form_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.routing.workcenter.form</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='worksheet']" position="after">
+                    <page name="worksheets" string="Liste des documents">
+                        <field name="worksheet_ids">
+                            <tree string="Liste des documents">
+                                <field name="name"/>
+                                <field name="type"/>
+                                <field name="code"/>
+                                <field name="validation"/>
+                                <field name="worksheet_type"/>
+                            </tree>
+                            <form string="Liste des documents">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="code"/>
+                                    <field name="validation"/>
+                                    <field name="worksheet_type" widget="radio"/>
+                                    <field name="worksheet" help="Upload your PDF file." widget="pdf_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'pdf')], 'required':  [('worksheet_type', '=', 'pdf')]}"/>
+                                    <field name="worksheet_google_slide" placeholder="Google Slide Link" widget="embed_viewer" attrs="{'invisible':  [('worksheet_type', '!=', 'google_slide')], 'required': [('worksheet_type', '=', 'google_slide')]}"/>
+                                    <field name="note" attrs="{'invisible':  [('worksheet_type', '!=', 'text')]}"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -19,7 +19,7 @@
 						name="action_open_checkes"
 						class="oe_stat_button"
 						icon="fa-check"
-						string="Quality Checks"
+						string="Contrôles de qualité"
 						attrs="{'invisible' : [('state','!=','progress')]}"
 						>
 						</button>
@@ -30,8 +30,8 @@
 						name="open_quality_alert"
 						class="oe_stat_button"
 						icon="fa-exclamation-triangle"
-						string="Quality Alerts"
-						attrs="{'invisible' : [('state','!=','progress')]}"
+						string="Non conformité"
+						invisible="1"
 						>
 						
 					</button>
@@ -43,28 +43,35 @@
 				<button type="object"
 						name="action_check_wizard_picking"
 						
-						string="Quality Checks"
+						string="Contrôles de qualité"
 						class="btn-primary" 
 						attrs="{'invisible' : [('quality_checks','!=',True),('state','!=','progress')]}"> 
-						>
+
 					</button>
 
 
 					<button type="object"
 						name="create_quality_alert"
 						
-						string="Quality Alert"
+						string="Non conformité"
 						class="btn-primary" 
-						attrs="{'invisible' : [('state','!=','progress')]}"
+						invisible="1"
 						>
 						
 					</button>
+<!--				<button type="object"-->
+<!--                            name="action_open_quality_checks"-->
+<!--                            class="oe_stat_button"-->
+<!--                            icon="fa-check"-->
+<!--                            string="Quality Checks"-->
+<!--                            attrs="{'invisible': [('state', '!=', 'progress')]}"/>-->
 			</xpath>
 
 			<xpath expr="//notebook" position="inside">
-				<page string="Quality Checks">
-					<field name="check_ids" readonly="1">
+				<page string="Ctrle QTE">
+					<field name="check_ids" readonly="0">
 						<tree>
+							<field name="name" string="Check Reference"/>
 							<field name="product_id"/>
 							<field name="lot_id"/>
 							<field name="mrp_id"/>

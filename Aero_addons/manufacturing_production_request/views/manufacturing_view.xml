@@ -8,24 +8,24 @@
             <field name="arch" type="xml">
                  <form string="Manufacturing Production Request Form">
                      <header>
-                       <button string="Approve" type="object" name="custom_action_validate" states="b_confirm" 
+                       <button string="Approuver" type="object" name="custom_action_validate" states="b_confirm" 
                                 class="oe_highlight" groups="mrp.group_mrp_manager"/>
-                       <button string="Reset to Draft" type="object" name="custom_action_reset_draft" states="d_manufacturing_created,cancel" groups="mrp.group_mrp_manager"/>
-                       <button string="Create Manufacturing Order" type="object" name="custom_manufacturing_order_create" class="oe_highlight" states="c_validate" groups="mrp.group_mrp_manager"/>
-                       <button string="Confirm" type="object" name="custom_action_confirm" states="a_draft" class="oe_highlight" groups="mrp.group_mrp_user"/>
-                       <button string="Cancel" type="object" name="custom_action_cancel" states="a_draft,b_confirm,c_validate" groups="mrp.group_mrp_manager"/>
+                       <button string="Remettre au brouillon" type="object" name="custom_action_reset_draft" states="d_manufacturing_created,cancel" groups="mrp.group_mrp_manager"/>
+                       <button string="Créer un ordre de fabrication" type="object" name="custom_manufacturing_order_create" class="oe_highlight" states="c_validate" groups="mrp.group_mrp_manager"/>
+                       <button string="Confirmer" type="object" name="custom_action_confirm" states="a_draft" class="oe_highlight" groups="mrp.group_mrp_user"/>
+                       <button string="Annuler" type="object" name="custom_action_cancel" states="a_draft,b_confirm,c_validate" groups="mrp.group_mrp_manager"/>
                        <field name="state" widget="statusbar"
                               statusbar_visible="a_draft,b_confirm,c_validate,d_manufacturing_created"/>
                      </header>
                      <sheet>
                          <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" name="action_view_mrp_production" type="object"
-                             icon="fa-industry" string="Manufacturing Orders" attrs="{'invisible':[('state', 'in', ('a_draft','b_confirm','cancel','c_validate'))]}">
+                             icon="fa-industry" string="Ordres de Fabrication" attrs="{'invisible':[('state', 'in', ('a_draft','b_confirm','cancel','c_validate'))]}">
                             </button>
                         </div>
                         <div class="oe_title">
                             <h1><field name="number" nolabel="1"/></h1>
-                            <h1><field name="custom_product_template_id" nolabel="1" placeholder="Manufacturing Product ....." attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}"/></h1>
+                            <h1><field name="custom_product_template_id" nolabel="1" placeholder="Produit de fabrication ....." attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}"/></h1>
                         </div>
                     <group>
                         <group>
@@ -50,15 +50,15 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="General Details" >
+                        <page string="Détails généraux" >
                             <group string="Description">
-                              <field name="custom_description" placeholder="Request Details....." attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}" nolabel="1"/>
+                              <field name="custom_description" placeholder="Détails de la demande....." attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}" nolabel="1"/>
                             </group>
-                            <group string="Internal Notes">
-                                <field name="notes" placeholder="Internal Notes........" nolabel="1"/>
+                            <group string="Notes internes">
+                                <field name="notes" placeholder="Notes internes........" nolabel="1"/>
                             </group>
                         </page>
-                        <page string="Other Info">
+                        <page string="Autres informations">
                             <group>
                                 <group>
                                     <field name="confirm_by"/>
@@ -86,7 +86,7 @@
             <field name="name">manufacturing.production.request.tree.view</field>
             <field name="model">manufacturing.request.custom</field>
             <field name="arch" type="xml">
-                <tree string="Manufacturing Production Request List View">
+                <tree string="Affichage de la liste des demandes de production de fabrication">
                     <field name="number"/>
                     <field name="custom_product_template_id"/>
                     <field name="custom_product_qty"/>
@@ -115,12 +115,12 @@
                     <field name="end_date"/>
                     <field name="custom_date_start_wo"/>
                     <field name="state" />
-                <group expand="0" string="Group By">
-                    <filter name="by_custom_product_template_id" string="Product" context="{'group_by': 'custom_product_template_id'}" />
-                    <filter name="by_custom_user_id" string="Responsible User" context="{'group_by': 'custom_user_id'}" />
-                    <filter name="by_custom_bom_id" string="Bill of Material" context="{'group_by': 'custom_bom_id'}" />
-                    <filter name="by_create_date" string="Request Date" context="{'group_by': 'create_date'}" />
-                    <filter name="by_custom_company_id" string="Company" context="{'group_by': 'custom_company_id'}"/>
+                <group expand="0" string="Grouper par">
+                    <filter name="by_custom_product_template_id" string="Produit" context="{'group_by': 'custom_product_template_id'}" />
+                    <filter name="by_custom_user_id" string="Utilisateur responsable" context="{'group_by': 'custom_user_id'}" />
+                    <filter name="by_custom_bom_id" string="Nomenclature" context="{'group_by': 'custom_bom_id'}" />
+                    <filter name="by_create_date" string="Date de la demande" context="{'group_by': 'create_date'}" />
+                    <filter name="by_custom_company_id" string="Société" context="{'group_by': 'custom_company_id'}"/>
                     <filter name="by_state" string="Status"
                             context="{'group_by': 'state'}"/>
                 </group>
@@ -129,14 +129,14 @@
     </record>
     
     <record model="ir.actions.act_window" id="manufacturing_production_request_action">
-        <field name="name">Manufacturing Requests</field>
+        <field name="name">Demandes de fabrication</field>
         <field name="res_model">manufacturing.request.custom</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_mrp_request" name="Requests" parent="mrp.menu_mrp_root" sequence="12"/>
+    <menuitem id="menu_mrp_request" name="Demandes" parent="mrp.menu_mrp_root" sequence="12"/>
 
-    <menuitem id="menu_mrp_request_child" name="Manufacturing Requests" parent="menu_mrp_request"
+    <menuitem id="menu_mrp_request_child" name="Demandes de fabrication" parent="menu_mrp_request"
               action="manufacturing_production_request_action"/>
     </data>
 </odoo>

@@ -63,3 +63,13 @@ class OrdreFabrication(models.Model):
     #                                      related="norme_externe.date_fin_derogation")
     # date_archivage_ne = fields.Datetime(string="Date AC NE", related="norme_externe.date_archived")
 
+
+    # def _get_default_code_operation(self):
+    #     if self.operation_id:
+    #         return self.operation_id.code_operation
+    #     else:
+    #         return False
+    #
+    #
+    # code_operation = fields.Char(string="Code opération", readonly=True, default=_get_default_code_operation)
+

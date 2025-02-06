@@ -13,7 +13,7 @@ class SaleOrderInherit(models.Model):
 class SalesDeliveryInherit(models.Model):
     _inherit = "sale.order.line"
 
-    delivery_dates = fields.Datetime(string="Date début traitement", index=True,default=fields.Datetime.now,copy=False)
+    delivery_dates = fields.Datetime(string="Date début trait.t", index=True,default=fields.Datetime.now,copy=False)
 
 
     def _prepare_procurement_values(self, group_id):

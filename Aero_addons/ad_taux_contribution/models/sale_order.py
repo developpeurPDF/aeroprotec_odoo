@@ -43,9 +43,9 @@ class SaleOrder(models.Model):
                 # tva = rec.amount_tax/2
                 # print("TVA (Tax)", tva)
                 rec.energie_percentage_amount = tth * (rec.rg_percentage / 100)
-                print("Montant de la garantie", rec.energie_percentage_amount)
+                
             except Exception as e:
-                print("Erreur dans compute_energie_percentage_amount: ", e)
+                
                 rec.energie_percentage_amount = 0
 
     @api.depends('amount_total')
@@ -54,9 +54,9 @@ class SaleOrder(models.Model):
             try:
                 tth = rec.amount_untaxed
                 rec.cont_env_total_amount = tth * (rec.cont_env_amount / 100)
-                print("Montant de la cont_env", rec.cont_env_total_amount)
+                
             except Exception as e:
-                print("Erreur dans compute_energie_percentage_amount: ", e)
+                
                 rec.cont_env_total_amount = 0
 
 

@@ -34,6 +34,37 @@ class ProductTemplate(models.Model):
     hauteur = fields.Float("Hauteur", tracking=True)
     largeur = fields.Float("Largeur", tracking=True)
     longueur = fields.Float("Longueur", tracking=True)
+
+    @api.depends('longueur')
+    def _compute_cost(self):
+        for template in self:
+            original_cost = template.standard_price
+            # Double the cost if length exceeds 600 mm
+            if template.longueur > 600:
+                template.standard_price = original_cost * 2
+            else:
+                template.standard_price = original_cost
+
+    def action_bom_cost(self):
+        # Your existing logic
+        templates = self.filtered(lambda t: t.product_variant_count == 1 and t.bom_count > 0)
+        if templates:
+            templates.mapped('product_variant_id').action_bom_cost()
+
+        # Ensure cost adjustment based on length is applied
+        self._compute_cost()
+
+    def button_bom_cost(self):
+        # Your existing logic
+        templates = self.filtered(lambda t: t.product_variant_count == 1 and t.bom_count > 0)
+        if templates:
+            templates.mapped('product_variant_id').button_bom_cost()
+
+        # Ensure cost adjustment based on length is applied
+        self._compute_cost()
+    
+    
+    
     diametre = fields.Float("Diamètre", tracking=True)
     surface = fields.Float("Surface", compute='_compute_air')
     surface_traiter = fields.Char("Surface à traiter", tracking=True)

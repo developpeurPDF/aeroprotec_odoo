@@ -1,8 +1,9 @@
 # -*- coding : utf-8 -*-
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models,fields,api
+from odoo import models,fields,api,_
 from datetime import datetime
+from odoo.exceptions import UserError
 
 
 class SalesInherit(models.Model):

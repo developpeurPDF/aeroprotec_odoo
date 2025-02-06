@@ -1,0 +1,401 @@
+<odoo>
+    <template id="control_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <xpath expr="//div[@class='header']" position="replace">
+                        <div></div>
+                    </xpath>
+                    <div class="page">
+                        <style>
+                            .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 12pt;
+                            color: #000 !important;
+                            text-align: justify;
+                            }
+
+                            h2 {
+                            font-size: 12pt;
+                            text-align: center;
+                            color: #000 !important;
+                            }
+
+                            .content-table, .signature-table, .border-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                            border: 1px solid #000 !important;
+                            }
+
+                            .content-table td, .signature-table td, .border-table td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            font-size: 12pt;
+                            }
+
+                            .highlight-yellow {
+                            background-color: yellow;
+                            }
+                            .highlight-blue {
+                            background-color: #00bfff;
+                            }
+
+                            .header-table, .content-table {
+                            width: 100%;
+                            border: 1px solid #000;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            }
+
+                            .header-table td, .content-table td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            font-size: 12pt;
+                            }
+
+                            .header-table .logo-cell {
+                            width: 30%;
+                            text-align: center;
+                            }
+
+                            .header-table .title-cell {
+                            width: 40%;
+                            font-size: 16pt;
+                            font-weight: bold;
+                            text-align: center;
+                            align-items: center;
+                            }
+
+                            .header-table .report-number {
+                            width: 30%;
+                            text-align: center;
+                            font-weight: bold;
+                            align-items: center;
+                            }
+                        </style>
+
+                        <!-- Main Content -->
+                        <main style="margin-top: 300px !important;">
+                        <table class="header-table" style="height: 100px !important;">
+                                <tr>
+                                    <td class="logo-cell">
+                                        <img src="ad_aero_report_p4_1/static/src/img/aeroprotec_logo.jpg"
+                                             style="height: 70px !important; width: 80% !important; align-items: center; margin-top: 5px !important;"/>
+                                    </td>
+                                    <td class="title-cell" style="margin-top: 80px !important; color: #000 !important;">
+                                        RAPPORT DE CONTROLE
+                                    </td>
+                                    <td class="report-number"
+                                        style="margin-top: 80px !important; color: #000 !important;">CNC<span t-field="o.id"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <t t-foreach="o.nc_ids" t-as="nconformite"> 
+                                        <p style="color: #000 !important;">
+                                            <strong>Non conformité de référence :</strong>
+                                            <span t-field="nconformite.name"/>
+                                        </p>
+                             <table class="content-table" style="height: 150px; margin-top: -3.2px !important;">
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <p style="margin-top: 7px; color: #000 !important;">
+                                            <strong>Décision :</strong>
+                                           <span t-field="nconformite.decision"/>
+                                        </p>
+                                        
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Client :</strong>
+                                            <span t-field="nconformite.client"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Contrôle :</strong>
+                                            <span t-field="nconformite.quality_checks_id"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Produit :</strong>
+                                            <span t-field="nconformite.produit"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Source de la NC :</strong>
+                                            <span t-field="nconformite.source_nc"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: blue;"><b><u>Données initiales</u></b></p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Commande initiale :</strong>
+                                            <span t-field="nconformite.commande_initiale"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Référence client de la commande :</strong>
+                                            <span t-field="nconformite.ref_commande_client"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>OF :</strong>
+                                            <span t-field="nconformite.of"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Ilot ou/et machine responsable de la NC :</strong>
+                                            <span t-field="nconformite.ilot_machine_responsable"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Société :</strong>
+                                            <span t-field="nconformite.company_id"/>
+                                        </p>
+                                        <br/>
+                                        
+
+                                    </td>
+                                    <td style="width: 50%;">
+                                        <p style="margin-top: 7px; color: #000 !important;">
+                                            <strong>Criticité :</strong>
+                                            <span t-field="nconformite.criticite"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Date de création de la NC :</strong>
+                                            <span t-field="nconformite.date_creation_nc"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Date de Clôture :</strong>
+                                            <span t-field="nconformite.date_cloture"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>Utilisateur ayant créé la NC :</strong>
+                                            <span t-field="nconformite.utilisateur_creation_nc"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: blue;"><b><u>Données de reprise</u></b></p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Gamme de reprise :</strong>
+                                            <span t-field="nconformite.gamme_reprise"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>OF de reprise :</strong>
+                                            <span t-field="nconformite.of_reprise"/>
+                                        </p>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                            <table class="content-table">
+
+                                <tr>
+                                    <td style="padding: 5px;">
+                                     <p style="color: green;"><b>Informations suplémentaires</b></p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Désignation de l’article :</strong>
+                                            <span t-field="nconformite.designation_article"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Quantité initiale de l’OF :</strong>
+                                            <span t-field="nconformite.quantite_initiale_of"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Quantité non conforme déclarée :</strong>
+                                            <span t-field="nconformite.quantite_nc"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Référence de l’article :</strong>
+                                            <span t-field="nconformite.reference_article"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>NC sur FAI :</strong>
+                                            <span t-field="nconformite.nc_sur_fai"/>
+                                        </p>
+                                    </td>
+                                    <td style="padding: 5px;">
+                                    <p style="color: green;"><b>Plan d'action</b></p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Type d’action :</strong>
+                                            <span t-field="nconformite.type_action"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Descriptif de l'action :</strong>
+                                            <span t-field="nconformite.descriptif_action"/>
+                                            
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Date de création de l'action :</strong>
+                                            <span t-field="nconformite.date_creation_action"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Date de réalisation de l'action :</strong>
+                                            <span t-field="nconformite.date_realisation_action"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Efficacité :</strong>
+                                            <span t-field="nconformite.efficacite"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Action clôturée :</strong>
+                                            <span t-field="nconformite.action_cloturee"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Validateur de l'action :</strong>
+                                            <span t-field="nconformite.validateur_action"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Responsable de l'action :</strong>
+                                            <span t-field="nconformite.responsable_action_id"/>
+                                        </p>
+                                    </td>
+                                    <td style="padding: 5px;">
+                                    <p style="color: green;"><b>Analyse</b></p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Type de Défaut :</strong>
+                                            <span t-field="nconformite.type_defaut"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Renseigner la description du défaut :</strong>
+                                            <span t-field="nconformite.description_defaut"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Causes de la Non-Conformité :</strong>
+                                            <span t-field="nconformite.causes_non_conformite"/>
+                                        </p>
+                                        <p style="color: #000 !important;">
+                                            <strong>Renseigner un champ pour précise la cause :</strong>
+                                            <span t-field="nconformite.cause_detail"/>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            </t>
+                          
+
+
+                            <!--<table class="header-table" style="height: 100px !important;">
+                                <tr>
+                                    <td class="logo-cell">
+                                        <img src="ad_aero_report_p4_1/static/src/img/aeroprotec_logo.jpg"
+                                             style="height: 70px !important; width: 80% !important; align-items: center; margin-top: 5px !important;"/>
+                                    </td>
+                                    <td class="title-cell" style="margin-top: 80px !important; color: #000 !important;">
+                                        RAPPORT DE CONTROLE
+                                    </td>
+                                    <td class="report-number"
+                                        style="margin-top: 80px !important; color: #000 !important;">F0066
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                            <table class="content-table" style="height: 150px; margin-top: -3.2px !important;">
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <p style="margin-top: 7px; color: #000 !important;">
+                                            <strong>CLIENT :</strong>
+                                           <span t-field="o.sale_order_line_id.order_partner_id"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>QTE EN LITIGE / QTE LOT :</strong>
+                                            153/153
+                                        </p>
+                                    </td>
+                                    <td style="width: 50%;">
+                                        <p style="margin-top: 7px; color: #000 !important;">
+                                            <strong>N° COMMANDE :</strong>
+                                            <span t-field="o.sale_order_line_id.order_id"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>N° d'OF :</strong>
+                                            <span t-field="o.name"/>
+                                        </p>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="border: none;">
+                                        <p style="margin-top: 7px; color: #000 !important;">
+                                            <strong>REFERENCE pièces :</strong>
+                                            <span t-field="o.product_id.default_code"/>
+                                        </p>
+                                        <br/>
+                                        <p style="color: #000 !important;">
+                                            <strong>DESIGNATION pièces :</strong>
+                                            <span t-field="o.product_id.name"/>
+                                        </p>
+                                    </td>
+                                    <td style="border: none;"></td>
+                                </tr>
+
+                            </table>
+
+
+                            <p style="margin-top: 50px;">
+                                <strong>DESCRIPTION DE LA NON CONFORMITE:</strong>
+                            </p>
+                            <table class="content-table">
+
+                                <tr>
+                                    <td>
+                                        <p style="color: #000 !important; margin-top: 5px;">FAI JOINT</p>
+                                    </td>
+                                </tr>
+                            </table>-->
+
+                            <!-- Signature Section -->
+                            <table class="signature-table" style="height: 100px !important; margin-top: 50px;">
+                                <tr>
+                                    <td>
+                                        <p style="margin-top: 7px; color: #000; text-align: center;">
+                                            <strong>NOM</strong>
+                                            <br/>
+                                            <!--<span t-esc="user.name"/>-->
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="equipe.name"/>
+                                                    </p>
+
+                                                </t>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="margin-top: 7px; color: #000; text-align: center;">
+                                            <strong>DATE</strong>
+                                            <br/>
+                                            <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="margin-top: 7px; color: #000; text-align: center;">
+                                            <strong>VISA</strong><br/>
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+
+                                                   
+                                                    <img t-if="equipe.signature"
+                                 t-att-src="image_data_uri(equipe.signature)" style="width: 50px;height: 50px"/>
+                                                </t>
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                        </main>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

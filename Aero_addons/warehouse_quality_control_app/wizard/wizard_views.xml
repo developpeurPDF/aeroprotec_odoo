@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<record id="view_wizard_check_quality" model="ir.ui.view">
-            <field name="name">Quality Check</field>
+            <field name="name">Contrôle de qualité</field>
             <field name="model">quality.checks</field>
             <field name="arch" type="xml">
-                <form string="Quality Check">
+                <form string="Contrôle de qualité">
                     <h2>
                         <field name="product_id" readonly="1"/>
                         
@@ -13,7 +13,7 @@
                         <group>
 
 
-                            <label for="measure" string="Measure" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+                            <label for="measure" string="Mesure" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
 
 
 
@@ -35,15 +35,15 @@
                     
                     
                     <footer>
-                        <button name="validate_check" string="Validate" type="object"
+                        <button name="validate_check" string="Valider" type="object"
                             class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
 
 
 
-                        <button name="action_pass" string="Pass" type="object"
+                        <button name="action_pass" string="Passer" type="object"
                             class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'pass_fail')]}"/>
 
-                        <button name="action_fail" string="Fail" type="object"
+                        <button name="action_fail" string="Échouer" type="object"
                             class="btn-primary" attrs="{'invisible': [('test_type', '!=', 'pass_fail')]}"/>
                         
                     </footer>
@@ -52,7 +52,7 @@
         </record>
 
         <record id="action_check_wizard" model="ir.actions.act_window">
-            <field name="name">Quality Check</field>
+            <field name="name">Contrôle de qualité</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">quality.checks</field>
             <field name="view_mode">form</field>
@@ -62,19 +62,19 @@
 
 
         <record id="view_check_quality_fail" model="ir.ui.view">
-            <field name="name">Quality Check Fail</field>
+            <field name="name">Échec du contrôle de qualité</field>
             <field name="model">quality.checks</field>
             <field name="arch" type="xml">
-                <form string="Quality Check Fail">
+                <form string="Échec du contrôle de qualité">
                     <p>
                         You measured <span><field name="measure" readonly="1"/></span> mm and it should be between <span><field name="min_quality"/></span> and <span><field name="max_quality"/></span> mm.
                     </p>
               <footer>
 
-                        <button name="action_reset" string="Correct Measure" type="object"
+                        <button name="action_reset" string="Corriger la mesure" type="object"
                             class="btn-primary"/>
 
-                        <button name="action_confirm" string="Confirm Measure" type="object"
+                        <button name="action_confirm" string="Confirmer la mesure" type="object"
                             class="btn-primary"/>
                         
                     </footer>

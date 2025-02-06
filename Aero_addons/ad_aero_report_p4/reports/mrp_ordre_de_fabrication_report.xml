@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+
+<!--    <template id="report_layout_controle" name="Report layout retenue">-->
+<!--        <t t-if="not o" t-set="o" t-value="docs"/>-->
+<!--        <t t-set="company" t-value="company_id"/>-->
+<!--        <div class="header">-->
+<!--            <div class="first-page">-->
+
+<!--                <table name="entete1" class="table-sm" style="border-collapse: collapse;width: 1000px">-->
+<!--                    <tr>-->
+<!--                        <td class="text-center" style="width: 200px;height: 40px; border-collapse: 1px solid black;">-->
+<!--                            <strong>HELIOS</strong>-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 600px;border-collapse: 1px solid black;">-->
+<!--                            17  DUPUIS - ANNEZIN-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 200px;border-collapse: 1px solid black;">-->
+<!--                            DS 545 E-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--                <table name="entete11" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 60px">-->
+
+<!--                    <tr>-->
+<!--                        <td class="text-center" style="width: 250px;">-->
+<!--                            ORDRE DE FABRICATION-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 250px;">-->
+<!--                            <span t-field="o.name"/>-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 250px;">-->
+<!--                                <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:200px;height:40px'}"/>-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 250px;">-->
+<!--                            Lancées-->
+<!--                            <br/> 8-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--                <table name="entete111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 80px">-->
+
+<!--                    <tr>-->
+<!--                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">-->
+<!--                            Créé par : BOULLARD Emmanuelle-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">-->
+<!--                            Créé le : 05/04/2016-->
+<!--                        </td>-->
+<!--                        <td class="text-center" style="width: 350px;border-left: 1px solid black;">-->
+<!--                            Date fin 12/04/2016 <br/>-->
+<!--                            Date Lancement 29/03/2016-->
+
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                </table>-->
+
+<!--            </div>-->
+<!--            <div>-->
+<!--                <div style="float: left;">-->
+<!--&lt;!&ndash;                    <img src="ad_aero_report/static/src/img/aeroprotec_snr.jpg" class="row"&ndash;&gt;-->
+<!--&lt;!&ndash;                         style="width: 320px; height: 100px;float: right; margin: 0px 0px 0px 10px;"/>&ndash;&gt;-->
+<!--                </div>-->
+<!--&lt;!&ndash;                <div style="text-align: right;" class="mt-7">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <br/><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <h3>Rapport contrôle N°&ndash;&gt;-->
+<!--&lt;!&ndash;                        <span t-field="doc.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </h3>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+
+<!--        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"-->
+<!--             t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">-->
+<!--            <t t-call="web.address_layout"/>-->
+<!--            <t t-raw="0"/>-->
+<!--        </div>-->
+<!--    </template>-->
+
+
+	<template id="mrp_ordre_de_fabrication_report" name="ordre de fabrication">
+        <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <xpath expr="//div[@class='header']" position="replace">
+                   <div></div>
+                </xpath>
+                <div class="first-page"  style="margin-top: -20px;">
+
+                <table name="entete1" class="table-sm" style="border-collapse: collapse;width: 1000px">
+                    <tr>
+                        <td class="text-center" style="width: 200px;height: 40px; border-collapse: 1px solid black;">
+                            <strong>HELIOS</strong>
+                        </td>
+                        <td class="text-center" style="width: 600px;border-collapse: 1px solid black;">
+                            17  DUPUIS - ANNEZIN
+                        </td>
+                        <td class="text-center" style="width: 200px;border-collapse: 1px solid black;">
+                            DS 545 E
+                        </td>
+                    </tr>
+                </table>
+                <table name="entete11" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 60px">
+
+                    <tr>
+                        <td class="text-center" style="width: 250px;border-right: 1px solid white;">
+                            ORDRE DE <br/>FABRICATION
+                        </td>
+                        <td class="text-center" style="width: 250px;border-right: 1px solid white;">
+                            <span t-field="o.name"/>
+                        </td>
+                        <td class="text-center" style="width: 250px;border-right: 1px solid white;">
+                                <!-- <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:200px;height:40px', 'barcode_style': 'Code128'}"/>-->
+                        </td>
+                        <td class="text-center" style="width: 250px;">
+                            Lancées
+                            <br/> <span t-field="o.product_qty"/>
+                        </td>
+                    </tr>
+                </table>
+                <table name="entete111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 80px">
+
+                    <tr>
+                        <td class="text-center" style="width: 350px;border-right: 1px solid white;">
+                            Créé par : <span t-field="o.create_uid"/>
+                        </td>
+                        <td class="text-center" style="width: 350px;border-right: 1px solid white;">
+                            Créé le : <span t-field="o.create_date"/>
+                        </td>
+                        <td class="text-center" style="width: 350px;">
+                            Date fin : <span t-field="o.delivery_date"/>  <br/><br/>
+                            Date Lancement : <span t-field="o.date_planned_start"/>
+
+                        </td>
+                    </tr>
+
+                </table>
+                <table name="entete1111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                    <tr>
+                        <td>
+                        LANCE  ACCRO  L100  DECRO  ACCRO  DECRO  MARQU  EMBAL  VISA
+                        </td>
+                    </tr>
+                </table>
+
+                <table name="entete11111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                    <tr>
+                        <td style="border-bottom: 1px solid white;">
+                        Article :   <span t-field="o.product_id"/>                  Ligne 100 RES + TSA <br/>
+                            <strong><span t-field="o.bom_id.code"/></strong>
+                        </td>
+                    </tr>
+                </table>
+
+                <table name="entete11111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-center" style="border-right: 1px solid white;width: 500px; font-size: 24px; font-family: Arial;">
+                        <t t-if="o.type_ligne_commande == 'aog'">
+                            <strong><span t-field="o.type_ligne_commande" style="color: red;"/></strong>
+                        </t>
+                        <t t-elif="o.type_ligne_commande == 'fil_rouge'">
+                            <strong><span t-field="o.type_ligne_commande" style="color: red;"/></strong>
+                        </t>
+                        <t t-else="">
+                            <strong><span t-field="o.type_ligne_commande"/></strong>
+                        </t>
+
+                    </td>
+                    <td class="text-center">
+
+                            <img t-if="o.product_id.image_1920"
+                                 t-att-src="image_data_uri(o.product_id.image_1920)" style="width: 500px;height: 300px"/>
+                    </td>
+                </tr>
+
+            </table>
+            <table name="entete111111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="border-top: 1px solid white;border-bottom: 1px solid white;width: 1000px; font-size: 14px; font-family: Arial;">
+
+                        Référence pièce : <span t-field="o.product_id.default_code"/><br/><br/>
+                        Classe client : 2F <br/><br/>
+                        Nomenclature : <span t-field="o.bom_id.name"/><span style="color: white;"> __________________</span> Code GALVA : 40026 <br/><br/>
+
+
+                    </td>
+                </tr>
+
+            </table>
+
+
+
+            <table name="entete1111111" class="table-sm" style="border-collapse: collapse;width: 1000px; border-top: 1px solid white;">
+                <tr>
+                    <!-- Tableau des dimensions (60%) -->
+                    <td style="width: 25%; vertical-align: top;">
+                        <table class="table table-sm" name="dimension" style="width: 100%; border: 1px solid white;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span>Forme</span>
+                                    </td>
+                                    <td  style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.forme"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Longueur (mm)</span>
+                                    </td>
+                                    <td style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.longueur"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Largeur (mm)</span>
+                                    </td>
+                                    <td style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.largeur"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Hauteur</span>
+                                    </td>
+                                    <td style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.hauteur"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="width: 35%; vertical-align: top;">
+                        <table class="table table-sm" name="dimension" style="width: 100%; border: 1px solid white;">
+                            <tbody>
+
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <span>Code de protection</span>-->
+<!--                                    </td>-->
+<!--                                    <td style="border-right: 1px solid white;">-->
+<!--                                        <t t-esc="o.product_id.resistance_matiere"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                <tr>
+                                    <td>
+                                        <span>Peinture</span>
+                                    </td>
+                                    <td style="border-right: 1px solid white;">
+<!--                                        <t t-esc="o.product_id.surface"/>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Surface à traiter</span>
+                                    </td>
+                                    <td style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.surface_traiter"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nature matière</span>
+                                    </td>
+                                    <td  style="border-right: 1px solid white;">
+                                        <t t-esc="o.product_id.ref_matiere.name"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <!-- Tableau des opérations (40%) -->
+                    <td style="width: 40%; vertical-align: top;">
+                        <table class="table table-sm" name="operation" style="width: 100%; border: 1px solid white;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid white;">
+                                    <th>Order</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="counter" t-value="0"/>
+                                <t t-foreach="o.bom_id.operation_ids" t-as="operation">
+                                    <t t-if="operation.type_operation != 'prestation'">
+                                        <tr>
+                                            <td>
+                                                <t t-set="counter" t-value="counter + 1"/>
+                                                <t t-esc="counter"/>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <t t-esc="operation.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table name="entete111111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="width: 1000px; font-size: 14px; font-family: Arial;">
+
+                        <br/><br/>
+                        <br/><br/>
+                        <br/><br/>
+
+                    </td>
+                </tr>
+
+            </table>
+            <table name="entete111111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="width: 1000px; font-size: 14px; font-family: Arial;">
+                        <br/><br/>
+                    </td>
+                </tr>
+            </table>
+
+            <table name="Tableau_page1" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="width: 1000px; font-size: 14px; font-family: Arial;">
+                         Liste des commandes <br/><br/><br/>
+                        <table name="tableau_liste_commandes" class="table-sm" style="border-collapse: collapse;width: 950px;height: 40px; margin: auto">
+                            <tr>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                    <strong>Année/CDI/Ligne</strong> <br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                    <strong>Qté lancée</strong> <br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                    <strong>N° de commande</strong>  <br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                    <strong>*N° Dossier*</strong>  <br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                    <strong>N° poste client</strong>  <br/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                      2016 \ 97 \ 2 <br/><br/><br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                      <span t-field="o.product_qty"/> <br/><br/><br/>
+                                </td>
+
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                      <span t-field="o.origin"/> <br/> Frais<br/><br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                      <span t-field="o.sale_order_line_id.n_dossier"/> <br/>
+                                    <t t-if="o.type_ligne_commande == 'aog'">
+                                        <strong><span t-field="o.type_ligne_commande" style="color: red;"/></strong>
+                                    </t>
+                                    <t t-elif="o.type_ligne_commande == 'fil_rouge'">
+                                        <strong><span t-field="o.type_ligne_commande" style="color: red;"/></strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong><span t-field="o.type_ligne_commande"/></strong>
+                                    </t><br/><br/>
+                                </td>
+                                <td class="text-left" style="font-size: 14px; font-family: Arial;">
+                                       <span t-field="o.sale_order_line_id.n_poste_client"/><br/><br/><br/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table name="entete111111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="width: 1000px; font-size: 14px; font-family: Arial;">
+                        Réception<br/><br/>
+                        Date <span style="color: white;">____</span>*Num réception* <span style="color: white;">_____</span>Libellé<span style="color: white;">________________</span>Bon de transport<span style="color: white;">______</span>Transporteur<br/>
+                        05/04/2016<span style="color: white;">____</span>12<br/>
+                        Date récep.05/04/2016 : <span style="color: white;">________________________________________________</span>Qté récep. : 8 <br/>
+                        Validé le : 05/04/2016  15:34:12 <span style="color: white;">_____________________</span>Contenant
+
+                    </td>
+                </tr>
+            </table>
+            <table name="entete111111" class="table-sm" style="border-collapse: collapse;width: 1000px;height: 40px">
+                <tr>
+                    <td class="text-left" style="width: 1000px; font-size: 14px; font-family: Arial;">
+                         Notes<br/><br/><br/><br/><br/><br/>
+                    </td>
+                </tr>
+            </table>
+
+            <div t-attf-class="footer o_boxed_footer o_company_#{o.company_id.id}_layout ">
+
+                <div class="row">
+                    <div t-if="report_type == 'pdf'" class="text-start col-2" style="font-size: 20px;">
+                      DS 545 E
+
+                    </div>
+
+                    <div t-if="report_type == 'pdf'" class="text-centre col-5" style="font-size: 20px;">
+                        <span style="color: white;">_______________</span>
+                              AEROPROTEC - Site de St Nicolas de Redon
+
+                    </div>
+                    <div t-if="report_type == 'pdf'" class="text-end col-5" style="font-size: 14px;">
+                      Page: <span class="page"/> / <span class="topage"/><br/>
+
+                    </div>
+                </div>
+                <div class="text-centre" style="font-size: 10px;text-align: center;">
+                    Ce document est la propriété de la société AEROPROTEC - Site de St Nicolas de Redon. Il ne peut être copié ou photocopié même partiellement.
+                </div>
+
+<!--                <div t-field="o.company_id.report_footer" class="text-center"/>-->
+
+        </div>
+                    <div  style="page-break-before:always;">
+                        
+
+                        <table name="entete2" class="table-sm" style="border-collapse: collapse;width: 1000px">
+                            <tr>
+                                <td class="text-left" style="width: 500px;height: 40px; border-collapse: 1px solid black;">
+                                    <strong>Gamme</strong><span style="color: white;">______</span>4505.   1<span style="color: white;">______</span><strong>Indice</strong><span style="color: white;">______</span>1<br/>
+                                    Conçue par<span style="color: white;">______</span><strong>BORDIER Gildas</strong><br/>
+                                    validée<span style="color: white;">______</span>Non<span style="color: white;">______</span>Date de création
+                                </td>
+                                <td class="text-center" style="width: 500px;border-collapse: 1px solid black;">
+                                    N° OF<span style="color: white;">____</span><span t-field="o.name"/>
+                                    <!-- <span style="color: white;">____</span><div t-field="o.name" t-options="{'widget': 'barcode', 'width': 400, 'height': 60, 'img_style': 'width:200px;height:40px'}"/>-->
+                                </td>
+
+                            </tr>
+                        </table>
+                        <table name="entete22" class="table-sm" style="border-collapse: collapse;width: 1000px">
+                            <tr>
+                                <td class="text-left" style="width: 500px;height: 40px; border-collapse: 1px solid black;">
+                                    <strong>Documents liés à la gamme</strong><span style="color: white;">_____</span>Les documents sont à prendre au dernier indice en vigueur
+
+                                </td>
+
+                            </tr>
+                        </table>
+                        <table class="table table-sm" style="width: 100%; border: 1px solid black;width: 1000px;">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Code</th>
+                                <th>Validation</th>
+                                <th>Nom</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.workorder_ids.worksheet_ids" t-as="document">
+                                <tr>
+                                    <td style="border-right: 1px solid white;"><span t-field="document.type"/></td>
+                                    <td style="border-right: 1px solid white;"><span t-field="document.code"/></td>
+                                    <td style="border-right: 1px solid white;"><span t-field="document.validation"/></td>
+                                    <td><span t-field="document.name"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    </div>
+
+            </div>
+
+
+
+                <div class="page" style="page-break-before:always;">
+              
+                    <div>
+                    
+                        <table style="width: 100% !important;">
+                        <t t-foreach="enumerate(o.workorder_ids)" t-as="operation_info">
+                                <t t-set="index" t-value="operation_info[0]"/>
+                                
+                                <t t-set="operation" t-value="operation_info[1]"/>
+                        <tr>
+                        <td style="width: 3% !important;"><t t-esc="index + 1"/></td>
+                        <td style="width: 10% !important;"><p style="padding: 5px;"><span t-field="operation.name"/></p></td>
+                        <td style="width: 87% !important;">
+                        <t t-if="operation.operation_id.phase">
+                       
+                        <table style="width: 100%;">
+                        <thead>
+                        
+                        <th>Phase</th>
+                        <th>Nature phase</th>
+                        <th>Temps</th>
+                        <th>Identifiant unique</th>
+                        </thead>
+                        <tbody>
+                     
+                        <td>
+                        <t t-foreach="operation.operation_id.phase" t-as="phase">
+
+                                                    <p style="color: #000 !important; padding: 5px;">
+                                                        <span t-field="phase.name"/>
+                                                    </p>
+
+                                                </t>
+                        </td>
+                        <td><t t-foreach="operation.operation_id.nature_operation" t-as="nature">
+
+                                                    <p style="color: #000 !important; padding: 5px;">
+                                                        <span t-field="nature.name"/>
+                                                    </p>
+
+                                                </t></td>
+                        <td><span t-field="operation.duration"/></td>
+                        <td></td>
+                        </tbody>
+                        </table>
+                        </t>
+                        <t t-if="operation.check_ids">
+                        <table style="width: 100%; margin-top: 20px;">
+                        <thead>
+                       
+                        <th><p style="font-size: 8pt; color: #000;">Séq.Nom <br/> du contrôle</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Qté concernée<br/>en %</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Qté pce</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Moyen de<br/>contrôle</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Qté C</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Qté NC</p></th>
+                        <t t-if="operation.check_ids.filtered(lambda c: c.point_qualite == 'Contrôle épaisseur')">
+                         <th><p style="font-size: 8pt; color: #000;">Épaisseur<br/> Min</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Épaisseur<br/> Max</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Épaisseur<br/> Moyen</p></th>
+                        </t>
+                        <th><p style="font-size: 8pt; color: #000;">Date fin Op</p></th>  
+                        <th style="width: 10%;"><p style="font-size: 8pt; color: #000;">Visa</p></th>
+                        </thead>
+                        <tbody>
+                       
+                        <td>
+                        <t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px; font-size: 10pt;">
+                                                        <span t-field="check.name"/> - <br/><span t-field="check.nom_controle"/>
+                                                    </p>
+
+                                                </t>
+                        </td>
+                        <td>
+                        <t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.qte_concernee"/>
+                                                    </p>
+
+                                                </t>
+                        </td>
+                        <td><t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.quantite_fabrique"/>
+                                                    </p>
+
+                                                </t></td>
+                                                 <td><t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.moyen_controle"/>
+                                                    </p>
+
+                                                </t></td>
+                                                <td><t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.quantite_conforme"/>
+                                                    </p>
+
+                                                </t></td>
+                                                <td><t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.quantite_non_conforme"/>
+                                                    </p>
+
+                                                </t></td>
+                                           <t t-if="check.point_qualite == 'Contrôle épaisseur'">
+                                                <td>
+                                                <t t-foreach="operation.check_ids" t-as="check">
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_min" />
+                            </p></t>
+                        </td>
+                        
+                        
+                        <td>
+                        <t t-foreach="operation.check_ids" t-as="check">
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_max" />
+                            </p></t>
+                        </td>
+                        <td style="border: 1px solid #000;">
+                        <t t-foreach="operation.check_ids" t-as="check">
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_moyen" />
+                            </p></t>
+                        </td>
+                        
+
+                        </t>
+
+                                                <td style="border: 1px solid #000;"><t t-foreach="operation.check_ids" t-as="check">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="check.date_fabrication"/>
+                                                    </p>
+
+                                                </t></td>
+                                                <td style="width: 10%; border: 1px solid #000;"></td>
+                        </tbody>
+                        </table>
+                        </t>
+                        <t t-if="operation.applications_ids.melange">
+    
+            <table style="width: 100%;">
+                <thead>
+                    <tr>
+                        
+                        <th>Température</th>
+                        <th>Hygrometrie</th>
+                        <th>Viscosité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <td>
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="operation.applications_ids.melange.Temperature"/>
+                            </p>
+                        </td>
+                        <td>
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="operation.applications_ids.melange.hygrometrie"/>
+                            </p>
+                        </td>
+                        <td>
+                            <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="operation.applications_ids.melange.viscosite"/>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+       
+</t>
+                       <t t-if="operation.applications_ids">
+                        <table style="width: 100%; margin-top: 20px;">
+                        <thead>
+                       
+                        <th><p style="font-size: 8pt; color: #000;">Cadre</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">A peindre<br/>avant le</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Dérog A peindre<br/>avant le</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Num AP</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Contrôle aspect<br/>(N/NC) 100%</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">Épaisseur cumulée<br/>Min-Moy-Max</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">H. fin<br/>Peinture</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">H. fin<br/>Désolve</p></th>
+                        <th><p style="font-size: 8pt; color: #000;">H. fin<br/>Etuve</p></th>
+
+                        </thead>
+                        <tbody>
+                        
+                        <td>
+                        <t t-foreach="operation.applications_ids" t-as="app">
+                        <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="app.n_sequence"/>
+                            </p></t>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        <t t-foreach="operation.applications_ids" t-as="app">
+                        <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="app.melange.name"/>
+                            </p></t>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        <t t-foreach="operation.applications_ids" t-as="app">
+                        <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="app.date_fin"/>
+                            </p></t>
+                        </td>
+                        <td></td>
+                        <td>
+                        <t t-foreach="operation.applications_ids" t-as="app">
+                        <p style="color: #000 !important; padding-left: 3px;">
+                                <span t-field="app.date_fin_etuvage"/>
+                            </p></t>
+                        </td>
+                       
+
+                        
+                        </tbody>
+                        </table>
+                        </t>
+                         <!--<t t-if="operation.check_ids">
+    <t t-foreach="operation.check_ids" t-as="check">
+        <t t-if="check.point_qualite == 'Contrôle épaisseur'">
+            <table style="width: 100%;">
+                <thead>
+                    <tr>
+                        
+                        <th>Épaisseur Min</th>
+                        <th>Épaisseur Max</th>
+                        <th>Épaisseur Moyen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <td>
+                            <p style="color: #000 !important; padding: 5px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_min" />
+                            </p>
+                        </td>
+                        <td>
+                            <p style="color: #000 !important; padding: 5px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_max" />
+                            </p>
+                        </td>
+                        <td>
+                            <p style="color: #000 !important; padding: 5px;">
+                                <span t-field="check.quality_point_id.controle_epaisseur_ts_moyen" />
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </t>
+    </t>
+</t>-->
+                        </td>
+                        </tr>
+                        </t>
+                        </table>
+                        
+                        
+                        
+
+   
+
+                   
+
+
+                    <!--<div t-if="o.workorder_ids" groups="mrp.group_mrp_routings">
+                        <h3>
+                            <span t-if="o.state == 'done'">Operations Done</span>
+                            <span t-elif="o.is_planned">Operations Planned</span>
+                            <span t-else="">Operations</span>
+                        </h3>
+                        <table class="table table-sm">
+                            <tr>
+                                <th><strong>Operation</strong></th>
+                                <th><strong>WorkCenter</strong></th>
+                                <th><strong>Duration (minutes)</strong></th>
+                                <th t-if="o.state in ('progress', 'to_close')"><strong>Actual Duration (minutes)</strong></th>
+                            </tr>
+                            <tr t-foreach="o.workorder_ids" t-as="line2">
+                                <td><span t-field="line2.name"/></td>
+                                <td><span t-field="line2.workcenter_id.name"/></td>
+                                <td>
+                                    <span t-if="o.state != 'done'" t-field="line2.duration_expected"/>
+                                    <span t-if="o.state == 'done'" t-field="line2.duration"/>
+                                </td>
+                                <td t-if="o.state in ('progress', 'to_close')">
+                                    <span t-field="line2.duration"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <t t-call="mrp.report_mrp_production_components" t-if="o.move_raw_ids"/>-->
+
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+    </template>
+    <!--<template id="report_mrp_production_components">
+    <h3>
+        <span>
+            Components
+        </span>
+    </h3>
+    <table class="table table-sm">
+        <t t-set="has_product_barcode" t-value="any(m.product_id.barcode for m in o.move_raw_ids)"/>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th t-if="o.state in ('progress', 'to_close','done')" t-attf-class="{{ 'text-end' if not has_product_barcode else '' }}">Consumed</th>
+                <th t-attf-class="{{ 'text-end' if not has_product_barcode else '' }}">To Consume</th>
+                <th t-if="has_product_barcode" width="15%" class="text-center">Barcode</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr t-foreach="o.move_raw_ids" t-as="raw_line">
+                <td>
+                    <span t-field="raw_line.product_id"/>
+                </td>
+                <td t-attf-class="{{ 'text-end' if not has_product_barcode else '' }}" t-if="o.state in ('progress', 'to_close','done')">
+                    <div>
+                        <span t-field="raw_line.quantity_done"/>
+                    </div>
+                </td>
+                <td t-attf-class="{{ 'text-end' if not has_product_barcode else '' }}">
+                    <span t-field="raw_line.product_uom_qty"/>
+                    <span t-field="raw_line.product_uom" groups="uom.group_uom"/>
+                </td>
+                <td t-if="has_product_barcode" width="15%" class="text-center">
+                    <t t-if="raw_line.product_id.barcode">
+                        <div t-field="raw_line.product_id.barcode" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:100%;height:35px'}"/>
+                    </t>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>-->
+
+    <template id="label_production_view_pdf">
+    <t t-call="web.basic_layout">
+        <t t-set='nRows' t-value='12'/>
+        <t t-set='nCols' t-value='4'/>
+        <t t-set="uom_categ_unit" t-value="env.ref('uom.product_uom_categ_unit')"/>
+        <t t-set="move_lines" t-value="docs.move_finished_ids.move_line_ids.filtered(lambda ml: ml.move_id.production_id.state == 'done' and ml.state == 'done' and ml.qty_done)"/>
+        <t t-set="move_line_qtys" t-value="[]"/>
+        <t t-foreach="move_lines" t-as="move_line">
+            <t t-if="move_line.product_uom_id.category_id == uom_categ_unit">
+                <!-- print 1 label per 1 uom when uom category = units -->
+                <t t-set="move_line_qtys" t-value="move_line_qtys + [int(move_line.qty_done)]"/>
+            </t>
+            <t t-else="">
+                <t t-set="move_line_qtys" t-value="move_line_qtys + [1]"/>
+            </t>
+        </t>
+        <t t-set="index_to_qtys" t-value="{i: qty for i, qty in zip(range(0, len(move_line_qtys)), move_line_qtys)}"/>
+        <t t-set="num_pages" t-value="sum(move_line_qtys)// (nRows * nCols) + 1"/>
+        <div t-foreach="range(num_pages)" t-as="page" class="o_label_sheet" t-att-style="'padding: 20mm 8mm'">
+            <table class="my-0 table table-sm table-borderless">
+                <t t-foreach="range(nRows)" t-as="row">
+                    <tr>
+                        <t t-foreach="range(nCols)" t-as="column">
+                            <t t-if="index_to_qtys and not current_quantity">
+                                <t t-set="index_to_qty" t-value="index_to_qtys.popitem()"/>
+                                <t t-set="move_line" t-value="move_lines[index_to_qty[0]]"/>
+                                <t t-set="current_quantity" t-value="index_to_qty[1]"/>
+                            </t>
+                            <t t-if="current_quantity">
+                                <t t-set="make_invisible" t-value="False"/>
+                                <t t-set="current_quantity" t-value="current_quantity - 1"/>
+                            </t>
+                            <t t-else="">
+                                <t t-set="make_invisible" t-value="True"/>
+                            </t>
+                            <td t-att-style="make_invisible and 'visibility:hidden'">
+                                <div t-if="move_line" t-translation="off" t-att-style="'position:relative; width:43mm; height:19mm; border: 1px solid %s;' % (move_line.env.user.company_id.primary_color or 'black')">
+                                    <div class="o_label_name o_label_4x12 fw-bold">
+                                        <div t-out="move_line.product_id.display_name"/>
+                                        <div><span>Quantity: </span>
+                                            <span t-if="move_line.product_uom_id.category_id == uom_categ_unit">1.0</span>
+                                            <span t-else="" t-out="move_line.qty_done"/>
+                                            <span t-field="move_line.product_uom_id" groups="uom.group_uom"/>
+                                        </div>
+                                    </div>
+                                    <t t-if="move_line.product_id.tracking != 'none' and (move_line.lot_name or move_line.lot_id)">
+                                        <div t-field="move_line.lot_name or move_line.lot_id.name" t-options="{'widget': 'barcode', 'img_style': 'width:100%;height:35%'}"/>
+                                        <div class="o_label_4x12 text-center" t-out="move_line.lot_name or move_line.lot_id.name"/>
+                                    </t>
+                                    <t t-elif="move_line.product_id.tracking == 'none' and move_line.product_id.barcode">
+                                        <div t-field="move_line.product_id.barcode" t-options="{'widget': 'barcode', 'img_style': 'width:100%;height:35%'}"/>
+                                        <div class="o_label_4x12 text-center" t-out="move_line.product_id.barcode"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">No barcode available</span>
+                                    </t>
+                                </div>
+                            </td>
+                        </t>
+                    </tr>
+                </t>
+            </table>
+        </div>
+    </t>
+</template>
+</odoo>

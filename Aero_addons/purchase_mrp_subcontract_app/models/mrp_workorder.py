@@ -5,6 +5,7 @@ from odoo.exceptions import UserError
 
 class WorkOrder(models.Model):
 	_inherit='mrp.workorder'
+	
 
 	purchase_id = fields.Many2one('purchase.order', string="Purchase Order")
 	picking_delivery_id = fields.Many2one('stock.picking', string="Receipt Picking ")

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_openbee_connector,access_openbee_connector,model_openbee_connector,,1,1,1,1
+access_parametre_openbee_account_manager,parametre.openbee.account.manager,model_parametre_openbee,account.group_account_manager,1,1,1,1
+access_parametre_openbee_account_user,parametre.openbee.account.user,model_parametre_openbee,account.group_account_user,1,0,0,0

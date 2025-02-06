@@ -6,3 +6,4 @@ ad_aero_sale.access_res_partner_invoice_total,access_res_partner_invoice_total,a
 ad_aero_sale.access_poids_carbone,access_poids_carbone,ad_aero_sale.model_poids_carbone,base.group_user,1,1,1,1
 ad_aero_sale.access_control_table_wizard,access_control_table_wizard,ad_aero_sale.model_control_table_wizard,base.group_user,1,1,1,1
 ad_aero_sale.access_quality_control,access_quality_control,ad_aero_sale.model_quality_control,base.group_user,1,1,1,1
+ad_aero_sale.access_product_pricelist_period,access_product_pricelist_period,ad_aero_sale.model_product_pricelist_period,base.group_user,1,1,1,1

@@ -16,6 +16,10 @@ class Contact(models.Model):
     invoice_total_count = fields.Integer(string='Invoice Totals', compute='_compute_invoice_total_count')
     address_facturation_par_defaut = fields.Boolean(string='Adresse de facturation par défaut',)
     address_livraison_par_defaut = fields.Boolean(string='Adresse de livraison par défaut',)
+    contact_supply = fields.Many2one('res.partner', string="Contact Supply")
+    bl_to_fact = fields.Boolean(string="1 BL = 1 Facture")
+    xfact_to_bl = fields.Boolean(string="X BL = 1 Facture")
+
 
     def _check_and_create_minimum_billing(self):
         today = fields.Date.today()

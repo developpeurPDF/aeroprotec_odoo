@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 class quality_point(models.Model):
     _inherit = "stock.picking"
 
-    quality_checks = fields.Boolean(string="Quality Checks", compute="_compute_quality_check")
+    quality_checks = fields.Boolean(string="Contrôles de qualité", compute="_compute_quality_check")
 
     def button_validate(self):
         res = super(quality_point, self).button_validate()
@@ -47,12 +47,37 @@ class quality_point(models.Model):
             'views': [(view_id, 'form')],
         }
 
+   # def open_quality_alert(self):
+
+        #action = self.env.ref('warehouse_quality_control_app.quality_alert_action_id').read()[0]
+        #action['domain'] = [('picking_id', '=', self.id)]
+
+        #return action
+
     def open_quality_alert(self):
 
-        action = self.env.ref('warehouse_quality_control_app.quality_alert_action_id').read()[0]
-        action['domain'] = [('picking_id', '=', self.id)]
+        for record in self:
+            product = record.move_ids_without_package.mapped('product_id')[:1]
 
-        return action
+            non_conformite = self.env['quality.alert'].create({
+                'name': f"Non conformité - {record.name}",
+                'commande_initiale': record.sale_id.id,
+                'product_id': product.id if product else False,
+                'user_id': record.user_id.id,
+                'client': record.partner_id.id,
+                'bl_client': record.id,
+                'bl_fournisseur': record.id,
+            })
+
+
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Non Conformite',
+                'res_model': 'quality.alert',
+                'view_mode': 'form',
+                'res_id': non_conformite.id,
+                'target': 'current',
+            }
 
     def action_check_wizard_picking(self):
         action = self.env.ref('warehouse_quality_control_app.action_check_wizard').read()[0]

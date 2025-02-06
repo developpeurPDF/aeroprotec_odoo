@@ -10,11 +10,11 @@ class MaterialPurchaseRequisitionLine(models.Model):
     
     requisition_id = fields.Many2one(
         'material.purchase.requisition',
-        string='Requisitions', 
+        string='Demandes', 
     )
     product_id = fields.Many2one(
         'product.product',
-        string='Product',
+        string='Produit',
         required=True,
     )
 #     layout_category_id = fields.Many2one(
@@ -26,25 +26,25 @@ class MaterialPurchaseRequisitionLine(models.Model):
         required=True,
     )
     qty = fields.Float(
-        string='Quantity',
+        string='Quantité',
         default=1,
         required=True,
     )
     uom = fields.Many2one(
         'uom.uom',#product.uom in odoo11
-        string='Unit of Measure',
+        string='Unité de mesure',
         required=True,
     )
     partner_id = fields.Many2many(
         'res.partner',
-        string='Vendors',
+        string='Fournisseurs',
     )
     requisition_type = fields.Selection(
         selection=[
-                    ('internal','Internal Picking'),
-                    ('purchase','Purchase Order'),
+                    ('internal','Sélection interne'),
+                    ('purchase','Bon de commande'),
         ],
-        string='Requisition Action',
+        string='Action de demande',
         default='purchase',
         required=True,
     )

@@ -1,0 +1,92 @@
+<odoo>
+    <data>
+        <!-- Record for Report Control -->
+        <record id="control_report_action" model="ir.actions.report">
+            <field name="name">Rapport de Controle</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.control_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.control_report_template</field>
+            <field name="print_report_name">'Rapport de Controle - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report"/>
+        </record>
+          <!-- Record for Report Control libertoire final -->
+        <record id="control_libertoire_final_report_action" model="ir.actions.report">
+            <field name="name"></field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.control_libertoire_final_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.control_libertoire_final_report_template</field>
+            <field name="print_report_name">'Rapport de CONTROLE LIBERATOIRE FINAL - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report"/>
+        </record>
+        <!-- Record for Report PV CND -->
+        <record id="pv_cnd_report_action" model="ir.actions.report">
+            <field name="name">Rapport de PV CND</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.pv_cnd_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.pv_cnd_report_template</field>
+            <field name="print_report_name">'Rapport de PV CND - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+             <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report_2"/>
+        </record>
+        <!-- Record for Report Fiche Suivi -->
+        <record id="fiche_suivi_report_action" model="ir.actions.report">
+            <field name="name">OF RESUME</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.fiche_suivi_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.fiche_suivi_report_template</field>
+            <field name="print_report_name">'Ordre de fabrication resume - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_fiche_suivi"/>
+        </record>
+        <!-- Record for Report Bon de livraison -->
+        <record id="bon_livraison_report_action" model="ir.actions.report">
+            <field name="name">BORDEREAU DE LIVRAISON</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.bon_livraison_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.bon_livraison_report_template</field>
+            <field name="print_report_name">'BORDEREAU DE LIVRAISON - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report_2"/>
+        </record>
+        <!-- Record for Report ordre travail -->
+        <record id="ordre_travail_report_action" model="ir.actions.report">
+        <field name="name">Liste des ordres de travail</field>
+        <field name="model">mrp.workorder</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ad_aero_report_p4_1.ordre_travail_report_template</field>
+        <field name="report_file">ad_aero_report_p4_1.ordre_travail_report_template</field>
+        <field name="binding_model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_type">report</field>
+            <field name="multi">True</field>
+        <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report_3"/>
+    </record>
+        <!-- Record for  Déclaration de conformité -->
+        <record id="certificat_conformite_report_action" model="ir.actions.report">
+            <field name="name"> Déclaration de conformité</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ad_aero_report_p4_1.certificat_conformite_report_template</field>
+            <field name="report_file">ad_aero_report_p4_1.certificat_conformite_report_template</field>
+            <field name="print_report_name">'Déclaration de conformité - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="ad_aero_report_p4_1.paperformat_report_2"/>
+        </record>
+
+
+
+
+    </data>
+</odoo>

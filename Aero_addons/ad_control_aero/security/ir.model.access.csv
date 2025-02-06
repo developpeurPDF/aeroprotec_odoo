@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ad_control_aero.access_operation_quality_control,access_operation_quality_control,ad_control_aero.model_operation_quality_control,base.group_user,1,1,1,1
+ad_control_aero.access_operation_quality_control_condition_execution,access_operation_quality_control_condition_execution,ad_control_aero.model_operation_quality_control_condition_execution,base.group_user,1,1,1,1

@@ -10,7 +10,7 @@ class MrpProduction(models.Model):
     
     custom_request_id = fields.Many2one(
         'manufacturing.request.custom',
-        string='Manufacturing Request',
+        string='Demande de fabrication',
         readonly=True,
         copy=False,
     )

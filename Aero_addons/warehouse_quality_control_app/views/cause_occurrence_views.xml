@@ -1,0 +1,42 @@
+<odoo>
+    <!-- Form View for Cause Occurrence -->
+    <record id="view_form_cause_occurrence" model="ir.ui.view">
+        <field name="name">cause.occurrence.form</field>
+        <field name="model">cause.occurrence</field>
+        <field name="arch" type="xml">
+            <form string="Cause d'Occurrence">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View for Cause Occurrence -->
+    <record id="view_tree_cause_occurrence" model="ir.ui.view">
+        <field name="name">cause.occurrence.tree</field>
+        <field name="model">cause.occurrence</field>
+        <field name="arch" type="xml">
+            <tree string="Causes d'Occurrence">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Cause Occurrence -->
+    <record id="action_cause_occurrence" model="ir.actions.act_window">
+        <field name="name">Causes d'Occurrence</field>
+        <field name="res_model">cause.occurrence</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Cause Occurrence -->
+
+    <menuitem id="menu_cause_occurrence" name="Causes d'Occurrence"
+              parent="ad_aero_non_conformite.menu_label_non_conformite_stock" action="action_cause_occurrence"/>
+              <menuitem id="menu_cause_occurrence_mrp" name="Causes d'Occurrence"
+              parent="ad_aero_non_conformite.menu_label_non_conformite" action="action_cause_occurrence"/>
+              
+</odoo>

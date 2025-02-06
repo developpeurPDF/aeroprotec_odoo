@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="view_tree_peinture_melange" model="ir.ui.view">
+            <field name="name">peinture.melange.tree</field>
+            <field name="model">peinture.melange</field>
+            <field name="arch" type="xml">
+                <tree string="Peinture et melange peinture">
+                    <field name="date"/>
+                    <field name="sequence_lot_peinture"/>
+                            <field name="lot_base"/>
+                            <field name="lot_durcisseur"/>
+                            <field name="lot_diluant"/>
+                            <field name="Temperature"/>
+                            <field name="hygrometrie"/>
+                            <field name="viscosite"/>
+                            <field name="date_fabrication"/>
+
+
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Form -->
+        <record id="view_form_peinture_melange" model="ir.ui.view">
+            <field name="name">peinture.melange.form</field>
+            <field name="model">peinture.melange</field>
+            <field name="arch" type="xml">
+                <form string="Peinture et mélange peinture">
+                    <sheet>
+                        <!--<group>
+                             <field name="name"/>
+                        </group>-->
+                        <group>
+                        <group string="CREATION MELANGE PEINTURE ">
+                            <field name="date"/>
+                            <field name="sequence_lot_peinture"/>
+                            <field name="base"/>
+                            <field name="lot_base"/>
+                            <field name="durcisseur"/>
+                            <field name="lot_durcisseur"/>
+                            <field name="diluant"/>
+                            <field name="lot_diluant"/>
+                            <field name="Temperature"/>
+                            <field name="hygrometrie"/>
+                            <field name="viscosite"/>
+                            <field name="date_fabrication"/>
+
+                        </group>
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_peinture_melange" model="ir.actions.act_window">
+            <field name="name">Peinture et mélange peinture</field>
+            <field name="res_model">peinture.melange</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_tree_peinture_melange"/>
+        </record>
+
+        <!-- Menu Type de Défaut sous Configuration -->
+        <menuitem id="menu_label_peinture_melange"
+              name="Peinture et mélange peinture"
+              parent="mrp.menu_mrp_configuration"
+              action="action_peinture_melange"
+              sequence="260"/>
+
+
+  </data>
+</odoo>

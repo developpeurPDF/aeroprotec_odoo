@@ -12,7 +12,7 @@
     'images': [''],
     "license": "LGPL-3",
     "author": "action-digitale",
-    "depends": ["base","stock","sale","bom_change_version","mrp","hr","maintenance","hr_maintenance","mail","hr"],
+    "depends": ["base","stock","sale","bom_change_version","mrp","hr","maintenance","hr_maintenance","mail","hr","warehouse_quality_control_app"],
     "data": [
         "security/ir.model.access.csv",
         "views/parameters_matiere.xml",

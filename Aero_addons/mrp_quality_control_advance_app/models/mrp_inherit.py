@@ -34,9 +34,9 @@ class mrp_production_inherit(models.Model):
 class mrp_production(models.Model):
     _inherit = 'mrp.workorder'
 
-    quality_checks = fields.Boolean(string="Quality Checks", compute="_compute_quality_check")
-    quality_point = fields.Boolean(string="Quality Point", copy=False)
-    check_ids = fields.One2many('quality.checks', 'workorder_id', string="Quality Checks")
+    quality_checks = fields.Boolean(string="Contrôles de qualité", compute="_compute_quality_check")
+    quality_point = fields.Boolean(string="Point de qualité", copy=False)
+    check_ids = fields.One2many('quality.checks', 'workorder_id', string="Contrôles de qualité")
 
     def open_quality_alert(self):
 
@@ -50,7 +50,7 @@ class mrp_production(models.Model):
         view_id = self.env.ref('warehouse_quality_control_app.view_quality_alert_form').id
 
         return {
-            'name': 'Quality Checks',
+            'name': 'Contrôles de qualité',
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'form',
@@ -71,7 +71,7 @@ class mrp_production(models.Model):
         return res
 
     def _compute_quality_check(self):
-        print("advance mrp")
+        # print("advance mrp")
         for line in self:
 
             quality_checks = self.env['quality.checks'].search([('workorder_id', '=', line.id), ('state', '=', 'do')])

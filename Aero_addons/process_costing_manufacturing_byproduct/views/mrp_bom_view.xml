@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[5]" position="after">
-                    <page string="Direct Material Costs By Product">
+                    <page string="Direct Material Costs By Product" invisible="1">
                     <div>
                         <field name="direct_material_byproduct_ids" nolabel="1" context="{'default_job_type': 'material'}"/>
                     </div>
@@ -23,7 +23,7 @@
 <!--                        </div>-->
                     </group>
                 </page>
-                <page string="Direct Labour Costs By Product">
+                <page string="Direct Labour Costs By Product" invisible="1">
                     <div>
                         <field name="labour_cost_byproduct_ids" nolabel="1" context="{'default_job_type': 'labour'}"/>
                     </div>
@@ -38,7 +38,7 @@
 <!--                        </div>-->
                     </group>
                 </page>
-                <page string="Overhead Cost By Product">
+                <page string="Overhead Cost By Product" invisible="1">
                     <div>
                     <field name="overhead_cost_byproduct_ids" nolabel="1" context="{'default_job_type': 'overhead'}"/>
                     </div>

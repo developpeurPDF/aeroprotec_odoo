@@ -1,0 +1,107 @@
+<odoo>
+    <template id="fiche_suivi_header">
+        <header>
+            <style>
+                .page {
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+                color: #000 !important;
+                text-align: justify;
+                }
+
+                h2 {
+                font-size: 12pt;
+                text-align: center;
+                color: #000 !important;
+                }
+
+                .header-table, .content-table, .border-table {
+                width: 100%;
+                border-collapse: collapse;
+
+                border: 1px solid #000 !important;
+                }
+
+                .header-table td, .content-table td, .border-table td {
+                border: 1px solid #000;
+                padding: 5px;
+                font-size: 12pt;
+                }
+
+                .highlight-red {
+                background-color: #ff0000 !important;
+                color: #000;
+                text-align: center;
+                font-weight: bold;
+                }
+
+                .highlight-pink {
+                background-color: #ff00ff;
+                color: #000 !important;
+                text-align: center;
+                font-weight: bold !important;
+                }
+
+                .bold {
+                font-weight: bold;
+                }
+                .appro-table {
+                background-color: #f0f0f0 !important;
+                font-style: italic;
+                color: #666666 !important;
+                text-align: center;
+                padding: 5px;
+                border: 1px solid #000;
+                }
+            </style>
+
+
+            <div>
+                <p style="margin-bottom: -20px !important; color: #000 !important;">
+                    <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                </p>
+                <p style="text-align: right; color: #000 !important;">
+                    <span t-field="env.user.company_id.n_quality"/>
+                </p>
+            </div>
+            <table class="header-table" style="text-align: center !important; color: #000 !important;">
+                <tr>
+                    <td style="background-color: white;">
+                        <!--<img t-att-src="'/report/barcode/Code128/' + o.name"/>-->
+                        <img src="ad_aero_report_p4_1/static/src/img/code_barre.png"
+                                                 style="height: 25px; text-align: center;"/>
+                        <br/>
+                        <p style="color: #000 !important;">
+                            <span t-field="o.name"/>
+                        </p>
+                    </td>
+                    <td class="title-cell" style="background-color: white;">
+                        <p style="color: #000 !important; font-weight: bold !important; font-size: 14pt !important;">
+                            <strong>Ordre de fabrication :
+                                <span t-field="o.name"/>
+                            </strong>
+                        </p>
+                        <p style="color: #000 !important; font-weight: bold !important; font-size: 14pt !important;">
+                            <strong>AEROPROTEC</strong>
+                        </p>
+                        <label class="highlight-pink">CND</label>
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            <table class="content-table" style="height: 50px;">
+                <tr>
+                    <td style="width: 25%;"></td>
+                    <td class="highlight-red" style="width: 75%;">
+                        <p>Classe fonctionnelle : 1 AFA</p>
+                    </td>
+
+                </tr>
+            </table>
+
+        </header>
+    </template>
+</odoo>

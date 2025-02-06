@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+<record id="view_mrp_production_form_barcode" model="ir.ui.view">
+    <field name="name">mrp.production.form.barcode</field>
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+    <field name="arch" type="xml">
+  
+   
+        <xpath expr="//header" position="inside">
+           <!-- <group>
+                <field name="barcode" readonly="1"/>
+                <field name="barcode_image" widget="image" readonly="1" options="{'size': [300, 50]}"/>
+            </group> -->
+       
+        <button name="action_check_and_print" 
+        string="CONTROLE LIBERATOIRE FINAL" 
+        type="object"
+        class="btn-primary"
+        icon="fa-print"/>
+        </xpath>
+        
+    </field>
+</record>
+
+    </data>
+</odoo>

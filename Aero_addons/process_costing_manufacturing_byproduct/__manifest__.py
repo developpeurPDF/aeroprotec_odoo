@@ -278,7 +278,7 @@ work in process
     'images': ['static/description/images.jpg'],
     'data':[
         'security/ir.model.access.csv',
-        'views/mrp_bom_view.xml',
+        #'views/mrp_bom_view.xml',
         'views/mrp_production_view.xml',
         'views/cost_by_product_sheet_view.xml',
         'report/manufacturing_report_view.xml',

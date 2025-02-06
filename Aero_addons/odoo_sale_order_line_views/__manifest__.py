@@ -28,7 +28,7 @@
     'website': "https://www.cybrosys.com",
     'category': 'Sales',
     'licence': 'LGPL-3',
-    'depends': ['sale_management'],
+    'depends': ['sale_management','sale','ad_aero_sale'],
     'data': [
         'views/quotation_line_views.xml',
         'views/sale_order_line_views.xml'

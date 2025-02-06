@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_picking_form_inherit_sale_lines" model="ir.ui.view">
+        <field name="name">stock.picking.form.sale.lines</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook/page[@name='operations']" position="before">
+                <page string="Lignes de commande" invisible="1">
+                    <field name="sale_order_line_ids" readonly="1">
+                        <tree>
+                            <field name="product_id" string="Produit"/>
+                            <field name="product_uom_qty" string="Quantité"/>
+                            <field name="price_unit" string="Prix Unitaire"/>
+                            <field name="price_subtotal" string="Sous-total"/>
+                        </tree>
+                    </field>
+                    <field name="poids_carbone_total_liv" invisible="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

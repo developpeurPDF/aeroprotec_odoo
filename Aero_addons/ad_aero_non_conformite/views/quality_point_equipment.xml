@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_qualitypointEquipement_tree" model="ir.ui.view">
+	   <field name="name">quality.point.equipement.tree</field>
+	   <field name="model">quality.point.equipement</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <tree string="Point de qualité">
+	     <field name="name"/>
+	     <field name="company_id" string="Société" domain="[('id', '=', company_id)]"/>
+	    </tree>
+	   </field>
+        </record>
+
+        <record id="qp_idea" model="ir.sequence">
+            <field name="name">quality_sequencer</field>
+            <field name="code">quality.point.equipement</field>
+            <field name="prefix">QCP</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="view_qualitypointEquipement_form_id" model="ir.ui.view">
+	   <field name="name">quality.point.form</field>
+	   <field name="model">quality.point.equipement</field>
+	   <field name="priority">2</field>
+	   <field name="arch" type="xml">
+	    <form string="Point de qualité">
+	    	<sheet>
+	    		<h2>
+	    			<field name="name" readonly="1"/>
+	    		</h2>
+	    		<group>
+	    			<group >
+	      				<field name="company_id"/>
+	      				<field name="category_id"/>
+	    			</group>
+	    			<group>
+	        			<field name="test_type"/>
+	        			<label for="norm" string="Norm" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+	        			<div class="o_row" attrs="{'invisible': [('test_type', '!=', 'measure')]}">
+		                     <field name="norm" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+		                     <field name="unit"/>
+		                </div>
+	      				<label for="min_quality" string="Tolerance" attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
+		                <div class="o_row" attrs="{'invisible': [('test_type', '!=', 'measure')]}">
+		                    <span>From </span> <field name="min_quality"/>
+		                    <span>To </span> <field name="max_quality"/>
+		                </div>
+	      				<field name="user_id"/>
+<!--	      				<field name="team_id"/>-->
+	    			</group>
+	    		</group>
+
+	    		<notebook>
+	    			<page string="Instuction">
+	    				<field name="instruction"/>
+	    			</page>
+
+	    			<page string="Message If Fail">
+	    				<field name="message"/>
+	    			</page>
+					<page string="Suivi des installations bains" attrs="{'invisible': [('test_type','!=', 'suivi_bain')]}">
+						<group>
+							<field name="ph_eaux"/>
+							
+							<field name="conductivite_eaux_rincage"/>
+							
+						</group>
+					</page>
+	    		</notebook>
+
+				 </sheet>
+				 <div class="oe_chatter">
+							<field name="message_follower_ids" widget="mail_followers"/>
+							<field name="message_ids" widget="mail_thread"/>
+				 </div>
+			</form>
+			</field>
+		</record>
+
+<record id="qualitypointEquipement_action" model="ir.actions.act_window">
+	  <field name="name">Point de qualité Equipement</field>
+	  <field name="type">ir.actions.act_window</field>
+	  <field name="res_model">quality.point.equipement</field>
+	  <field name="view_mode">tree,form</field>
+	  <field name="help" type="html">
+	   <p class="oe_view_nocontent_create"> </p>
+	   <p></p>
+	  </field>
+	</record>
+	<menuitem id="menu_qualitypointEquipement_action"
+              name="Point contrôle equipement"
+              parent="maintenance.menu_m_request"
+              action="qualitypointEquipement_action"
+              sequence="1"/>
+</odoo>

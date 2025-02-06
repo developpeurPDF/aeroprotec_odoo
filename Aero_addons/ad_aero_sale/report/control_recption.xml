@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    <report-->
+    <!--            id="stock_picking_report"-->
+    <!--            model="stock.picking"-->
+    <!--            string="Rapport de Contrôle"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="ad_aero_sale.stock_picking_report_template"-->
+    <!--            file="ad_aero_sale.stock_picking_report_template"-->
+    <!--            attachment_use="False"-->
+    <!--        />-->
+
+    <record id="stock_picking_report" model="ir.actions.report">
+        <field name="name">Rapport de Contrôle</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ad_aero_sale.stock_picking_report_template</field>
+        <field name="report_file">ad_aero_sale.stock_picking_report_template</field>
+        <field name="print_report_name">'Stock Picking - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_layout_controle" name="Report layout retenue">
+        <t t-if="not o" t-set="o" t-value="docs"/>
+        <t t-set="company" t-value="company_id"/>
+        <div class="header">
+            <div>
+                <div style="float: left;">
+                    <img src="ad_aero_report/static/src/img/aeroprotec_snr.jpg" class="row"
+                         style="width: 320px; height: 100px;float: right; margin: 0px 0px 0px 10px;"/>
+                </div>
+                <div style="text-align: right;" class="mt-7">
+                    <br/><br/>
+                    <h3>Rapport contrôle N°
+                        <span t-field="doc.name"/>
+                    </h3>
+
+                </div>
+            </div>
+
+            <div style="clear: both;"/>
+            -------------------------------------------------------------------------------------------------------------------------------------------
+        </div>
+
+
+        <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <template id="stock_picking_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="ad_aero_sale.report_layout_controle">
+
+                    <div class="page">
+
+                        <div>
+                            <div style="float: left;">
+                                <t t-foreach="doc.move_ids_without_package" t-as="move">
+                                    <img t-if="move.product_id.image_1920"
+                                         t-att-src="image_data_uri(move.product_id.image_1920)" style="width: 150px;"/>
+                                    <!--                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" alt="Logo"/>-->
+                                </t>
+                            </div>
+                            <div style="width: 45%; margin-left: 55%; text-align: left;">
+                                <span>
+                                    <span style="font-weight: bold !important;">Date :</span>
+                                    <t t-esc="doc.date"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span style="font-weight: bold !important;">N° cmde client :</span>
+                                    <t t-esc="doc.n_commande_client"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span style="font-weight: bold !important;">Document origine :</span>
+                                    <t t-esc="doc.origin"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span style="font-weight: bold !important;">Client :</span>
+                                    <t t-esc="doc.partner_id.name"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span style="font-weight: bold !important;">Référence interne :</span>
+                                    <t t-esc="doc.name"/>
+                                </span>
+                                <br/>
+                            </div>
+                            <div style="clear: both;"/>
+                        </div>
+
+                        <!-- Contrôle de réception -->
+                        <div class="control-reception">
+                        
+
+                            -------------------------------------------------------------------------------------------------------------------------------------------
+                            <h3>Contrôle de réception</h3>
+                            <table style="border: 1px solid white;">
+
+                            <tbody style="border: 1px solid white;">
+                                <tr style="border: 1px solid white;">
+                                    <td style="width: 500px; border: none;">
+                                        <span><span style="font-weight: bold !important;">Date de contrôle :</span>
+                                        <t t-esc="doc.date_controle_reception"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">Traité par :</span>
+                                            <t t-esc="doc.controle_reception_traite_par.name"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">Quantité reçue :</span>
+                                            <t t-esc="doc.value_quantite"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">État pièce reçu :</span>
+                                            <t t-esc="doc.value_etat_piece"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">Statut :</span>
+                                            <t t-esc="doc.conforme_controle_reception_label"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">Remarque :</span>
+                                            <t t-esc="doc.remarque_controle_reception"/>
+                                        </span>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td style="width: 45%; border: none;">
+                                        <span><span style="font-weight: bold !important;">Date Déblocage :</span>
+                                            <t t-esc="doc.date_deblocage"/>
+                                        </span>
+                                        <br/>
+                                        <span><span style="font-weight: bold !important;">Débloqué par :</span>
+                                            <t t-esc="doc.debloqe_par.name"/>
+                                        </span>
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+
+                        </div>
+                        <!-- Contrôle de supply -->
+                        <br/>
+                        -------------------------------------------------------------------------------------------------------------------------------------------
+                        <div class="control-supply">
+                            <h3>Contrôle de supply</h3>
+                            <table style="border: 1px solid white;">
+
+                            <tbody style="border: 1px solid white;">
+                                <tr style="border: 1px solid white;">
+                                    <td style="width: 500px; border: none;">
+                                        <span><span style="font-weight: bold !important;">Date de contrôle :</span>
+                                        <t t-esc="doc.date_controle_supply"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Traité par :</span>
+                                        <t t-esc="doc.controle_supply_traite_par.name"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Statut :</span>
+                                        <t t-esc="doc.conforme_controle_supply_label"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Remarque :</span>
+                                        <t t-esc="doc.remarque_controle_supply"/>
+                                    </span>
+                                    <br/>
+                                    </td>
+                                    <td style="width: 45%; border: none;">
+                                        <span><span style="font-weight: bold !important;">Prix reçu :</span>
+                                        <t t-esc="doc.value_prix"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Délai dans le bon de commande :</span>
+                                        <t t-esc="doc.delai"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Date de livraison demandée par le client :</span>
+                                        <t t-esc="doc.date_livraison_client"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">N° OF :</span>
+                                        <t t-esc="doc.n_of"/>
+                                    </span>
+                                    <br/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+
+                        </div>
+                        <!-- Contrôle Méthode -->
+                        <br/>
+                        -------------------------------------------------------------------------------------------------------------------------------------------
+                        <div class="control-method">
+                            <h3>Contrôle Méthode</h3>
+                            <!--    <span>Référence Gamme reçu : <t t-esc="doc.value_changement_traitement"/></span><br/>-->
+                            <!--    <span>Codes des opérations reçus : <t t-esc="doc.value_code_opr"/></span><br/>-->
+                            <table style="border: 1px solid white;">
+
+                            <tbody style="border: 1px solid white;">
+                                <tr style="border: 1px solid white;">
+                                    <td style="width: 500px; border: none;">
+                                        <span><span style="font-weight: bold !important;">Date de contrôle :</span>
+                                        <t t-esc="doc.date_controle_methode"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Traité par :</span>
+                                        <t t-esc="doc.controle_methode_traite_par.name"/>
+                                    </span>
+                                    <br/>
+                                    <!--                    <span>Référence méthode : <t t-esc="doc.ref_methode"/></span><br/>-->
+                                    <span><span style="font-weight: bold !important;">Statut :</span>
+                                        <t t-esc="doc.conforme_controle_methode_label"/>
+                                    </span>
+                                    <br/>
+                                    <span><span style="font-weight: bold !important;">Remarque :</span>
+                                        <t t-esc="doc.remarque_controle_methode"/>
+                                    </span>
+                                    <br/>
+                                    </td>
+
+                                    <td style="width: 45%; border: none;">
+                                        <span><span style="font-weight: bold !important;">Indice Gamme reçu :</span>
+                                            <t t-esc="doc.value_changement_indice"/>
+                                        </span>
+                                        <br/>
+
+                                        <span><span style="font-weight: bold !important;">Écart demande client et gamme :</span>
+                                            <t t-esc="doc.ecart"/>
+                                        </span>
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+
+                        </div>
+                        <br/>
+
+                        -------------------------------------------------------------------------------------------------------------------------------------------
+                        <br/><br/>
+                        <table class="table table-sm table-bordered" name="resume">
+                            <thead>
+                                <tr>
+                                    <th>Date demandée</th>
+                                    <th>Date liv</th>
+                                    <th>Date recalée</th>
+                                    <th>Qtée cmdée</th>
+                                    <th>Prix unit</th>
+                                    <th>Mtt HT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <t t-esc="doc.date_livraison_client"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="doc.date_livraison_aero"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="doc.date_recale"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="doc.first_move_qty"/>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="doc.prix" />
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <t t-esc="'{:.2f}'.format(doc.first_move_qty * doc.prix)"/>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="width: 45%; margin-left: 55%; text-align: left;">
+                        <span>
+                             Contribution environementale: <t t-esc="doc.company_id.ad_montant_cee"/>%
+                        </span>
+                        </div>
+                        -------------------------------------------------------------------------------------------------------------------------------------------
+                        <div  style="page-break-before:always;">
+                            <div style="float: left;">
+                                <span style="text-decoration: underline;">Référence plan :</span>
+                                <span>
+                                    <t t-esc="doc.produit_a_fabrique.plan_reference"/>
+                                </span>
+                            </div>
+
+                            <div style="width: 45%; margin-left: 55%; text-align: left;">
+                                <span>Classe Client :
+
+                                </span>
+                            </div>
+                        </div>
+
+                        <br/>
+                        <table style="width: 100%; border: 1px solid white;">
+                            <tr>
+                                <!-- Tableau des dimensions (60%) -->
+                                <td style="width: 60%; vertical-align: top; border: 1px solid white;">
+                                    <table class="table table-sm" name="dimension" style="width: 100%; border: 1px solid white;">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span>Forme</span>
+                                                </td>
+                                                <td  style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.forme"/>
+                                                </td>
+                                                <td>
+                                                    <span>Nature matière</span>
+                                                </td>
+                                                <td  style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.ref_matiere.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Longueur</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.longueur"/>
+                                                </td>
+                                                <td>
+                                                    <span>Code de protection</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.resistance_matiere"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Largeur</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.largeur"/>
+                                                </td>
+                                                <td>
+                                                    <span>Surface</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.surface"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Hauteur</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.hauteur"/>
+                                                </td>
+                                                <td>
+                                                    <span>Surface à traiter</span>
+                                                </td>
+                                                <td style="border-right: 1px solid black;">
+                                                    <t t-esc="doc.produit_a_fabrique.surface_traiter"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td style="border-left: 1px solid black; height: 100px;"></td>
+
+                                <!-- Tableau des opérations (40%) -->
+                                <td style="width: 40%; vertical-align: top; border: 1px solid white;">
+                                    <table class="table table-sm" name="operation" style="width: 100%; border: 1px solid white;">
+                                        <thead>
+                                            <tr style="border-bottom: 1px solid white;">
+                                                <th>Order</th>
+                                                <th>Libellé</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="counter" t-value="0"/>
+                                            <t t-foreach="doc.first_bom_operation_ids" t-as="operation">
+                                                <t t-if="operation.type_operation != 'prestation'">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-set="counter" t-value="counter + 1"/>
+                                                            <t t-esc="counter"/>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <t t-esc="operation.name"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        -------------------------------------------------------------------------------------------------------------------------------------------
+
+<!--                        <hr style="border: 1px solid black; width: 100%;"/>-->
+
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h5>Liste des Normes rattachées aux phases</h5>
+                        <br/>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Code Opération</th>
+                                    <th>Nom</th>
+                                    <th>Norme Interne</th>
+                                    <th>Indice Norme Interne</th>
+                                    <th>Norme Externe</th>
+                                    <th>Indice Norme Externe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Boucle sur first_bom_operation_ids -->
+                                <t t-foreach="doc.first_bom_operation_ids" t-as="operation">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="operation.code_operation"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="operation.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="operation.norme_interne.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="operation.indice_norme_interne"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="operation.norme_externe.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="operation.indice_norme_externe"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<template id="mrp_report_inherit" inherit_id="mrp.report_mrporder">
+		<xpath expr="//div[hasclass('page')]" position="after">
+			<h2 style="text-align : center;font-style:normal; background-color:LightCyan" >
+                   Checklist
+            </h2><br/>
+            <strong >Checklist Progress: </strong> 
+                  <span t-field="o.checklist_progress"/>
+            <table  style="border-collapse: collapse;width: 100%;border: 3px solid #000;" class="table table-condensed">
+                    <tr >
+                        <td><strong >Name</strong> </td>
+                        <td><strong >Description</strong></td>
+                        <td><strong >Date</strong></td>
+                        <td><strong >State</strong></td>   
+                    </tr>
+
+                    <t t-foreach="o.checklist_line_ids" t-as="p">
+                    <tr> 
+                        <td><span t-field="p.checklist_id" /></td>
+                        <td><span t-field="p.description" /></td>
+                        <td><span t-field="p.date" /></td>
+                        <td><span t-field="p.state" /></td>                       
+                    </tr>
+                    </t>
+            </table>
+		</xpath>
+	</template>
+</odoo> 

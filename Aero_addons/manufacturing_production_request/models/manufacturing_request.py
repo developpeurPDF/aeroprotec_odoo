@@ -13,19 +13,19 @@ class ManufacturingProductionRequest(models.Model):
     _order = 'id desc'
 
     number = fields.Char(
-        string="Number",
+        string="Nombre",
         readonly=True
     )
     custom_product_template_id = fields.Many2one(
         'product.product',
-        string='Product',
+        string='Produit',
         required=True,
         copy=True,
         domain="[('bom_ids', '!=', False), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal'), ('type', 'in', ['product', 'consu']), '|', ('company_id', '=', False), ('company_id', '=', custom_company_id)]"
     )
     custom_company_id = fields.Many2one(
         'res.company', 
-        string='Company',
+        string='Société',
         default=lambda self: self.env.user.company_id,
         required=True,
         copy=True
@@ -39,12 +39,12 @@ class ManufacturingProductionRequest(models.Model):
         ],
         tracking=True,
         default='a_draft',
-        string='State',
+        string='statut',
         copy=True
     )
     custom_user_id = fields.Many2one(
         'res.users', 
-        string='Responsible User',
+        string='Utilisateur responsable',
         default=lambda self: self.env.user,
         required=True,
         copy=True 
@@ -52,7 +52,7 @@ class ManufacturingProductionRequest(models.Model):
     custom_bom_id = fields.Many2one(
         'mrp.bom',
         required=True,
-        string='Bill of Material',
+        string='Nomenclature',
         copy=True,
         domain="""[
         '&',
@@ -73,79 +73,79 @@ class ManufacturingProductionRequest(models.Model):
     )
     custom_product_uom_id = fields.Many2one(
         'uom.uom', 
-        string='Product Unit of Measure',
+        string='Unité de mesure du produit',
         required=True,
         copy=True
     )
     custom_product_qty = fields.Float(
         'Quantity To Produce',
         default=1.0, 
-        digits='Product Unit of Measure',
+        digits='Unité de mesure du produit',
         required=True,
         copy=True
     )
     create_date = fields.Date(
-        string="Request Date",
+        string="Date de la demande",
         default=fields.date.today(),
         copy=True
     )
     end_date = fields.Datetime(
-        string="Deadline",
+        string="Date fin",
         required=True,
         copy=True
     )
     custom_manufacturing_order_id = fields.Many2one(
         'mrp.production',
-        string="Manufacturing Order",
+        string="Ordre de fabrication",
         copy=True
     )
     confirm_by = fields.Many2one(
         'res.users',
-        string="Confirmed by",
+        string="Confirmé par",
         readonly=True,
         copy=False
     )
     confirm_date = fields.Date(
-        string="Confirmed Date",
+        string="Date de confirmation",
         readonly=True,
         copy=False
     )
     approve_by = fields.Many2one(
         'res.users',
-        string="Approved by",
+        string="Approuvé par",
         readonly=True,
         copy=False
     )
     approve_date = fields.Date(
-        string="Approved Date",
+        string="Date d'approbation",
         readonly=True,
         copy=False
     )
     manufacturing_create_by = fields.Many2one(
         'res.users',
-        string="Manufacturing Created by",
+        string="Fabrication Créé par",
         readonly=True,
         copy=False
     )
     manufacturing_date = fields.Date(
-        string="Manufacturing Created Date",
+        string="Date de création de la fabrication",
         readonly=True,
         copy=False
     )
     custom_date_start_wo = fields.Datetime(
-        'Plan From',
+        'Planifier à partir de',
         required=True,
         copy=True
     )
     notes = fields.Text(
-        string='Internal Notes',
+        string='Notes internes',
         copy=True,
     )
 
 
     def custom_action_cancel(self):
         for rec in self:
-            rec.state = 'cancel'
+            rec.state = 'Annuler'
     
     def custom_action_reset_draft(self):
         for rec in self:

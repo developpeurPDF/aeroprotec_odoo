@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <menuitem id="menu_application_peinture"
+              name="Applications Peinture"
+              parent="mrp.menu_mrp_manufacturing"
+              action="action_application_peinture"
+              sequence="10"/>
+
+
+    <!-- Action for List View -->
+    <record id="action_application_peinture" model="ir.actions.act_window">
+        <field name="name">Applications Peinture</field>
+        <field name="res_model">application.peinture</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_application_peinture_tree" model="ir.ui.view">
+        <field name="name">application.peinture.tree</field>
+        <field name="model">application.peinture</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="n_sequence"/>
+                <field name="quantite"/>
+                <field name="Temperature_application"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+                <field name="personne_id"/>
+                <field name="statut"/>
+                <field name="of_id"/>
+                <field name="workorder_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_application_peinture_form" model="ir.ui.view">
+        <field name="name">application.peinture.form</field>
+        <field name="model">application.peinture</field>
+        <field name="arch" type="xml">
+            <form string="Application Peinture">
+                <header>
+                    <button name="action_create_etuvage" type="object" string="Créer Etuvage" class="btn-primary" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                    <field name="statut" widget="statusbar" statusbar_visible="en_cours,termine" options="{'clickable': True}"/>
+
+                </header>
+                <sheet>
+                
+                   
+                    <group>
+                    
+                        <group string="Application peinture">
+                            <field name="n_sequence" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                             <field name="quantite" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+
+                            <field name="termine" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="melange" attrs="{'readonly': ['|', ('termine', '=', True), ('statut', '=', 'termine')]}"/>
+                            <field name="Temperature_application" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="hygrometrie_application" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="date_debut" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="date_fin" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="personne_id" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                           <!--<field name="of_id" attrs="{'readonly': [('statut', '=', 'termine')]}"/>-->
+                            <field name="workorder_id" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+                            <field name="remarque_application" attrs="{'readonly': [('statut', '=', 'termine')]}"/>
+
+                        </group>
+                        <group string="Etuvage">
+                        <field name="etuvage_id"/>
+                        <field name="Temperature_etuvage"/>
+                            <field name="date_debut_etuvege"/>
+                            <field name="date_fin_etuvage"/>
+                            <field name="remarque_etuvage"/>
+                        
+                        </group>
+                        <!--<group string="Etuvage">
+                            <field name="n_etuvage"/>
+                            <field name="Temperature_etuvage"/>
+                            <field name="date_debut_etuvege"/>
+                            <field name="date_fin_etuvage"/>
+                            <field name="ordre_fabrication"/>
+                            <field name="remarque_etuvage"/>
+
+                    </group>-->
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+</odoo>

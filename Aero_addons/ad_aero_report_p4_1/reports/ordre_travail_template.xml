@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ordre_travail_report_template">
+        <t t-call="web.html_container">
+
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <header style="margin-top: -50px !important;">
+
+                        <div>
+                            <p style="margin-bottom: -20px !important; background-color: blue; width: 50%; color: white !important;">
+                                <b style="margin-left: 7px;">Liste Ordo-Masquage</b>
+                            </p>
+                            <p style="text-align: right; color: #000 !important;">
+                                <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                            </p>
+                        </div>
+
+                    </header>
+                    <t t-set="counter" t-value="0"/>
+                    <t t-foreach="docs" t-as="o">
+                        <t t-set="counter" t-value="counter + 1"/>
+                        <style>
+                            .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 11pt;
+                            color: #000;
+                            text-align: justify;
+                            }
+                            .header {
+                            text-align: center;
+                            margin-bottom: 10px;
+                            }
+                            .header p {
+                            margin: 0;
+                            }
+                            .report-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 20px;
+                            }
+                            .report-table td, .report-table th {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            text-align: left;
+                            }
+                            .report-table .highlight {
+                            background-color: yellow;
+                            text-align: center;
+                            font-size: 16px;
+                            font-weight: bold;
+                            }
+                            .image-container {
+                            text-align: right;
+                            margin-top: -490px;
+                            }
+                            .image-container img {
+                            max-width: 100px;
+                            max-height: 100px;
+                            }
+
+                            .footer {
+                            font-size: 8pt;
+                            text-align: center;
+                            margin-top: 20px;
+                            }
+                            hr {
+                            all: unset !important; /* Réinitialise tous les styles hérités */
+                            border: 2px solid #991a08 !important;
+                            background-color: #991a08 !important;
+                            height: 2px;
+                            }
+                        </style>
+
+
+                        <!-- Main Content -->
+                        <main>
+
+                            <div style="border-top: 2px solid #991a08; margin-top: 10px; margin-bottom: 10px;"></div>
+                            <div>
+                                <table class="report-table"
+                                       style="width: 65%; border-collapse: collapse; border: 0px solid #fff !important; color: #000;">
+                                    <tr>
+                                        <td style="border: none;">
+                                            <p style="color: #000;"><b style="color: #991a08;">CDI</b>:
+                                                <span t-field="o.production_id.sale_order_line_id.order_id"/>
+                                                <b
+                                                        style="color: #991a08; margin-left: 10px;">LIBELLE
+                                                </b>
+                                                <span t-field="o.product_id"/>
+                                            </p>
+                                        </td>
+
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">REF :</b>
+                                                <span t-field="o.product_id.default_code"/>
+                                            </p>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">Hors gamme:</b>
+                                                MASQUAGE
+                                            </p>
+                                        </td>
+
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">DÉLAI DÉBUT:</b>
+                                                <span t-field="o.date_planned_start"/>
+                                            </p>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">Dernière OP</b>
+                                                Demasquage peinture
+                                            </p>
+                                        </td>
+
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">Date zip :</b>
+                                                06/03/2024
+                                            </p>
+
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b>
+                                                    <span t-field="o.production_id.sale_order_line_id.order_partner_id"/>
+                                                </b>
+                                            </p>
+                                        </td>
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">Date liv :</b>
+                                                <span t-field="o.date_finished"/>
+                                            </p>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border: none;">
+
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">ID_OFS:</b>
+                                                <span t-field="o.production_id"/>
+                                            </p>
+                                        </td>
+
+                                        <td style="border: none;">
+                                            <p style="color: #000;">
+                                                <b style="color: #991a08;">nb j :</b>
+
+                                                <b style="background-color: gray; font-size: 14pt; height: 10px; width: 10px; padding: 15px !important; display: inline-block; text-align: center; line-height: 10px;">
+                                                    1
+                                                </b>
+                                                281,00 €
+                                            </p>
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                                <div class="image-container">
+                                    <table style="border-collapse: collapse; border: 1px solid white; width: 5%; margin-left: 540px; margin-top: 250px !important;">
+                                        <tr>
+                                            <td style="border: none; background-color: yellow;">
+                                                <p style="color: #000; text-align: center; margin-top: 10px;">
+                                                    <span t-field="o.priorite_globale"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                    <table style="margin-top: -70px !important; border-collapse: collapse; border: 1px solid white; width: 12%; height: 80px; margin-left: 640px; color: #000;">
+                                        <thead style="border: none;">
+                                            <tr style="border: none;">
+                                                <th style="border: none;"></th>
+                                                <th style="border: none;"></th>
+                                                <th style="color: red; font-weight: bold; border: none; text-align: center;">
+                                                    M
+                                                </th>
+                                                <th style="color: red; font-weight: bold; border: none; text-align: center;">
+                                                    A
+                                                </th>
+                                                <th style="color: red; font-weight: bold; border: none; text-align: center;">
+                                                    N
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody style="margin-top: 5px;">
+                                            <tr style="border: none; height: 5px;">
+                                                <td style="border: none;"></td>
+
+                                            </tr>
+                                            <!-- Ligne rouge -->
+                                            <tr>
+                                                <td style="border: 1px solid black; width: 10%; background-color: red;"></td>
+                                                <td style="border: none; width: 5%;"></td>
+                                                <td style="border: 1px solid black; width: 25%;"></td>
+                                                <td style="border: 1px solid black; width: 30%;"></td>
+                                                <td style="border: 1px solid black; width: 30%;"></td>
+                                            </tr>
+                                            <tr style="border: none; width: 5%;">
+                                                <td style="border: none; width: 5%;"></td>
+                                            </tr>
+                                            <!-- Ligne jaune -->
+                                            <tr>
+                                                <td style="border: 1px solid black; background-color: yellow;"></td>
+                                                <td style="border: none; width: 5%;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                            </tr>
+                                            <tr style="border: none; width: 5%;">
+                                                <td style="border: none; width: 5%;"></td>
+                                            </tr>
+                                            <!-- Ligne verte -->
+                                            <tr>
+                                                <td style="border: 1px solid black; background-color: lime;"></td>
+                                                <td style="border: none; width: 5%;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                                <td style="border: 1px solid black;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table style="border-collapse: collapse; border: 1px solid white; width: 30%; margin-left: 495px; margin-top: 5px; color: #000;">
+                                        <tr>
+                                            <td style="border: none; width: 25%;">
+                                                <b style="color: #991a08; text-align: center;">Ch (h):</b>
+                                            </td>
+                                            <td style="border: none; width: 25%;">
+                                                <p style="color: #000; text-align: center;">
+                                                    <span t-field="o.duration_expected"/>
+                                                </p>
+                                            </td>
+                                            <td style="border: none; width: 25%;">
+                                                <b style="color: #991a08; text-align: center;">Réel :</b>
+                                            </td>
+                                            <td style="border: 1px solid #000; width: 15%; height: 10px !important;">
+                                                <p style="color: #000; text-align: center;">
+                                                    <span t-field="o.duration"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none; width: 25%;">
+                                                <p style="margin-left: 50px; color: #000;">50/50</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                    <img t-if="o.product_id.image_1920"
+                                         t-att-src="image_data_uri(o.product_id.image_1920)" alt="piece"
+                                         style="margin-top: -200px; height: 100px; width: 150px !important;"/>
+
+
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 50px;">
+                                <table style="border-collapse: collapse; border: 1px solid white; width: 100%; color: #000;">
+                                    <tr>
+                                        <td style="border: none; width: 70%;">
+                                            <p style="color: #000; margin-top: 25px !important;">
+                                                <b style="color: #991a08;">GAMME :</b>
+                                                <span t-field="o.product_id.custom_bom_id"/>
+                                            </p>
+                                        </td>
+                                        <td style="border: none; width: 30%; text-align: center;">
+                                            <img src="ad_aero_report_p4_1/static/src/img/code_barre.png"
+                                                 style="height: 25px; text-align: center;"/>
+                                        </td>
+
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <footer>
+                                <div class="footer" style="text-align: center; border-top: 2px solid #991a08;">
+                                    <p style="margin-top: 10px !important;">Page
+                                        <span class="page"/>
+                                        sur
+                                        <span class="topage"/>
+                                    </p>
+
+                                </div>
+                            </footer>
+
+
+                        </main>
+                        <t t-if="counter % 4 == 0 and len(docs) > 4">
+                            <div style="page-break-after: always;"></div>
+                            <header style="margin-top: 100px !important;">
+                                <div>
+                                    <p style="margin-bottom: -20px !important; background-color: blue; width: 50%; color: white !important;">
+                                        <b style="margin-left: 7px;">Liste Ordo-Masquage</b>
+                                    </p>
+                                    <p style="text-align: right; color: #000 !important;">
+                                        <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                                    </p>
+                                </div>
+                            </header>
+                        </t>
+
+
+                    </t>
+                    <div style="page-break-after: always;"></div>
+
+                    <header>
+
+                        <div>
+                            <p style="margin-bottom: -20px !important; background-color: blue; width: 50%; color: white !important;">
+                                <b style="margin-left: 7px;">Liste Ordo-Masquage</b>
+                            </p>
+                            <p style="text-align: right; color: #000 !important;">
+                                <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                            </p>
+                        </div>
+
+                    </header>
+                    <div style="border-top: 2px solid #991a08; margin-top: 10px; margin-bottom: 10px;"></div>
+                    <table style="width: 100%; margin-top: 50px;">
+                        <tr>
+                            <td style="background-color: white !important; padding: 7px;">
+                                <p style="color: #000; text-align: center;">
+                                    <b>POINTAGE HORS ORDO</b>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; color: #000; padding: 7px;">N°OF</th>
+                                <th style="text-align: center; color: #000; padding: 7px;">QUANTITE</th>
+                                <th style="text-align: center; color: #000; padding: 7px;">REMARQUE</th>
+                                <th style="text-align: center; color: #000; padding: 7px; background-color: white !important;">
+                                    VISA
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.production_id" t-as="op">
+                                <tr>
+                                    <td style="padding: 7px;">
+                                        <span t-field="op.name"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td style="background-color: white !important;">
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table style="margin-top: 20px; width: 100%; border-collapse: collapse; border: 0px solid #fff !important;">
+                        <tr>
+                            <td style="width: 50%; border: none;">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td style="padding: 7px; width: 70%;">
+                                            <p style="color: #000;">NB DOSSIERS PREVUS</p>
+                                        </td>
+                                        <td style="padding: 7px; width: 30%; background-color: white !important;">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px;">
+                                            <p style="color: #000;">NB DOSSIERS SOLDES</p>
+                                        </td>
+                                        <td style="padding: 7px; width: 30%; background-color: white !important;">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px;">
+                                            <p style="color: #000;">NB DOSSIERS NON PREVUS</p>
+                                        </td>
+                                        <td style="padding: 7px; width: 30%; background-color: white !important;">
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 50%; border: none; background-color: white !important;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="padding: 7px; width: 50%; background-color: white !important;">
+                                            <p style="color: #000;">% ADHERANCE AU PLANNING</p>
+                                        </td>
+                                        <td style="padding: 7px; width: 50%; background-color: white !important;">
+                                            <p style="color: #000; text-align: right;">%</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

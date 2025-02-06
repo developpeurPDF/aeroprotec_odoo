@@ -1,0 +1,38 @@
+.o_report_layout_background {
+    background-color: transparent !important;
+}
+.header img {
+    max-height: 100px !important;
+    max-width: 150px !important;
+}
+.header{
+    max-height: none !important;
+    height: none !important;
+    margin-bottom: 100px;
+
+}
+.o_boxed_footer {
+    border-top: 0 !important;
+}
+.article {
+.page {
+            top: 29.46mm !important;
+        }
+        }
+
+.underline {
+        text-decoration: underline;
+    }
+
+
+.company_info {
+    /* Styles pour les informations de l'entreprise */
+    border: 1px solid #000;
+    padding: 5px 15px 10px 20px;
+}
+
+.client_info {
+    /* Styles pour les informations du client */
+    border: 1px solid #000;
+    padding: 5px 150px 10px 200px;
+}

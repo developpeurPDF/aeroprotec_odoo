@@ -16,6 +16,6 @@ class PurchaseOrderLine(models.Model):
     
     custom_requisition_line_id = fields.Many2one(
         'material.purchase.requisition.line',
-        string='Requisitions Line',
+        string='Ligne de demandes',
         copy=False
     )

@@ -22,75 +22,75 @@ class MaterialPurchaseRequisition(models.Model):
         return super(MaterialPurchaseRequisition, self).unlink()
     
     name = fields.Char(
-        string='Number',
+        string='Nombre',
         index=True,
         readonly=1,
     )
     state = fields.Selection([
-        ('draft', 'New'),
-        ('dept_confirm', 'Waiting Department Approval'),
-        ('ir_approve', 'Waiting IR Approval'),
-        ('approve', 'Approved'),
-        ('stock', 'Purchase Order Created'),
-        ('receive', 'Received'),
-        ('cancel', 'Cancelled'),
-        ('reject', 'Rejected')],
+        ('draft', 'Nouveau'),
+        ('dept_confirm', "Approbation du service d'attente"),
+        ('ir_approve', "En attente d'approbation IR"),
+        ('approve', 'Approuvé'),
+        ('stock', 'Bon de commande créé'),
+        ('receive', 'Reçu'),
+        ('cancel', 'Annulé'),
+        ('reject', 'Rejeté')],
         default='draft',
         # tracking=True,
         tracking=True
     )
     request_date = fields.Date(
-        string='Requisition Date',
+        string='Date de la demande',
         # default=fields.Date.today(),
         default=lambda self: fields.Date.context_today(self),
         required=True,
     )
     department_id = fields.Many2one(
         'hr.department',
-        string='Department',
+        string='Département',
         required=True,
         copy=True,
     )
     employee_id = fields.Many2one(
         'hr.employee',
-        string='Employee',
+        string='Employé',
         default=lambda self: self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1),
         required=True,
         copy=True,
     )
     approve_manager_id = fields.Many2one(
         'hr.employee',
-        string='Department Manager',
+        string='Chef de département',
         readonly=True,
         copy=False,
     )
     reject_manager_id = fields.Many2one(
         'hr.employee',
-        string='Department Manager Reject',
+        string='Refus du chef de département',
         readonly=True,
     )
     approve_employee_id = fields.Many2one(
         'hr.employee',
-        string='Approved by',
+        string='Approuvé par',
         readonly=True,
         copy=False,
     )
     reject_employee_id = fields.Many2one(
         'hr.employee',
-        string='Rejected by',
+        string='Rejeté par',
         readonly=True,
         copy=False,
     )
     company_id = fields.Many2one(
         'res.company',
-        string='Company',
+        string='Société',
         default=lambda self: self.env.user.company_id,
         required=True,
         copy=True,
     )
     location_id = fields.Many2one(
         'stock.location',
-        string='Source Location',
+        string='Emplacement de la source',
         copy=True,
     )
     requisition_line_ids = fields.One2many(
@@ -100,75 +100,75 @@ class MaterialPurchaseRequisition(models.Model):
         copy=True,
     )
     date_end = fields.Date(
-        string='Requisition Deadline', 
+        string='Date fin de demande', 
         readonly=True,
-        help='Last date for the product to be needed',
+        help='Date fin pour avoir besoin du produit',
         copy=True,
     )
     date_done = fields.Date(
         string='Date Done', 
         readonly=True, 
-        help='Date of Completion of Purchase Requisition',
+        help="Date d'achèvement de la demande d'achat",
     )
     managerapp_date = fields.Date(
-        string='Department Approval Date',
+        string="Date d'approbation du département",
         readonly=True,
         copy=False,
     )
     manareject_date = fields.Date(
-        string='Department Manager Reject Date',
+        string='Date de refus du chef de département',
         readonly=True,
     )
     userreject_date = fields.Date(
-        string='Rejected Date',
+        string='Date de rejet',
         readonly=True,
         copy=False,
     )
     userrapp_date = fields.Date(
-        string='Approved Date',
+        string="Date d'approbation",
         readonly=True,
         copy=False,
     )
     receive_date = fields.Date(
-        string='Received Date',
+        string='Date de réception',
         readonly=True,
         copy=False,
     )
     reason = fields.Text(
-        string='Reason for Requisitions',
+        string='Raison des demandes',
         required=False,
         copy=True,
     )
     analytic_account_id = fields.Many2one(
         'account.analytic.account',
-        string='Analytic Account',
+        string='Compte analytique',
         copy=True,
     )
     dest_location_id = fields.Many2one(
         'stock.location',
-        string='Destination Location',
+        string='Emplacement de destination',
         required=False,
         copy=True,
     )
     delivery_picking_id = fields.Many2one(
         'stock.picking',
-        string='Internal Picking',
+        string='Sélection interne',
         readonly=True,
         copy=False,
     )
     requisiton_responsible_id = fields.Many2one(
         'hr.employee',
-        string='Requisition Responsible',
+        string='Responsable de la demande',
         copy=True,
     )
     employee_confirm_id = fields.Many2one(
         'hr.employee',
-        string='Confirmed by',
+        string='Confirmé par',
         readonly=True,
         copy=False,
     )
     confirm_date = fields.Date(
-        string='Confirmed Date',
+        string='Date de confirmation',
         readonly=True,
         copy=False,
     )
@@ -176,11 +176,11 @@ class MaterialPurchaseRequisition(models.Model):
     purchase_order_ids = fields.One2many(
         'purchase.order',
         'custom_requisition_id',
-        string='Purchase Ordes',
+        string='Bons de commande',
     )
     custom_picking_type_id = fields.Many2one(
         'stock.picking.type',
-        string='Picking Type',
+        string='Type de prélèvement',
         copy=False,
     )
     

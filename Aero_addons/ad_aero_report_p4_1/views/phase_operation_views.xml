@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+        <record id="view_phase_operation_form_inherit" model="ir.ui.view">
+            <field name="name">phase.operation.form.inherit</field>
+            <field name="model">phase.operation</field>
+            <field name="inherit_id" ref="ad_aero_custom_addons.param_phase_operation_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='note']" position="after">
+
+                        <field name="workorder_ids" widget="many2many_tags" options="{'no_create': False}"/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

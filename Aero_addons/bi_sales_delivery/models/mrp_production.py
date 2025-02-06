@@ -24,14 +24,14 @@ class MrpProduction(models.Model):
                             delay_days =  r.product_id.produce_delay
                             manufacturing_days = res.company_id.manufacturing_lead
                             count_days = sale_days - security_days -manufacturing_days - delay_days
-                            final_date = r.sale_line_id.delivery_dates - timedelta(days=count_days or 0.0)
+                            final_date = r.sale_line_id.delivery_dates #- timedelta(days=count_days or 0.0)
 
                         elif res.company_id.manufacturing_lead and r.product_id.produce_delay and res.company_id.security_lead:
                             manufacturing_days = res.company_id.manufacturing_lead
                             delay_days =  r.product_id.produce_delay
                             security_days = res.company_id.security_lead
                             count_days =manufacturing_days + delay_days +security_days
-                            final_date = r.sale_line_id.delivery_dates - timedelta(days=count_days or 0.0)
+                            final_date = r.sale_line_id.delivery_dates #- timedelta(days=count_days or 0.0)
 
                         elif res.company_id.manufacturing_lead and r.product_id.produce_delay and r.product_id.sale_delay:
                             manufacturing_days = res.company_id.manufacturing_lead
@@ -39,7 +39,7 @@ class MrpProduction(models.Model):
                             security_days = r.product_id.sale_delay
                             count_days =delay_days - manufacturing_days
                             if move.delivery_date:
-                                final_date = move.delivery_date - timedelta(days=count_days or 0.0)
+                                final_date = move.delivery_date #- timedelta(days=count_days or 0.0)
                             else:
                                 final_date = move.date - timedelta(days=count_days or 0.0)
                         
@@ -48,17 +48,17 @@ class MrpProduction(models.Model):
                             delay_days =  r.product_id.produce_delay
                             count_days =  delay_days +security_days
                             if move.delivery_date:
-                                final_date = move.delivery_date - timedelta(days=count_days or 0.0)
+                                final_date = move.delivery_date #- timedelta(days=count_days or 0.0)
                             else:
                                 final_date = move.date - timedelta(days=count_days or 0.0)
                         
                         elif res.company_id.manufacturing_lead:
                             delay_days = res.company_id.manufacturing_lead
-                            final_date = move.delivery_date - timedelta(days=delay_days or 0.0)
+                            final_date = move.delivery_date #- timedelta(days=delay_days or 0.0)
                         elif r.product_id.produce_delay:
                             delay_days =  r.product_id.produce_delay
                             if move.delivery_date:
-                                final_date = move.delivery_date - timedelta(days=delay_days or 0.0)
+                                final_date = move.delivery_date #- timedelta(days=delay_days or 0.0)
                             else:
                                  final_date = move.date - timedelta(days=delay_days or 0.0)
                         else:

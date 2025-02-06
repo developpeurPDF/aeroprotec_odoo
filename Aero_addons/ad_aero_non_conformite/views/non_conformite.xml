@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record id="view_search_non_conformite" model="ir.ui.view">
+    <field name="name">non.conformite.search</field>
+    <field name="model">non.conformite</field>
+    <field name="arch" type="xml">
+        <search string="Phase Opération">
+                    <field name="company_id" string="Société"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+    </field>
+</record>
+        <!-- Form View for Non-Conformité -->
+        <record id="view_form_non_conformite" model="ir.ui.view">
+            <field name="name">non.conformite.form</field>
+            <field name="model">non.conformite</field>
+            <field name="arch" type="xml">
+                <form string="Non-Conformité Interne">
+                    <header>
+                        <button name="action_generate_of_reprise" string="Générer OF reprise" type="object" class="btn-primary"/>
+                        <button name="action_accept_state" type="object" string="Accepter en l'état"
+                                class="btn-primary"/>
+                        <button name="action_accept_retouche" type="object" string="Accepter sous réserve"
+                                class="btn-primary"/>
+                        <button name="action_encours_remise" type="object" string="En cours de remise"
+                                class="btn-primary"/>
+                        <button name="action_encours" type="object" string="En cours" class="btn-primary"/>
+                        <button name="action_close" type="object" string="Clôturer" class="btn-primary"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="declarer,acceptee_etat,acceptee_retouche,encours_remise,encours,cloturee"/>
+                    </header>
+                    <sheet>
+                        <group><field name="decision" widget="selection_badge" style="padding-start: 20px;" /></group>
+
+                        <group>
+
+                            <group>
+
+                                <field name="name"/>
+                                <field name="client"/>
+                                <field name="quality_checks_id"/>
+                                <field name="produit"/>
+                                <field name="source_nc"/>
+                                
+                            </group>
+                            <group>
+
+                                <field name="criticite"/>
+                                <field name="date_creation_nc"/>
+                                <field name="date_cloture"/>
+                                <field name="utilisateur_creation_nc"/>
+
+                            </group>
+                        </group>
+                        <group>
+
+                            <group string="Données initiales">
+                                <field name="commande_initiale"/>
+                                <field name="ref_commande_client"/>
+                                <field name="of"/>
+                                <field name="ilot_machine_responsable"/>
+                                <field name="company_id" string="Société"/>
+
+                                
+                            </group>
+                            <group string="Données de reprise">
+
+                                <field name="gamme_reprise"/>
+                                
+                                <field name="of_reprise"/>
+                                
+                                
+
+                            </group>
+                        </group>
+
+
+                        <notebook>
+                            <page string="Infos suplémentaires">
+                                <group>
+                                    <group>
+                                        
+                                        <field name="designation_article"/>
+                                        <field name="quantite_initiale_of"/>
+                                        <field name="quantite_nc"/>
+                                        <field name="reference_article"/>
+                                    </group>
+
+                                    <group>
+                                        
+                                        <field name="nc_sur_fai"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="plan_action" string="Plan d'action">
+                                <group>
+                                    <group>
+                                        <field name="type_action"/>
+                                        <field name="descriptif_action"/>
+                                        <field name="date_creation_action"/>
+                                        <field name="date_realisation_action"/>
+                                    </group>
+                                    <group>
+
+                                        <field name="efficacite"/>
+                                        <field name="action_cloturee"/>
+                                        <field name="validateur_action"/>
+                                        <field name="responsable_action_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Analyse">
+                                <group>
+                                    <field name="type_defaut"/>
+                                    <field name="description_defaut"/>
+                                    <field name="causes_non_conformite"/>
+                                    <field name="cause_detail"/>
+                                    
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Non-Conformité -->
+        <record id="view_tree_non_conformite" model="ir.ui.view">
+            <field name="name">non.conformite.tree</field>
+            <field name="model">non.conformite</field>
+            <field name="arch" type="xml">
+                <tree string="Non-Conformités Interne">
+                    <field name="name" string="Référence"/>
+
+                    <field name="ref_commande_client" string="Réf. Client"/>
+                    <field name="quantite_nc" string="Quantité NC"/>
+                    <field name="date_creation_nc" string="Date de création"/>
+                    <field name="utilisateur_creation_nc" string="Créé par"/>
+                    <field name="company_id" string="Société" domain="[('id', '=', company_id)]"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action Non-Conformités -->
+        <record id="action_non_conformite" model="ir.actions.act_window">
+            <field name="name">Non-Conformités Interne</field>
+            <field name="res_model">non.conformite</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_non_conformite" parent="mrp_quality_control_app.menu_quality_point_mrp"
+                  action="action_non_conformite" sequence="50"/>
+
+
+    </data>
+
+</odoo>

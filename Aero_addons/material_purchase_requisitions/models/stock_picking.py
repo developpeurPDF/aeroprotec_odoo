@@ -7,7 +7,7 @@ class StockPicking(models.Model):
 
     custom_requisition_id = fields.Many2one(
         'material.purchase.requisition',
-        string='Purchase Requisition',
+        string="Demande d'achat",
         readonly=True,
         copy=True
     )
@@ -17,7 +17,7 @@ class StockMove(models.Model):
     
     custom_requisition_line_id = fields.Many2one(
         'material.purchase.requisition.line',
-        string='Requisitions Line',
+        string='Ligne de demandes',
         copy=True
     )
 

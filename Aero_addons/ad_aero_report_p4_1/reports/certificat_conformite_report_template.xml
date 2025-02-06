@@ -1,0 +1,356 @@
+<odoo>
+    <template id="certificat_conformite_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+
+
+                    <div class="page">
+
+                        <style>
+                            .page {
+                            font-family: Arial, sans-serif;
+                            font-size: 12pt;
+                            color: #000 !important;
+                            text-align: justify;
+                            }
+
+                            h2 {
+                            font-size: 12pt;
+                            text-align: center;
+                            color: #000 !important;
+                            }
+                            .footer {
+                            position: fixed;
+
+                            }
+                            header {
+                            position: running(header);
+                            }
+                            @page {
+
+
+                            @top-center {
+                            content: element(header);
+                            }
+
+                            @bottom-center {
+                            content: element(footer);
+                            }
+                            }
+
+                        </style>
+                        <!-- Main Content -->
+                        <main>
+                            <header style="margin-top: -50px;">
+
+                                    <table style="height: 50px; width: 100%; border-collapse: collapse; border: 0px solid #fff !important;">
+                                        <tr>
+                                            <td style="border: none !important; width: 30%;">
+                                                <img src="ad_aero_report_p4_1/static/src/img/aeroprotec_logo.jpg"
+                                                     style="width: 300px !important; height: 100px !important; text-align: center;"/>
+                                            </td>
+                                            <td style="border: none !important; width: 70%;">
+                                                <p style="color: #000;">
+                                                    <b>Document établi par l'industriel fournisseur
+                                                        <br/>
+                                                        conformément à la norme NF L 00-015 / C
+                                                    </b>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                            </header>
+                            <table style="width: 100%; margin-top: 50px;">
+                               
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <div>
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Client : <span t-field="o.sale_order_line_id.order_partner_id"/></b><br/>
+                                                <b>N° d'OF :
+                                                    <span t-field="o.name"/>
+                                                </b>
+                                            </p>
+
+
+                                            <p style="color: #000; text-align: right; margin-top: -70px;">
+                                            <strong>N° Commande interne : </strong>
+                                            <span t-field="o.sale_order_line_id.order_id.name"/><br/>
+                                            <strong>N° Commande Client :</strong>
+                                            <span t-field="o.sale_order_line_id.order_id.client_order_ref"/>
+
+                                                
+                                            </p>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Référence article : <span t-field="o.product_id.default_code"/></b>
+                                            </p>
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Désignation article : <span t-field="o.product_id.name"/></b>
+                                            </p>
+                                            
+                                            <p style="color: #000;">
+                                                
+                                                <b>Qté : <span t-field="o.product_qty"/></b>
+                                            </p>
+                                            
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px;">
+                                    <p style="color: #000; text-align: left;">
+                                                <b>Gamme : <span t-field="o.bom_id"/></b>
+                                            </p>
+                                      </td>
+                                </tr>
+                            </table>
+
+
+                            <!--<table style="width: 100%; margin-top: 50px;">
+                                <tr>
+                                    <td>
+                                        <p style="color: #000; text-align: center; font-size: 16pt;">
+                                            <b>AEROPROTEC - Déclaration de conformité RC24013905</b>
+                                        </p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <div>
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Réf : 50-4851001-00 (6)</b>
+                                            </p>
+
+
+                                            <p style="color: #000; text-align: right; margin-top: -40px;">
+                                                <b>N° d'OF :
+                                                    <span t-field="o.name"/>
+                                                </b>
+                                            </p>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <div>
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Cde : AR24010146 (162149 pour SODAPEM)</b>
+                                            </p>
+                                            <p style="color: #000; text-align: left;">
+                                                <b>Dés : UPPER BRACE</b>
+                                            </p>
+                                            <p style="color: #000; text-align: right; margin-top: -80px;">
+                                                <b>Gamme : C (EP+ RES S2) SODAPEM</b>
+                                            </p>
+                                            <p style="color: #000; text-align: right;">
+                                                <b>Qté : 4</b>
+                                            </p>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>-->
+                            
+                            <table style="width: 100%; margin-top: 30px; border-collapse: collapse; border: 0px solid #fff !important;">
+                               
+                                <head style="height: 40px !important;">
+                                    <th style="border: 1px solid #000 !important; width: 40%; color: #000; text-align: center; background-color: #C0C0C0 !important; padding: 7px;">
+                                        Traitement
+                                    </th>
+                                    <th style="border: 1px solid #000 !important; width: 40%; color: #000; text-align: center; background-color: #C0C0C0 !important; padding: 7px;">
+                                        Normes
+                                    </th>
+                                    <th style="border: 1px solid #000 !important; width: 20%; color: #000; text-align: center; background-color: #C0C0C0 !important; padding: 7px;">
+                                        Qte
+                                    </th>
+                                </head>
+                                
+
+                                <tbody>
+                                    <t t-foreach="o.workorder_ids" t-as="operation">
+                                       <t t-if="operation.type_operation != 'prestation'">
+                                        <tr>
+                                            <td style="border: 1px solid #000 !important; width: 40%; color: #000; padding: 7px;">
+                                                <span t-field="operation.name"/>
+                                            </td>
+                                            <td style="border: 1px solid #000 !important; width: 40%; color: #000; padding: 7px;">
+                                                <p style="color: #000;">Norme interne :
+                                                    <span t-field="operation.norme_interne"/>
+                                                </p>
+                                                <p style="color: #000;">Norme externe :
+                                                    <span t-field="operation.norme_externe"/>
+                                                </p>
+                                            </td>
+                                            <td style="border: 1px solid #000 !important; width: 20%; color: #000; padding: 7px;">
+                                                Qte :
+                                                <span t-field="operation.qty_producing"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: none !important; height: 20px !important;">
+                                            <td style="border: none !important;"></td>
+                                        </tr>
+                                        <t t-if="len(operation.name) % 6 == 0 and len(operation.name) > 6">
+                            <div style="page-break-after: always;"></div>
+                            <!--<header>
+
+                                    <table style="height: 50px; width: 100%; border-collapse: collapse; border: 0px solid #fff !important;">
+                                        <tr>
+                                            <td style="border: none !important; width: 30%;">
+                                                <img src="ad_aero_report_p4_1/static/src/img/aeroprotec_logo.jpg"
+                                                     style="width: 300px !important; height: 100px !important; text-align: center;"/>
+                                            </td>
+                                            <td style="border: none !important; width: 70%;">
+                                                <p style="color: #000;">
+                                                    <b>Document établi par l'industriel fournisseur
+                                                        <br/>
+                                                        conformément à la norme NF L 00-015 / C
+                                                    </b>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                            </header>-->
+                        </t>
+                                    </t>
+                                </t>
+                                </tbody>
+                            </table>
+                            
+                            <b style="margin-top: 40px;">Memo :</b>
+                            <table style="width: 100%; margin-top: 10px; border: 1px solid #000 !important;">
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <p style="color: #000;">Procès-Verbal D'examen</p>
+                                        <p style="color: #000;">CND <span t-field="o.id"/></p>
+                                        <p style="color: #000; margin-top: 10px;">1 PIECE NON CONFORME - RC 1419-24 +
+                                            AQ24866
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <p>Nous déclarons que la fourniture citée est conforme aux exigences du contrat et que,
+                                aprés vérification et essais, elle répond en tout point
+                                aux exigences spécifiées,aux normes et règlements applicables, sauf exceptions, réserves
+                                ou dérogation énumérées dans la présente
+                                déclaration de conformité.
+                            </p>
+                            <b style="margin-top: 20px;">Observations</b>
+
+                            <table style="width: 100%; margin-top: 10px; border: 1px solid #000 !important;">
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <p style="color: #000;">AFFAIRE 312374</p>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding: 5px;">
+                                        <p style="color: #000;">S/N
+                                            23SOD30453/23SOD30454/23SOD30455/23SOD30456/23SOD30457
+                                        </p>
+                                    </td>
+                                </tr>
+                                </table>
+                                <table style="width: 100%; border: 1px solid #000 !important;">
+                                <tr>
+
+                                    <td style="padding: 5px; width: 35%;">
+                                        <p style="color: #000; text-align: center;">
+                                            <b>CONTROLE FOURNISSEUR</b>
+                                        </p>
+                                        <p style="color: #000;">
+                                            <b>Nom et fonction:</b>
+                                            <br/>
+                                           
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+
+                                                    <p style="color: #000 !important; padding-left: 3px;">
+                                                        <span t-field="equipe.name"/>
+                                                    </p>
+
+                                                </t>
+                                        </p>
+                                        </td>
+                                        <td style="padding-left: 25px; width: 35%;">
+                                        <p style="color: #000;">
+                                            <b>Date :<br/>
+                                                <span t-esc="datetime.datetime.now().strftime('%d-%m-%Y')"/>
+                                            </b>
+                                        </p>
+                                        </td>
+                                        <td style="padding-left: 25px; width: 30%;">
+                                        
+                                            <b>Visa :</b>
+                                            <br/>
+                                            <t t-foreach="o.equipe_controle.employee_ids" t-as="equipe">
+                                               <p style="color: #000; margin-top: 5px;">
+                                                   
+                                                    <img t-if="equipe.signature"
+                                 t-att-src="image_data_uri(equipe.signature)" style="width: 50px;height: 50px"/>
+                                               </p>
+                                                </t>
+                                        
+                                    
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <footer>
+                                <div class="footer" style="text-align: center; border-top: 1px solid #000;">
+                                    <table style="width: 100%; border-collapse: collapse; border: 0px solid #fff !important;">
+                                        <tr>
+                                            <td style="border: none !important; width: 80%;">
+                                                <p style="color: #000; text-align: center;">AEROPROTEC - P.A. PAU
+                                                    PYRENEES - 4
+                                                    et 6 Rue Vincent Auriol - 64 000 PAU.
+                                                </p>
+                                                <p style="color: #000; text-align: center;">Tél : 05.59.84.95.20 - Fax :
+                                                    05.59.02.62.73 -
+                                                </p>
+                                                <p style="color: #000; text-align: center;">SAS au capital de 159740€ -
+                                                    SIRET
+                                                    480 146 372 00010 - TVA FR 89480146374 - APE 2561Z
+                                                </p>
+                                            </td>
+                                            <td style="border: none !important; width: 20%;">
+
+                                                <img src="ad_aero_report_p4_1/static/src/img/afaq.png"
+                                                     style="width: 100px !important; height: 100px !important; text-align: center; margin-top: 30px !important;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p>Page
+                                        <span class="page"/>
+                                        /
+                                        <span class="topage"/>
+                                    </p>
+                                </div>
+                            </footer>
+
+
+                        </main>
+
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

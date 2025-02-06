@@ -63,24 +63,52 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree string="Lignes de commande">
-                <field name="order_id"/>
-                <field name="order_partner_id"/>
-                <field name="name"/>
+                <field name="order_id" string="N° commande"/>
+                <field name="date_commande" string="D. commande" optional="show"/>
+                <field name="commentaire" string="Commentaire" optional="show"/>
+                <field name="order_partner_id" optional="show"/>
                 <field name="product_id"/>
-                <field name="order_line_image" widget="image"/>
-                <field name="product_uom_qty" string="Qty"/>
-                <field name="qty_delivered"/>
-                <field name="qty_invoiced"/>
-                <field name="qty_to_invoice"/>
-                <field name="product_uom" string="Unit of Measure"
-                       groups="uom.group_uom"/>
-                <field name="price_subtotal" sum="Total" widget="monetary"/>
+                <field name="name" optional="show"/>
+                <field name="n_poste_client" string="N° poste" optional="show"/>
+                <field name="n_dossier" string="N° Dossier" optional="show"/>
+                <field name="n_contrat" string="N° contrat" optional="show"/>
+                <field name="type_ligne" string="Type ligne" optional="show"/>
+                <field name="ref_gamme" string="Réf Gamme" optional="show"/>
+                <field name="ref_plan" string="Réf plan" optional="show"/>
+                <field name="n_of_interne" string="N° OF I" optional="show"/>
+                <field name="last_work_operation" string="OP EC" optional="show"/>
+                <field name="workcenter_id" string="POS EC" optional="show"/>
+                <field name="operation_progress" string="Op R/Op T" optional="show"/>
+                <field name="id_bl" string="ID BL" optional="show"/>
+                <field name="state_commande" string="Etat cmd" optional="show"/>
+                <field name="liv_restant" string="% restant" optional="show"/>
+                <field name="order_line_image" widget="image" optional="hide"/>
+                <field name="product_uom_qty" string="Qty" optional="show"/>
+                <field name="qty_delivered" string="Liv." optional="show"/>
+                <field name="qty_to_invoice" optional="hide"/>
+                <field name="qty_invoiced" string="Fact." optional="show"/>
+                <field name="price_unit" string="Prix U." optional="show"/>
+                <field name="product_uom" string="Unité"
+                       groups="uom.group_uom" optional="show"/>
+                <field name="produce_delay" string="Cycle" optional="show"/>
+                <field name="days_to_prepare_mo" string="J avt OF" optional="show"/>
+                <field name="sale_delay" string="Cycle neg." optional="show"/>
+                <field name="statut_ligne" string="Etat OF" optional="show"/>
+                <field name="discount" string="Rem. %" optional="show"/>
+<!--                <field name="tax_id" string="Tx et Frs"/>-->
+                <field name="tx_id" string="Taxes" widget="many2many_tags" optional="show"/>
+                <field name="frais_id" string="Frais" widget="many2many_tags" optional="show"/>
+                <field name="price_subtotal" sum="Mont. Ht" string="Mont. Ht" widget="monetary" optional="show"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="date_livraison" string="D. liv." optional="show"/>
+                <field name="date_recale" string="D. Recl" optional="show"/>
+                <field name="fai" optional="show"/>
+                <field name="last_mo_date" string="D. dernière OF" optional="show"/>
                 <field name="state" string="Status"
                        decoration-success="state == 'sale' or state == 'done'"
                        decoration-info="state == 'draft' or state == 'sent'"
                        widget="badge" optional="show"/>
 
-                <field name="currency_id" invisible="1"/>
             </tree>
         </field>
     </record>

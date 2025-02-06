@@ -8,9 +8,101 @@
             <field name="arch" type="xml">
              <field name="company_id" position="before">
                 <field name="code" invisible="1"/>
-                <field name="operation_id" attrs="{'invisible' : [('code','!=','mrp_operation')]}"/>
+                <field name="operation_id" attrs="{'invisible' : [('code','!=','mrp_operation')]}" widget="many2many_tags"/>
+<!--                <field name="code_operation" attrs="{'invisible' : [('code','!=','mrp_operation')]}"/>-->
 
             </field>
+                <xpath expr="//field[@name='product_temp_id']" position="before">
+                    <field name="nom_controle"/>
+                </xpath>
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="commentaire"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="type_article"/>
+                    <field name="matiere"/>
+                    <field name="type_gamme"/>
+                </xpath>
+
+                <xpath expr="//field[@name='test_type']" position="after">
+                    <field name="donneur_order"/>
+                    <field name="point_qualite"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Contrôle après toutes les phases" attrs="{'invisible': [('point_qualite','!=', 'Après toutes les phases')]}">
+                        <group>
+                            <field name="quantite_conforme"/>
+                            <field name="quantite_non_conforme"/>
+                        </group>
+                    </page>
+
+                    <page string="Contrôle épaisseur" attrs="{'invisible': [('point_qualite','!=', 'Contrôle épaisseur')]}">
+                        <group>
+                            <field name="controle_epaisseur_ts_min"/>
+                            <field name="controle_epaisseur_ts_max"/>
+                            <field name="controle_epaisseur_ts_moyen"/>
+<!--                            <field name="adherence_ts"/>-->
+                        </group>
+                    </page>
+
+<!--                    <page string="Opérations de Peinture" attrs="{'invisible': [('point_qualite','!=', 'Opérations de Peinture')]}">-->
+<!--                        <group>-->
+<!--                            <field name="controle_epaisseur_peinture_min"/>-->
+<!--                            <field name="controle_epaisseur_peinture_max"/>-->
+<!--                            <field name="controle_epaisseur_peinture_moyen"/>-->
+<!--                            <field name="adherence_peinture"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+
+                    <page string="Contrôle des délais interopération" attrs="{'invisible': [('point_qualite','!=', 'Contrôle des délais interopération')]}">
+                        <group>
+<!--                            <field name="controle_epaisseur_peinture_min"/>-->
+<!--                            <field name="controle_epaisseur_peinture_max"/>-->
+<!--                            <field name="controle_epaisseur_peinture_moyen"/>-->
+<!--                            <field name="adherence_peinture"/>-->
+                        </group>
+                    </page>
+<!--                    <page string="Contrôle final" attrs="{'invisible': [('point_qualite','!=', 'Contrôle final')]}">-->
+<!--                        <group>-->
+<!--                            <field name="controle_polymerisation"/>-->
+<!--                            <field name="continuite_couche"/>-->
+<!--                            <field name="test_colmatage"/>-->
+<!--                            <field name="continuite_electrique"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+                    <page string="Création des mélanges de peinture" attrs="{'invisible': [('point_qualite','!=', 'Création des mélanges de peinture')]}">
+                        <group>
+                            <field name="type_peinture"/>
+                            <field name="lot_base"/>
+                            <field name="lot_durcisseur"/>
+                            <field name="lot_diluant"/>
+                            <field name="temperature"/>
+                            <field name="hygrometrie"/>
+                            <field name="viscosite"/>
+                            <field name="date_fabrication"/>
+                        </group>
+                    </page>
+                    <page string="Association des mélanges peintures" attrs="{'invisible': [('point_qualite','!=', 'Association des mélanges peintures')]}">
+                        <group>
+<!--                            <field name="type_peinture"/>-->
+<!--                            <field name="lot_base"/>-->
+<!--                            <field name="lot_durcisseur"/>-->
+<!--                            <field name="lot_diluant"/>-->
+<!--                            <field name="temperature"/>-->
+<!--                            <field name="hygrometrie"/>-->
+<!--                            <field name="viscosite"/>-->
+<!--                            <field name="date_fabrication"/>-->
+                        </group>
+                    </page>
+                    <page string="Commentaire">
+                        <group>
+
+                            <field name="commentaire"/>
+
+                        </group>
+                    </page>
+                </xpath>
+
             </field>
         </record>
 
@@ -29,11 +121,170 @@
 
             <field name="picking_id" position="replace">
                 <field name="picking_id" attrs="{'invisible' : [('picking_id','=',False)]}"/>
-                <field name="mrp_id" attrs="{'invisible' : [('mrp_id','=',False)]}"/>
+                <field name="mrp_id"/>
+                <field name="workorder_id"/>
+                <field name="point_qualite"/>
             </field>
+                <xpath expr="//form/header" position="inside">
+                    <button name="validate_quality_check"
+                            string="Validé"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'do')]}"/>
+
+
+
+
+                </xpath>
+                <xpath expr="//field[@name='lot_id']" position="before">
+                    <field name="echantillon"/>
+                    <field name="quantite_controle"/>
+                    <field name="quantite_fabrique"/>
+                </xpath>
+
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="name" string="Séquence"/>
+                    <field name="nom_controle"/>
+
+                </xpath>
+
+
+
+
+                 <xpath expr="//page[1]" position="after">
+                    <page string="Lignes du contrôle" name="lignes_controle" invisible="1">
+                        <field name="quality_checks_line_id" widget="section_and_note_one2many" mode="tree">
+                            <tree string="Lignes du contrôle" editable="bottom">
+                                <!-- Champs communs -->
+                                <field name="quality_checks_ids" optional="hide"/>
+                                <field name="point_qualite" optional="hide"/>
+
+                                <!-- Après toutes les phases -->
+                                <field name="quntite_controle" optional="show" width="30%" string="Qte contrôlé"/>
+                                <field name="quantite_piece" optional="show" width="8%" string="Qte pièces"/>
+                                <field name="integrite_piece" optional="show" width="10%" string="Intégrité pièces"/>
+
+                                <!-- Opérations de TS -->
+                                <field name="controle_epaisseur_ts_min" optional="show" width="10%" string="Qte épaisseur Min" />
+                                <field name="controle_epaisseur_ts_max" optional="show" width="10%" string="Qte épaisseur Max"/>
+                                <field name="controle_epaisseur_ts_moyen" optional="show" width="10%" string="Qte épaisseur Moyen"/>
+                                <field name="adherence_ts" width="10%"/>
+
+                                <!-- Opérations de peinture -->
+                                <field name="controle_epaisseur_peinture_min" optional="show" width="10%" string="Qte épaisseur Min"/>
+                                <field name="controle_epaisseur_peinture_max" optional="show" width="10%" string="Qte épaisseur Max"/>
+                                <field name="controle_epaisseur_peinture_moyen" optional="show" width="10%" string="Qte épaisseur Moyen"/>
+                                <field name="adherence_peinture" optional="show" width="10%"/>
+
+                                <!-- Contrôle final -->
+                                <field name="controle_polymerisation" optional="hide"/>
+                                <field name="continuite_couche" optional="hide"/>
+                                <field name="test_colmatage" optional="hide"/>
+                                <field name="continuite_electrique" optional="hide"/>
+
+                                <!-- Création des mélanges de peinture -->
+                                <field name="type_peinture" optional="hide"/>
+                                <field name="lot_base" optional="hide"/>
+                                <field name="lot_durcisseur" optional="hide"/>
+                                <field name="lot_diluant" optional="hide"/>
+                                <field name="temperature" optional="hide"/>
+                                <field name="hygrometrie" optional="hide"/>
+                                <field name="viscosite" optional="hide"/>
+                                <field name="date_fabrication" optional="hide"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+                 <xpath expr="//page[last()]" position="after">
+                     <page string="Commentaire">
+                        <group>
+
+                            <field name="commentaire"/>
+
+                        </group>
+                    </page>
+                 </xpath>
+                 <xpath expr="//page[last()]" position="after">
+                    <page string="Contrôle après toutes les phases" attrs="{'invisible': [('point_qualite','!=', 'Après toutes les phases')]}">
+                        <group>
+                            <field name="quantite_conforme"/>
+                            <field name="quantite_non_conforme"/>
+                        </group>
+                    </page>
+
+                    <page string="Contrôle épaisseur" attrs="{'invisible': [('point_qualite','!=', 'Contrôle épaisseur')]}">
+                        <group>
+                            <field name="controle_epaisseur_ts_min"/>
+                            <field name="controle_epaisseur_ts_max"/>
+                            <field name="controle_epaisseur_ts_moyen"/>
+<!--                            <field name="adherence_ts"/>-->
+                        </group>
+                    </page>
+
+<!--                    <page string="Opérations de Peinture" attrs="{'invisible': [('point_qualite','!=', 'Opérations de Peinture')]}">-->
+<!--                        <group>-->
+<!--                            <field name="controle_epaisseur_peinture_min"/>-->
+<!--                            <field name="controle_epaisseur_peinture_max"/>-->
+<!--                            <field name="controle_epaisseur_peinture_moyen"/>-->
+<!--                            <field name="adherence_peinture"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+
+<!--                    <page string="Contrôle des délais interopération" attrs="{'invisible': [('point_qualite','!=', 'Contrôle des délais interopération')]}">-->
+<!--                        <group>-->
+<!--&lt;!&ndash;                            <field name="controle_epaisseur_peinture_min"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="controle_epaisseur_peinture_max"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="controle_epaisseur_peinture_moyen"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="adherence_peinture"/>&ndash;&gt;-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Contrôle final" attrs="{'invisible': [('point_qualite','!=', 'Contrôle final')]}">-->
+<!--                        <group>-->
+<!--                            <field name="controle_polymerisation"/>-->
+<!--                            <field name="continuite_couche"/>-->
+<!--                            <field name="test_colmatage"/>-->
+<!--                            <field name="continuite_electrique"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Création des mélanges de peinture" attrs="{'invisible': [('point_qualite','!=', 'Création des mélanges de peinture')]}">-->
+<!--                        <group>-->
+<!--                            <field name="type_peinture"/>-->
+<!--                            <field name="lot_base"/>-->
+<!--                            <field name="lot_durcisseur"/>-->
+<!--                            <field name="lot_diluant"/>-->
+<!--                            <field name="temperature"/>-->
+<!--                            <field name="hygrometrie"/>-->
+<!--                            <field name="viscosite"/>-->
+<!--                            <field name="date_fabrication"/>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Association des mélanges peintures" attrs="{'invisible': [('point_qualite','!=', 'Association des mélanges peintures')]}">-->
+<!--                        <group>-->
+<!--&lt;!&ndash;                            <field name="type_peinture"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="lot_base"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="lot_durcisseur"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="lot_diluant"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="temperature"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="hygrometrie"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="viscosite"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <field name="date_fabrication"/>&ndash;&gt;-->
+<!--                        </group>-->
+<!--                    </page>-->
+                </xpath>
 
             </field>
             
         </record>
+  
+
+        <record id="seq_quality_checks" model="ir.sequence">
+            <field name="name">Séquence de contrôles de qualité</field>
+            <field name="code">quality.checks</field>
+            <field name="prefix">QC/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
   </data>
 </odoo>

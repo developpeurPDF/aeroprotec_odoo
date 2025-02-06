@@ -8,21 +8,21 @@ class quality_point(models.Model):
     _description = "Quality Point"
     _inherit = ['mail.thread']
 
-    name = fields.Char(string="Name")
-    product_temp_id = fields.Many2one('product.template', string="Product", required=True)
-    product_id = fields.Many2one('product.product', string="Product Variant", required=True)
+    name = fields.Char(string="Nom")
+    product_temp_id = fields.Many2one('product.template', string="Produit", required=True)
+    product_id = fields.Many2one('product.product', string="Variante de produit", required=True)
     picking_type_id = fields.Many2one('stock.picking.type', string='Operation', required=True)
-    company_id = fields.Many2one('res.company', string="Company", required=True)
+    company_id = fields.Many2one('res.company', string='Société', default=lambda self: self.env.company)
     test_type = fields.Selection([('pass_fail', 'Pass-Fail'), ('measure', 'Measure')], string="Type",
                                  default='pass_fail', required=True)
     norm = fields.Float('Norm')
     unit = fields.Char('unit')
     min_quality = fields.Float('Tolerance')
     max_quality = fields.Float('Max')
-    user_id = fields.Many2one('res.users', string="Responsible")
+    user_id = fields.Many2one('res.users', string="Responsable")
     instruction = fields.Html(string="Instruction")
     message = fields.Html(string="Message If Fail")
-    team_id = fields.Many2one('quality.team', string="Team")
+    team_id = fields.Many2one('quality.team', string="Équipe")
 
     @api.onchange('product_temp_id')
     def onchange_product_temp_id(self):
@@ -41,13 +41,14 @@ class quality_checks(models.Model):
 
     _inherit = ['mail.thread']
 
-    name = fields.Char('Name', default=lambda self: 'Check')
-    product_id = fields.Many2one('product.product', string="Product", required=True)
+    name = fields.Char('Nom', default=lambda self: 'Check')
+    
+    product_id = fields.Many2one('product.product', string="Produit", required=True)
     lot_id = fields.Many2one('stock.lot', string="LOT")
     picking_id = fields.Many2one('stock.picking', string="Picking")
-    quality_point_id = fields.Many2one('quality.point', string="Control Point", required=True)
+    quality_point_id = fields.Many2one('quality.point', string="Point de contrôle", required=True)
     state = fields.Selection([('do', 'To Do'), ('pass', "Pass"), ('fail', 'Fail')], default="do")
-    measure = fields.Float(string="Measure")
+    measure = fields.Float(string="Mesure")
     note = fields.Html(string="Notes", related="quality_point_id.instruction")
     test_type = fields.Selection([('pass_fail', 'Pass-Fail'), ('measure', 'Measure')], string="Type",
                                  related="quality_point_id.test_type")
@@ -56,6 +57,7 @@ class quality_checks(models.Model):
     max_quality = fields.Float('Max', related="quality_point_id.max_quality")
     team_id = fields.Many2one('quality.team', related="quality_point_id.team_id")
     date = fields.Date(string="Date")
+    company_id = fields.Many2one('res.company', string='Société', default=lambda self: self.env.company)
 
     def checks_next(self):
         res = self.env['stock.picking'].browse(self._context.get('active_id'))

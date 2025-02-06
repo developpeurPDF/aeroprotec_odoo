@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<record id="view_search_quality_checks" model="ir.ui.view">
+            <field name="name">quality.checks.search</field>
+            <field name="model">quality.checks</field>
+            <field name="arch" type="xml">
+                <search string="Contrôles de qualité">
+                    <field name="company_id" string="Société"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+	<record id="view_search_quality_point" model="ir.ui.view">
+            <field name="name">quality.point.search</field>
+            <field name="model">quality.point</field>
+            <field name="arch" type="xml">
+                <search string="Point de qualité">
+                    <field name="company_id" string="Société"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
 
 
 <record id="view_qualitycheck_tree" model="ir.ui.view">
@@ -7,13 +33,16 @@
 	   <field name="model">quality.checks</field>
 	   <field name="priority">2</field>
 	   <field name="arch" type="xml">
-	    <tree string="Quality Point">
+	    <tree string="Point de qualité">
+		<field name="quality_point_id"/>
+		
 	     <field name="product_id"/>
-	     
-	     <field name="date"/>
+	    
 	     <field name="state"/>
-	     <field name="quality_point_id"/>
+		 <field name="date"/>
+	     
 	     <field name="measure"/>
+			<field name="company_id" string="Société" domain="[('id', '=', company_id)]" invisible="1"/>
 	     
 	    </tree>
 	   </field>
@@ -40,6 +69,7 @@
 	      				<field name="test_type" invisible="1"/>
 	      				
 	      				<field name="measure" attrs="{'invisible' : [('test_type','!=','measure')]}"/>
+						<field name="company_id"/>
 
 	       				
 	    			</group>
@@ -71,10 +101,14 @@
 </record>
 
 <record id="qualitychecks_action_id" model="ir.actions.act_window">
-	  <field name="name">Quality Checks</field>
+	  <field name="name">Contrôles de qualité</field>
 	  <field name="type">ir.actions.act_window</field>
 	  <field name="res_model">quality.checks</field>
 	  <field name="view_mode">tree,form</field>
+	<field name="search_view_id" ref="view_search_quality_checks"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
 	 
 	  <field name="help" type="html">
 	   <p class="oe_view_nocontent_create"> </p>
@@ -87,11 +121,11 @@
 	   <field name="model">quality.point</field>
 	   <field name="priority">2</field>
 	   <field name="arch" type="xml">
-	    <tree string="Quality Point">
+	    <tree string="Point de qualité">
 	     <field name="name"/>
 	     <field  name="product_temp_id"/>
 	     <field name="picking_type_id"/>
-	     <field name="company_id"/>
+	     <field name="company_id" string="Société" domain="[('id', '=', company_id)]"/>
 
 	    </tree>
 	   </field>
@@ -109,7 +143,7 @@
 	   <field name="model">quality.point</field>
 	   <field name="priority">2</field>
 	   <field name="arch" type="xml">
-	    <form string="Quality Point">	    	
+	    <form string="Point de qualité">
 	    	<sheet>
 	    		<h2>
 	    			
@@ -152,11 +186,11 @@
 	    		</group>
 
 	    		<notebook>
-	    			<page string="Instuction">
+	    			<page string="Instruction">
 	    				<field name="instruction"/>
 	    			</page>
 
-	    			<page string="Message If Fail">
+	    			<page string="Message en cas d'échec">
 	    				<field name="message"/>
 	    			</page>
 	    		</notebook>
@@ -171,24 +205,28 @@
 </record>
 
 <record id="qualitypoint_action" model="ir.actions.act_window">
-	  <field name="name">Quality Point</field>
+	  <field name="name">Point de qualité</field>
 	  <field name="type">ir.actions.act_window</field>
 	  <field name="res_model">quality.point</field>
 	  <field name="view_mode">tree,form</field>
+	<field name="search_view_id" ref="view_search_quality_point"/>
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'default_company_id': allowed_company_ids[0],
+                'allowed_company_ids': allowed_company_ids}</field>
 	  <field name="help" type="html">
 	   <p class="oe_view_nocontent_create"> </p>
 	   <p></p>
 	  </field>
 	</record>
 
-	<menuitem  id="menu_quality_point" parent="stock.menu_stock_root" name="Quality" sequence="29"/>
+	<menuitem  id="menu_quality_point" parent="stock.menu_stock_root" name="Qualité" sequence="29"/>
 
 	<menuitem id ="sub_qualitypoint" 
-		action="qualitypoint_action" parent="menu_quality_point" name="Quality Point"
+		action="qualitypoint_action" parent="menu_quality_point" name="Point de qualité"
 		sequence="29" />
 
 	<menuitem id ="sub_qulity_check" 
-		action="qualitychecks_action_id" parent="menu_quality_point" name="Quality Checks"
+		action="qualitychecks_action_id" parent="menu_quality_point" name="Contrôles de qualité"
 		sequence="30" />
 
 </odoo>

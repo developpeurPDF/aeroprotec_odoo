@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_manufacturing_checklist,access_manufacturing_checklist,model_manufacturing_checklist,base.group_user,1,1,1,0, 
+access_manufacturing_checklist_line,access_manufacturing_checklist_line,model_manufacturing_checklist_line,base.group_user,1,1,1,1, 
+access_manufacturing_checklist_template,access_manufacturing_checklist_template,model_manufacturing_checklist_template,base.group_user,1,1,1,0,
+
+
+
+
+
